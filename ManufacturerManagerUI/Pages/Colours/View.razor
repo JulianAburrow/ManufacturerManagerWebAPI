@@ -1,0 +1,42 @@
+﻿@page "/colour/view/{ColourId:int}"
+@inherits ColourBasePageClass
+
+<PageTitle>View Colour</PageTitle>
+
+<h3>View Colour</h3>
+
+<br />
+
+@if (ColourDTO is null)
+{
+    <p><em>Loading...</em></p>
+    return;
+}
+
+<table class="table table-striped">
+    <tbody>
+        <tr>
+            <th>Colour</th>
+            <td>@ColourDTO.Name</td>
+        </tr>
+        <tr>
+            <th>Widgets</th>
+            <td>
+                @ColourDTO.WidgetCount
+                @if (ColourDTO.WidgetCount > 0)
+                {
+                    <DisplayWidgetListComponent WidgetDTOs="WidgetDTOs" />
+                }
+            </td>
+        </tr>
+    </tbody>
+</table>
+
+<br />
+
+@if(ColourDTO.WidgetCount == 0)
+{
+    <a href="colour/edit/@ColourDTO.ColourId" class="btn btn-primary">Edit</a>
+    @:&nbsp;
+}
+<a href="/colours/index" class="btn btn-secondary">Back to List</a>

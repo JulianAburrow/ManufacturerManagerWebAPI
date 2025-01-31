@@ -1,0 +1,43 @@
+﻿@page "/colours/index"
+
+<PageTitle>Colours</PageTitle>
+
+<h3>Colours</h3>
+
+<a href="/colour/create" class="btn btn-primary">Create Colour</a>
+
+@if (Colours is not null && Colours.Count == 0)
+{
+    <br />
+    <br />
+    <p><em>Loading...</em></p>
+    <p>(If this does not update there are no colours)</p>
+    return;
+}
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Colour</th>
+            <th>Widgets</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach(var Colour in Colours)
+        {
+            <tr>
+                <td>@Colour.Name</td>
+                <td>@Colour.WidgetCount</td>
+                <td>
+                    <a href="/colour/view/@Colour.ColourId" class="btn btn-primary">View</a>
+                    @if (Colour.WidgetCount == 0)
+                    {
+                        @:&nbsp;
+                        <a href="/colour/edit/@Colour.ColourId" class="btn btn-primary">Edit</a>
+                    }
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

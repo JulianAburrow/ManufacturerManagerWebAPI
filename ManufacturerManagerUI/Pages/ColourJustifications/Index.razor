@@ -1,0 +1,44 @@
+﻿@page "/colourjustifications/index"
+
+<PageTitle>Colour Justifications</PageTitle>
+
+<h3>Colour Justifications</h3>
+
+<a href="/colourjustification/create" class="btn btn-primary">Create Colour Justification</a>
+
+@if (ColourJustifications is not null && ColourJustifications.Count == 0)
+{
+    <br />
+    <br />
+    <p><em>Loading...</em></p>
+    <p>(If this does not update there are no colour justifications)</p>
+    return;
+}
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Colour Justification</th>
+            <th>Widgets</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var ColourJustification in ColourJustifications)
+        {
+            <tr>
+                <td>@ColourJustification.Justification</td>
+                <td>@ColourJustification.WidgetCount</td>
+                <td>
+                    <a href="/colourjustification/view/@ColourJustification.ColourJustificationId" class="btn btn-primary">View</a>
+                    @if (ColourJustification.WidgetCount == 0)
+                    {
+                        @:&nbsp;
+                        <a href="/colourjustification/edit/@ColourJustification.ColourJustificationId" class="btn btn-primary">Edit</a>
+                    }
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+

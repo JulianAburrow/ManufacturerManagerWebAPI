@@ -1,0 +1,26 @@
+﻿@page "/colourjustification/edit/{ColourJustificationId:int}"
+@inherits ColourJustificationBasePageClass
+
+<PageTitle>Colour Justification</PageTitle>
+
+@if (ColourJustificationDTO.WidgetCount > 0)
+{
+    {
+        <h3>Cannot Edit</h3>
+        <p>Cannot edit colour @ColourJustificationDTO.Justification as it has Widgets associated with it.</p>
+        <a href="/colours/index" class="btn btn-secondary">Back to List</a>
+        return;
+    }
+}
+
+<h3>Edit Colour Justification</h3>
+
+<EditForm Model="ColourJustificationDTO" OnValidSubmit="UpdateColourJustification">
+
+    <CreateEditColourJustificationComponent ColourJustificationDTO="ColourJustificationDTO" />
+
+    <input type="submit" class="btn btn-primary" value="Update" />
+    &nbsp;
+    <a href="/colourjustifications/index" class="btn btn-secondary">Cancel</a>
+
+</EditForm>

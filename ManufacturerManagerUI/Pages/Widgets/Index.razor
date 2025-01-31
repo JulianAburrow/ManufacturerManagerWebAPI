@@ -1,0 +1,43 @@
+﻿@page "/widgets/index"
+@inherits WidgetBasePageClass
+
+<PageTitle>Widgets</PageTitle>
+
+<h3>Widgets</h3>
+
+<a href="/widget/create" class="btn btn-primary">Create Widget</a>
+
+@if (Widgets is not null && Widgets.Count == 0)
+{
+    <br />
+    <br />
+    <p><em>Loading...</em></p>
+    <p>(If this does not update there are no widgets)</p>
+    return;
+}
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Name</th>
+            <th>Manufacturer</th>
+            <th>Status</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var Widget in Widgets)
+        {
+            <tr>
+                <td>@Widget.Name</td>
+                <td>@Widget.ManufacturerName</td>
+                <td>@Widget.StatusName</td>
+                <td>
+                    <a href="/widget/view/@Widget.WidgetId" class="btn btn-primary">View</a>
+                    &nbsp;
+                    <a href="/widget/edit/@Widget.WidgetId" class="btn btn-primary">Edit</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

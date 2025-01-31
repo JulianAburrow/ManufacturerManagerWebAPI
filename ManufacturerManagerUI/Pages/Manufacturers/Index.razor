@@ -1,0 +1,43 @@
+﻿@page "/manufacturers/index"
+@inherits ManufacturerBasePageClass
+
+<PageTitle>Manufacturers</PageTitle>
+
+<h3>Manufacturers</h3>
+
+<a href="/manufacturer/create" class="btn btn-primary">Create Manufacturer</a>
+
+@if (Manufacturers is not null && Manufacturers.Count == 0)
+{
+    <br />
+    <br />
+    <p><em>Loading...</em></p>
+    <p>(If this does not update there are no manufacturers)</p>
+    return;
+}
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Manufacturer</th>
+            <th>Status</th>
+            <th>Widgets</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var Manufacturer in Manufacturers)
+        {
+            <tr>
+                <td>@Manufacturer.Name</td>
+                <td>@Manufacturer.StatusName</td>
+                <td>@Manufacturer.WidgetCount</td>
+                <td>
+                    <a href="/manufacturer/view/@Manufacturer.ManufacturerId" class="btn btn-primary">View</a>
+                    &nbsp;
+                    <a href="/manufacturer/edit/@Manufacturer.ManufacturerId" class="btn btn-primary">Edit</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

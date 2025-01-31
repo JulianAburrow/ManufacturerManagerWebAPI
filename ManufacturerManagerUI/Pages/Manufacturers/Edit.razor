@@ -1,0 +1,16 @@
+﻿@page "/manufacturer/edit/{ManufacturerId:int}"
+@inherits ManufacturerBasePageClass
+
+<PageTitle>Edit Manufacturer</PageTitle>
+
+<h3>Edit Manufacturer</h3>
+
+<EditForm Model="@ManufacturerDTO" OnValidSubmit="@UpdateManufacturer">
+    
+    <CreateEditManufacturerComponent ManufacturerDTO="@ManufacturerDTO" ManufacturerStatusDTOs="@ManufacturerStatusDTOs" />
+
+    <input type="submit" class="btn btn-primary" value="Update" />
+    &nbsp;
+    <a href="/manufacturers/index" class="btn btn-secondary">Cancel</a>
+
+</EditForm>

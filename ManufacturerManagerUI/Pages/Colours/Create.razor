@@ -1,0 +1,15 @@
+﻿@page "/colour/create"
+@inherits ColourBasePageClass
+
+<PageTitle>Create Colour</PageTitle>
+
+<h3>Create Colour</h3>
+
+<EditForm Model="@ColourDTO" OnValidSubmit="@CreateColour">
+
+    <CreateEditColourComponent ColourDTO="@ColourDTO" />
+
+    <input type="submit" class="btn btn-primary" value="Create" />
+    &nbsp;
+    <a href="/colours/index" class="btn btn-secondary">Cancel</a>
+</EditForm>

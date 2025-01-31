@@ -1,0 +1,57 @@
+﻿@page "/widget/view/{WidgetId:int}"
+@inherits WidgetBasePageClass
+
+<PageTitle>View Widget</PageTitle>
+
+<h3>View Widget</h3>
+
+<br />
+
+@if (WidgetDTO is null)
+{
+    <p><em>Loading...</em></p>
+    return;
+}
+
+<table class="table table-striped">
+    <tbody>
+        <tr>
+            <th>Widget</th>
+            <td>@WidgetDTO.Name</td>
+        </tr>
+        <tr>
+            <th>Manufacturer</th>
+            <td><a href="/manufacturer/view/@WidgetDTO.ManufacturerId">@WidgetDTO.ManufacturerName</a></td>
+        </tr>
+        <tr>
+            <th>Colour</th>
+            <td>@WidgetDTO.ColourName</td>
+        </tr>
+        <tr>
+            <th>Colour Justification</th>
+            <td>@WidgetDTO.ColourJustificationText</td>
+        </tr>
+        <tr>
+            <th>Status</th>
+            <td>@WidgetDTO.StatusName</td>
+        </tr>
+        <tr>
+            <th>Cost Price</th>
+            <td>@WidgetDTO.CostPrice</td>
+        </tr>
+        <tr>
+            <th>Retail Price</th>
+            <td>@WidgetDTO.RetailPrice</td>
+        </tr>
+        <tr>
+            <th>Stock Level</th>
+            <td>@WidgetDTO.StockLevel</td>
+        </tr>
+    </tbody>
+</table>
+
+<br />
+
+<a href="/widget/edit/@WidgetDTO.WidgetId" class="btn btn-primary">Edit</a>
+&nbsp;
+<a href="/widgets/index" class="btn btn-secondary">Back to List</a>

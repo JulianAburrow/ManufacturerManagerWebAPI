@@ -1,0 +1,19 @@
+﻿@using ManufacturerManagerUI.Models
+
+<DataAnnotationsValidator />
+<ValidationSummary />
+
+<div class="form-group">
+    <label for="Name">Name</label>
+    <InputText id="Name" class="form-control" @bind-Value="ManufacturerDTO.Name" />
+</div>
+<div class="form-group">
+    <label for="StatusId">Status</label>
+    <InputSelect id="StatusId" class="form-control" @bind-Value="ManufacturerDTO.StatusId">
+        @foreach (var manufacturerStatusDTO in ManufacturerStatusDTOs)
+        {
+            <option value="@manufacturerStatusDTO.StatusId">@manufacturerStatusDTO.StatusName</option>
+        }
+    </InputSelect>
+</div>
+<br />

@@ -1,0 +1,6 @@
+﻿<ul>
+    @foreach (var widgetDTO in WidgetDTOs)
+    {
+        <li><a href="/widget/view/@widgetDTO.WidgetId">@widgetDTO.Name</a></li>
+    }
+</ul>

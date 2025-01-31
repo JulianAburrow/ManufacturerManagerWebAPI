@@ -1,0 +1,42 @@
+﻿@page "/colourjustification/view/{ColourJustificationId:int}"
+@inherits ColourJustificationBasePageClass
+
+<PageTitle>View Colour</PageTitle>
+
+<h3>View Colour</h3>
+
+<br />
+
+@if (ColourJustificationDTO is null)
+{
+    <p><em>Loading...</em></p>
+    return;
+}
+
+<table class="table table-striped">
+    <tbody>
+        <tr>
+            <th>Colour Justification</th>
+            <td>@ColourJustificationDTO.Justification</td>
+        </tr>
+        <tr>
+            <th>Widgets</th>
+            <td>
+                @ColourJustificationDTO.WidgetCount
+                @if (ColourJustificationDTO.WidgetCount > 0)
+                {
+                    <DisplayWidgetListComponent WidgetDTOs="WidgetDTOs" />
+                }
+            </td>
+        </tr>
+    </tbody>
+</table>
+
+<br />
+
+@if (ColourJustificationDTO.WidgetCount == 0)
+{
+    <a href="colourjustification/edit/@ColourJustificationDTO.ColourJustificationId" class="btn btn-primary">Edit</a>
+    @:&nbsp;
+}
+<a href="/colourjustifications/index" class="btn btn-secondary">Back to List</a>

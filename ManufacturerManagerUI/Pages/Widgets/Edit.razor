@@ -1,0 +1,19 @@
+﻿@page "/widget/edit/{WidgetId:int}"
+@inherits WidgetBasePageClass
+
+<PageTitle>Edit Widget</PageTitle>
+
+<h3>Edit Widget</h3>
+
+<EditForm Model="@WidgetDTO" OnValidSubmit="UpdateWidget">
+
+    <CreateUpdateWidgetComponent WidgetDTO="@WidgetDTO"
+                                 ManufacturerDTOs="@ManufacturerDTOs"
+                                 WidgetStatusDTOs="@WidgetStatusDTOs"
+                                 ColourDTOs="@ColourDTOs"
+                                 ColourJustificationDTOs="@ColourJustificationDTOs" />
+
+    <input type="submit" class="btn btn-primary" value="Update" />
+    &nbsp;
+    <a href="/widgets/index" class="btn btn-secondary">Cancel</a>
+</EditForm>

@@ -1,0 +1,15 @@
+﻿@page "/manufacturer/create"
+@inherits ManufacturerBasePageClass
+
+<PageTitle>Create Manufacturer</PageTitle>
+
+<h3>Create Manufacturer</h3>
+
+<EditForm Model="@ManufacturerDTO" OnValidSubmit="@CreateManufacturer">
+    
+    <CreateEditManufacturerComponent ManufacturerDTO="@ManufacturerDTO" ManufacturerStatusDTOs="@ManufacturerStatusDTOs" />
+
+    <input type="submit" class="btn btn-primary" value="Create" />
+    &nbsp;
+    <a href="/manufacturers/index" class="btn btn-secondary">Cancel</a>
+</EditForm>

@@ -1,0 +1,24 @@
+﻿@page "/colour/edit/{ColourId:int}"
+@inherits ColourBasePageClass
+
+<PageTitle>Edit Colour</PageTitle>
+
+@if (ColourDTO.WidgetCount > 0)
+{
+    <h3>Cannot Edit</h3>
+    <p>Cannot edit colour @ColourDTO.Name as it has Widgets associated with it.</p>
+    <a href="/colours/index" class="btn btn-secondary">Back to List</a>
+    return;
+}
+
+<h3>Edit Colour</h3>
+
+<EditForm Model="@ColourDTO" OnValidSubmit="@UpdateColour">
+
+    <CreateEditColourComponent ColourDTO="@ColourDTO" />
+
+    <input type="submit" class="btn btn-primary" value="Update" />
+    &nbsp;
+    <a href="/colours/index" class="btn btn-secondary">Cancel</a>
+
+</EditForm>
