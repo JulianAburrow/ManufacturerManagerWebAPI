@@ -1,7 +1,9 @@
-﻿namespace ManufacturerManagerUI.Shared.BasePageClasses;
+﻿using MudBlazor;
 
-public class ManufacturerBasePageClass(HttpClient http, NavigationManager navigationManager)
-    : BasePageClass(http, navigationManager)
+namespace ManufacturerManagerUI.Shared.BasePageClasses;
+
+public class ManufacturerBasePageClass
+    : BasePageClass
 {
     [Parameter]
     public int ManufacturerId { get; set; }

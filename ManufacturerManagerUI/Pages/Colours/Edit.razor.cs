@@ -2,8 +2,8 @@
 
 using System.Net.Http.Json;
 
-public partial class Edit(HttpClient http, NavigationManager navigationManager)
-    : ColourBasePageClass(http, navigationManager)
+public partial class Edit
+    : ColourBasePageClass
 {
     protected override async Task OnInitializedAsync()
     {

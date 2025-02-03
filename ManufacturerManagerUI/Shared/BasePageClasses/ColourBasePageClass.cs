@@ -1,7 +1,9 @@
-﻿namespace ManufacturerManagerUI.Shared.BasePageClasses;
+﻿using MudBlazor;
 
-public class ColourBasePageClass(HttpClient http, NavigationManager navigationManager)
-    : BasePageClass(http, navigationManager)
+namespace ManufacturerManagerUI.Shared.BasePageClasses;
+
+public class ColourBasePageClass
+    : BasePageClass
 {
     [Parameter]
     public int ColourId { get; set; }

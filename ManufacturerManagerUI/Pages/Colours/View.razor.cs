@@ -2,8 +2,8 @@
 
 namespace ManufacturerManagerUI.Pages.Colours;
 
-public partial class View(HttpClient http, NavigationManager NavigationManager)
-    : ColourBasePageClass(http, NavigationManager)
+public partial class View
+    : ColourBasePageClass
 {
     List<WidgetDTO> WidgetDTOs = [];
 

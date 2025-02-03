@@ -3,8 +3,8 @@ using System.Net.Http.Json;
 
 namespace ManufacturerManagerUI.Pages.Widgets;
 
-public partial class Index(HttpClient http, NavigationManager navigationManager)
-    : WidgetBasePageClass(http, navigationManager)
+public partial class Index
+    : WidgetBasePageClass
 {
     List<WidgetDTO>? Widgets = [];
 

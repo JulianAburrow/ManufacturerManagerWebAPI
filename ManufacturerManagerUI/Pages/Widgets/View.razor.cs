@@ -2,8 +2,8 @@
 
 namespace ManufacturerManagerUI.Pages.Widgets;
 
-public partial class View(HttpClient http, NavigationManager navigationManager)
-    : WidgetBasePageClass(http, navigationManager)
+public partial class View
+    : WidgetBasePageClass
 {
     protected override async Task OnInitializedAsync()
     {

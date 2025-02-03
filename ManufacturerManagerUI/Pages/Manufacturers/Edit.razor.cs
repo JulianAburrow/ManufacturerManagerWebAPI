@@ -1,10 +1,9 @@
-﻿namespace ManufacturerManagerUI.Pages.Manufacturers;
-
+﻿
 using System.Net.Http.Json;
-using static ManufacturerManagerUI.GlobalValues;
 
-public partial class Edit(HttpClient http, NavigationManager navigationManager)
-    : ManufacturerBasePageClass(http, navigationManager)
+namespace ManufacturerManagerUI.Pages.Manufacturers;
+public partial class Edit
+    : ManufacturerBasePageClass
 {
     protected override async Task OnInitializedAsync()
     {

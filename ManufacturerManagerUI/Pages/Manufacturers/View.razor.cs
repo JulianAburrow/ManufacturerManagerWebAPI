@@ -2,8 +2,8 @@
 
 namespace ManufacturerManagerUI.Pages.Manufacturers;
 
-public partial class View(HttpClient http, NavigationManager NavigationManager)
-    : ManufacturerBasePageClass(http, NavigationManager)
+public partial class View
+    : ManufacturerBasePageClass
 {
     List<WidgetDTO> WidgetDTOs = [];
 

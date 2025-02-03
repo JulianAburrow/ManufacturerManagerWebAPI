@@ -1,44 +1,58 @@
 ﻿@page "/colourjustifications/index"
+@inherits ColourJustificationBasePageClass
 
 <PageTitle>Colour Justifications</PageTitle>
 
-<h3>Colour Justifications</h3>
-
-<a href="/colourjustification/create" class="btn btn-primary">Create Colour Justification</a>
-
-@if (ColourJustifications is not null && ColourJustifications.Count == 0)
+@if (ColourJustifications == null)
 {
-    <br />
-    <br />
-    <p><em>Loading...</em></p>
-    <p>(If this does not update there are no colour justifications)</p>
+    <MudAlert Severity="Severity.Info" ContentAlignment="HorizontalAlignment.Center">Loading Colour Justifications...</MudAlert>
     return;
 }
 
-<table class="table">
-    <thead>
-        <tr>
-            <th>Colour Justification</th>
-            <th>Widgets</th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var ColourJustification in ColourJustifications)
-        {
-            <tr>
-                <td>@ColourJustification.Justification</td>
-                <td>@ColourJustification.WidgetCount</td>
-                <td>
-                    <a href="/colourjustification/view/@ColourJustification.ColourJustificationId" class="btn btn-primary">View</a>
-                    @if (ColourJustification.WidgetCount == 0)
-                    {
-                        @:&nbsp;
-                        <a href="/colourjustification/edit/@ColourJustification.ColourJustificationId" class="btn btn-primary">Edit</a>
-                    }
-                </td>
-            </tr>
-        }
-    </tbody>
-</table>
+<a href="/colourjustification/create" class="btn btn-primary">Create Colour Justification</a>
+
+<br />
+<br />
+
+@if (ColourJustifications.Count == 0)
+{
+    <p>No Colour Justifications found.</p>
+    return;
+}
+
+<MudTable Items="ColourJustifications"
+          SortLabel="SortBy"
+          Hover
+          RowsPerPage="10"
+          FixedHeader
+          Height="700">
+    <HeaderContent>
+        <MudTh title="Sort by Justification">
+            <MudTableSortLabel SortBy="new Func<ColourJustificationDTO, object>(x => x.Justification)">
+                Justification
+            </MudTableSortLabel>
+        </MudTh>
+        <MudTh title="Sort by Widget Count">
+            <MudTableSortLabel SortBy="new Func<ColourJustificationDTO, object>(x => x.WidgetCount)">
+                Widgets
+            </MudTableSortLabel>
+        </MudTh>
+        <MudTh></MudTh>
+    </HeaderContent>
+    <RowTemplate>
+        <MudTd>@context.Justification</MudTd>
+        <MudTd>@context.WidgetCount</MudTd>
+        <MudTd>
+            <a class="btn btn-primary" href="/colourjustification/view/@context.ColourJustificationId">View</a>
+            &nbsp;
+            <a class="btn btn-primary" href="/colourjustification/edit/@context.ColourJustificationId">Edit</a>
+            &nbsp;
+            <a class="btn btn-danger" href="/colourjustification/delete/@context.ColourJustificationId">Delete</a>
+        </MudTd>
+    </RowTemplate>
+    <PagerContent>
+        <MudTablePager PageSizeOptions="new int[] { 5, 10, 25, 50, 100, int.MaxValue }" />
+    </PagerContent>
+</MudTable>
+
 

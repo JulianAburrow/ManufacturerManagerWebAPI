@@ -3,8 +3,8 @@
 using System.Net.Http.Json;
 using static ManufacturerManagerUI.GlobalValues;
 
-public partial class Create(HttpClient http, NavigationManager navigationManager)
-    : WidgetBasePageClass(http, navigationManager)
+public partial class Create
+    : WidgetBasePageClass
 {
     protected override async Task OnInitializedAsync()
     {

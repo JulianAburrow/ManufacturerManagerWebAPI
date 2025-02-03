@@ -1,7 +1,7 @@
 ﻿namespace ManufacturerManagerUI.Shared.BasePageClasses;
 
-public class WidgetBasePageClass(HttpClient http, NavigationManager navigationManager)
-    : BasePageClass(http, navigationManager)
+public class WidgetBasePageClass
+    : BasePageClass
 {
     [Parameter]
     public int WidgetId { get; set; }

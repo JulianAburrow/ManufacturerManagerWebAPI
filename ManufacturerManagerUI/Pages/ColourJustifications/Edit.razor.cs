@@ -2,8 +2,8 @@
 
 namespace ManufacturerManagerUI.Pages.ColourJustifications;
 
-public partial class Edit(HttpClient http, NavigationManager NavigationManager)
-    : ColourJustificationBasePageClass(http, NavigationManager)
+public partial class Edit
+    : ColourJustificationBasePageClass
 {
     protected override async Task OnInitializedAsync()
     {

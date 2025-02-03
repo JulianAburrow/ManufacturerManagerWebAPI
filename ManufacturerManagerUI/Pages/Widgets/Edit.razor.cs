@@ -3,8 +3,8 @@ using static ManufacturerManagerUI.GlobalValues;
 
 namespace ManufacturerManagerUI.Pages.Widgets;
 
-public partial class Edit(HttpClient http, NavigationManager navigationManager)
-    : WidgetBasePageClass(http, navigationManager)
+public partial class Edit
+    : WidgetBasePageClass
 {
     protected override async Task OnInitializedAsync()
     {

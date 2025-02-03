@@ -2,8 +2,8 @@
 
 namespace ManufacturerManagerUI.Pages.Manufacturers;
 
-public partial class Index(HttpClient http, NavigationManager navigationManager)
-    : ManufacturerBasePageClass(http, navigationManager)
+public partial class Index
+    : ManufacturerBasePageClass
 {
     List<ManufacturerDTO>? Manufacturers = [];
 
@@ -11,7 +11,7 @@ public partial class Index(HttpClient http, NavigationManager navigationManager)
     {
         try
         {
-            Manufacturers = await http.GetFromJsonAsync<List<ManufacturerDTO>>(ManufacturersEndpoint) ?? [];
+            Manufacturers = await Http.GetFromJsonAsync<List<ManufacturerDTO>>(ManufacturersEndpoint) ?? [];
         }
         catch (Exception ex)
         {

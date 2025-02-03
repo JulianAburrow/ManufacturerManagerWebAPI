@@ -2,8 +2,8 @@
 
 using System.Net.Http.Json;
 
-public partial class Create(HttpClient http, NavigationManager navigationManager)
-    : ManufacturerBasePageClass(http, navigationManager)
+public partial class Create
+    : ManufacturerBasePageClass
 {
     protected override async Task OnInitializedAsync()
     {

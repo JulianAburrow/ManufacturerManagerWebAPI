@@ -1,9 +1,10 @@
 ﻿namespace ManufacturerManagerUI.Pages.Colours;
 
+using MudBlazor;
 using System.Net.Http.Json;
 
-public partial class Create(HttpClient http, NavigationManager NavigationManager)
-    : ColourBasePageClass(http, NavigationManager)
+public partial class Create
+    : ColourBasePageClass
 {
     private async Task CreateColour()
     {

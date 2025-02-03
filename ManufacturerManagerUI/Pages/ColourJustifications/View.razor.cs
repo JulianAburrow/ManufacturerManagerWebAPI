@@ -2,8 +2,8 @@
 
 namespace ManufacturerManagerUI.Pages.ColourJustifications;
 
-public partial class View(HttpClient http, NavigationManager NavigationManager)
-    : ColourJustificationBasePageClass(http, NavigationManager)
+public partial class View
+    : ColourJustificationBasePageClass
 
 {
     protected List<WidgetDTO> WidgetDTOs = [];
