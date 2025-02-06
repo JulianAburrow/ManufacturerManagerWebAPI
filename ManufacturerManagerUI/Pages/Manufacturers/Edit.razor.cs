@@ -3,7 +3,6 @@ using System.Net.Http.Json;
 
 namespace ManufacturerManagerUI.Pages.Manufacturers;
 public partial class Edit
-    : ManufacturerBasePageClass
 {
     protected override async Task OnInitializedAsync()
     {

@@ -4,7 +4,6 @@ using System.Net.Http.Json;
 using static ManufacturerManagerUI.GlobalValues;
 
 public partial class Create
-    : WidgetBasePageClass
 {
     protected override async Task OnInitializedAsync()
     {

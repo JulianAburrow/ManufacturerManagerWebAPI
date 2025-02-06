@@ -3,7 +3,6 @@
 namespace ManufacturerManagerUI.Pages.ColourJustifications;
 
 public partial class Index
-    : ColourJustificationBasePageClass
 {
     List<ColourJustificationDTO> ColourJustifications { get; set; } = null!;
     
@@ -27,7 +26,7 @@ public partial class Index
         MainLayout.SetBreadCrumbs(
         [
             GetHomeBreadcrumbItem(),
-                GetCustomBreadcrumbItem("Colour Justifications")
+            GetCustomBreadcrumbItem("Colour Justifications")
         ]);
     }
 }

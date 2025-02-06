@@ -4,7 +4,6 @@ namespace ManufacturerManagerUI.Layout;
 
 public partial class MainLayout
 {
-
     bool _drawerOpen = true;
 
     void DrawerToggle()

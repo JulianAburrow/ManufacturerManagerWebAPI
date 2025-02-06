@@ -3,7 +3,6 @@
 namespace ManufacturerManagerUI.Pages.Colours;
 
 public partial class View
-    : ColourBasePageClass
 {
     List<WidgetDTO> WidgetDTOs = [];
 
@@ -13,11 +12,22 @@ public partial class View
         {
             ColourDTO = await Http.GetFromJsonAsync<ColourDTO>($"{GlobalValues.ColoursEndpoint}/{ColourId}") ?? new();
             WidgetDTOs = await Http.GetFromJsonAsync<List<WidgetDTO>>($"{WidgetsEndpoint}/widgetsbycolour/{ColourId}") ?? new();
+            MainLayout.SetHeaderValue("View Colour");
         }
         catch (Exception ex)
         {
             Console.WriteLine("Error fetching colour: " + ex.Message);
             Console.WriteLine("StackTrace: " + ex.StackTrace);
         }
+    }
+
+    protected override void OnInitialized()
+    {
+        MainLayout.SetBreadCrumbs(
+        [
+            GetHomeBreadcrumbItem(),
+            GetColourHomeBreadcrumbItem(),
+            GetCustomBreadcrumbItem(ViewTextForBreadcrumb),
+        ]);
     }
 }

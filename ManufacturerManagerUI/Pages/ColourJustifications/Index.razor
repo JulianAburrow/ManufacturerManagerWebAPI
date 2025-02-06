@@ -3,20 +3,20 @@
 
 <PageTitle>Colour Justifications</PageTitle>
 
+<a href="/colourjustification/create" class="btn btn-primary">Create Colour Justification</a>
+
+<br />
+<br />
+
 @if (ColourJustifications == null)
 {
     <MudAlert Severity="Severity.Info" ContentAlignment="HorizontalAlignment.Center">Loading Colour Justifications...</MudAlert>
     return;
 }
 
-<a href="/colourjustification/create" class="btn btn-primary">Create Colour Justification</a>
-
-<br />
-<br />
-
 @if (ColourJustifications.Count == 0)
 {
-    <p>No Colour Justifications found.</p>
+    <MudAlert Severity="Severity.Warning" ContentAlignment="HorizontalAlignment.Center">No Colour Justifications found.</MudAlert>
     return;
 }
 
@@ -44,10 +44,11 @@
         <MudTd>@context.WidgetCount</MudTd>
         <MudTd>
             <a class="btn btn-primary" href="/colourjustification/view/@context.ColourJustificationId">View</a>
-            &nbsp;
-            <a class="btn btn-primary" href="/colourjustification/edit/@context.ColourJustificationId">Edit</a>
-            &nbsp;
-            <a class="btn btn-danger" href="/colourjustification/delete/@context.ColourJustificationId">Delete</a>
+            @if (context.WidgetCount == 0)
+            {
+                @:&nbsp;
+                <a class="btn btn-primary" href="/colourjustification/edit/@context.ColourJustificationId">Edit</a>
+            }            
         </MudTd>
     </RowTemplate>
     <PagerContent>

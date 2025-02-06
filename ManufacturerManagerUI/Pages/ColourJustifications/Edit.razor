@@ -3,24 +3,36 @@
 
 <PageTitle>Colour Justification</PageTitle>
 
+@if (ColourJustificationDTO == null)
+{
+    <MudAlert Severity="Severity.Info" ContentAlignment="HorizontalAlignment.Center">Loading Colour Justification...</MudAlert>
+    return;
+}
+
 @if (ColourJustificationDTO.WidgetCount > 0)
 {
     {
-        <h3>Cannot Edit</h3>
-        <p>Cannot edit colour justification @ColourJustificationDTO.Justification as it has Widgets associated with it.</p>
-        <a href="/colours/index" class="btn btn-secondary">Back to List</a>
+        <MudAlert Severity="Severity.Info" ContentAlignment="HorizontalAlignment.Center">Cannot edit colour justification @ColourJustificationDTO.Justification as it has Widgets associated with it.</MudAlert>
+        <br />
+        <a href="/colourjustifications/index" class="btn btn-secondary">Back to List</a>
         return;
     }
 }
 
-<h3>Edit Colour Justification</h3>
+<EditForm Model="@ColourJustificationDTO" OnValidSubmit="UpdateColourJustification">
+    <DataAnnotationsValidator />
+    <ValidationSummary />
 
-<EditForm Model="ColourJustificationDTO" OnValidSubmit="UpdateColourJustification">
-
-    <CreateEditColourJustificationComponent ColourJustificationDTO="ColourJustificationDTO" />
-
-    <input type="submit" class="btn btn-primary" value="Update" />
-    &nbsp;
-    <a href="/colourjustifications/index" class="btn btn-secondary">Cancel</a>
-
+    <MudGrid>
+        <MudItem sm="7">
+            <MudCard>
+                <CreateEditColourJustificationComponent ColourJustificationDTO="ColourJustificationDTO" />
+                <MudCardActions>
+                    <input type="submit" class="btn btn-primary" value="Update" />
+                    &nbsp;
+                    <a href="/colourjustifications/index" class="btn btn-secondary">Cancel</a>
+                </MudCardActions>
+            </MudCard>
+        </MudItem>
+    </MudGrid>
 </EditForm>

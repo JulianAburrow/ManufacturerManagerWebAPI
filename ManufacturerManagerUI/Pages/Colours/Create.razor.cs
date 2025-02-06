@@ -1,11 +1,19 @@
 ﻿namespace ManufacturerManagerUI.Pages.Colours;
 
-using MudBlazor;
-using System.Net.Http.Json;
-
 public partial class Create
-    : ColourBasePageClass
 {
+    protected override void OnInitialized()
+    {
+        ColourDTO = new();
+        MainLayout.SetHeaderValue("Create Colour");
+        MainLayout.SetBreadCrumbs(
+        [
+            GetHomeBreadcrumbItem(),
+            GetColourHomeBreadcrumbItem(),
+            GetCustomBreadcrumbItem(CreateTextForBreadcrumb),
+        ]);
+    }
+
     private async Task CreateColour()
     {
         var response = await Http.PostAsJsonAsync(GlobalValues.ColoursEndpoint, ColourDTO);

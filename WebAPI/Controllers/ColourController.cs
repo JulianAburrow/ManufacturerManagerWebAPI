@@ -71,7 +71,7 @@ public class ColourController(ManufacturerManagerDbContext context) : Controller
         }
     }
 
-    [HttpPut]
+    [HttpPut("{id}")]
     public async Task<ActionResult> UpdateColour(int id, ColourDTO colourDTO)
     {
         var colourToUpdate = _context.Colours

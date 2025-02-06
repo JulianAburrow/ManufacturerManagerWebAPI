@@ -5,11 +5,20 @@
 
 <h3>Create Colour</h3>
 
-<EditForm Model="@ColourDTO" OnValidSubmit="@CreateColour">
+<EditForm Model="@ColourDTO" OnValidSubmit="CreateColour">
+    <DataAnnotationsValidator />
+    <ValidationSummary />
 
-    <CreateEditColourComponent ColourDTO="@ColourDTO" />
-
-    <input type="submit" class="btn btn-primary" value="Create" />
-    &nbsp;
-    <a href="/colours/index" class="btn btn-secondary">Cancel</a>
+    <MudGrid>
+        <MudItem sm="7">
+            <MudCard>
+                <CreateEditColourComponent ColourDTO="@ColourDTO" />
+                <MudCardActions>
+                    <button type="submit" class="btn btn-primary">Create</button>
+                    &nbsp;
+                    <a href="/colours/index" class="btn btn-secondary">Cancel</a>
+                </MudCardActions>
+            </MudCard>
+        </MudItem>
+    </MudGrid>
 </EditForm>

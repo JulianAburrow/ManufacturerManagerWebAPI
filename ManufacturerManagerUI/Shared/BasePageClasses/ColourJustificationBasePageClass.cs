@@ -8,7 +8,7 @@ public class ColourJustificationBasePageClass
     [Parameter]
     public int ColourJustificationId { get; set; }
 
-    protected ColourJustificationDTO ColourJustificationDTO = new();
+    protected ColourJustificationDTO ColourJustificationDTO = null!;
 
     protected BreadcrumbItem GetColourJustificationHomeBreadcrumbItem(bool isDisabled = false)
     {

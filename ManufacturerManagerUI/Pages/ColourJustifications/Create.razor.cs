@@ -1,17 +1,17 @@
 ﻿namespace ManufacturerManagerUI.Pages.ColourJustifications;
 
 public partial class Create
-    : ColourJustificationBasePageClass
 {
     protected override void OnInitialized()
     {
+        ColourJustificationDTO = new();
         MainLayout.SetHeaderValue("Create Colour Justification");
-        MainLayout.SetBreadCrumbs(new List<BreadcrumbItem>
-        {
+        MainLayout.SetBreadCrumbs(
+        [
             GetHomeBreadcrumbItem(),
             GetColourJustificationHomeBreadcrumbItem(),
             GetCustomBreadcrumbItem(CreateTextForBreadcrumb),
-        });
+        ]);
     }
 
     private async Task CreateColourJustification()

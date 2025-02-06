@@ -3,22 +3,35 @@
 
 <PageTitle>Edit Colour</PageTitle>
 
+@if (ColourDTO == null)
+{
+    <MudAlert Severity="Severity.Info" ContentAlignment="HorizontalAlignment.Center">Loading Colour...</MudAlert>
+    return;
+}
+
 @if (ColourDTO.WidgetCount > 0)
 {
-    <h3>Cannot Edit</h3>
-    <p>Cannot edit colour @ColourDTO.Name as it has Widgets associated with it.</p>
+    <MudAlert Severity="Severity.Info" ContentAlignment="HorizontalAlignment.Center">Cannot edit colour @ColourDTO.Name as it has Widgets associated with it.</MudAlert>
+    <br />
     <a href="/colours/index" class="btn btn-secondary">Back to List</a>
     return;
 }
 
-<h3>Edit Colour</h3>
+<EditForm Model="@ColourDTO" OnValidSubmit="UpdateColour">
+    <DataAnnotationsValidator />
+    <ValidationSummary />
 
-<EditForm Model="@ColourDTO" OnValidSubmit="@UpdateColour">
-
-    <CreateEditColourComponent ColourDTO="@ColourDTO" />
-
-    <input type="submit" class="btn btn-primary" value="Update" />
-    &nbsp;
-    <a href="/colours/index" class="btn btn-secondary">Cancel</a>
+    <MudGrid>
+        <MudItem sm="7">
+            <MudCard>
+                <CreateEditColourComponent ColourDTO="@ColourDTO" />
+                <MudCardActions>
+                    <input type="submit" class="btn btn-primary" value="Update" />
+                    &nbsp;
+                    <a href="/colours/index" class="btn btn-secondary">Cancel</a>
+                </MudCardActions>
+            </MudCard>
+        </MudItem>
+    </MudGrid>    
 
 </EditForm>

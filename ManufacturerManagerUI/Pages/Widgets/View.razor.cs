@@ -3,7 +3,6 @@
 namespace ManufacturerManagerUI.Pages.Widgets;
 
 public partial class View
-    : WidgetBasePageClass
 {
     protected override async Task OnInitializedAsync()
     {

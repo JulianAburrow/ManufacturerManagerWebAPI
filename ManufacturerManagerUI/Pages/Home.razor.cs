@@ -1,7 +1,6 @@
 ﻿namespace ManufacturerManagerUI.Pages;
 
 public partial class Home
-    : BasePageClass
 {
     protected override void OnInitialized()
     {

@@ -4,7 +4,6 @@ using System.Net.Http.Json;
 namespace ManufacturerManagerUI.Pages.Widgets;
 
 public partial class Index
-    : WidgetBasePageClass
 {
     List<WidgetDTO>? Widgets = [];
 

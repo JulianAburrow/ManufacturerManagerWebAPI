@@ -3,40 +3,40 @@
 
 <PageTitle>View Colour</PageTitle>
 
-<h3>View Colour</h3>
-
 <br />
 
 @if (ColourJustificationDTO is null)
 {
-    <p><em>Loading...</em></p>
+    <MudAlert Severity="Severity.Info" ContentAlignment="HorizontalAlignment.Center">Loading Colour Justification...</MudAlert>
     return;
 }
 
-<table class="table table-striped">
-    <tbody>
-        <tr>
-            <th>Colour Justification</th>
-            <td>@ColourJustificationDTO.Justification</td>
-        </tr>
-        <tr>
-            <th>Widgets</th>
-            <td>
-                @ColourJustificationDTO.WidgetCount
-                @if (ColourJustificationDTO.WidgetCount > 0)
+<MudGrid>
+    <MudItem sm="7">
+        <MudCard>
+            <MudCardContent>
+                <MudTabs Elevation="2" Rounded="true" ApplyEffectsToContainer="true" PanelClass="pa-6">
+                    <MudTabPanel Text="Colour Justification">
+                        <MudField Label="Justification">@ColourJustificationDTO.Justification</MudField>
+                        <MudField Label="Widgets">@ColourJustificationDTO.WidgetCount</MudField>
+                    </MudTabPanel>
+                    @if (ColourJustificationDTO.WidgetCount > 0)
+                    {
+                        <MudTabPanel Text="Widgets">
+                            <DisplayWidgetListComponent WidgetDTOs="WidgetDTOs" />
+                        </MudTabPanel>
+                    }
+                </MudTabs>
+            </MudCardContent>
+            <MudCardActions>
+                @if (ColourJustificationDTO.WidgetCount == 0)
                 {
-                    <DisplayWidgetListComponent WidgetDTOs="WidgetDTOs" />
+                    <a href="colourjustification/edit/@ColourJustificationDTO.ColourJustificationId" class="btn btn-primary">Edit</a>
+                    @:&nbsp;
                 }
-            </td>
-        </tr>
-    </tbody>
-</table>
+                <a href="/colourjustifications/index" class="btn btn-secondary">Back to List</a>
+            </MudCardActions>
+        </MudCard>
+    </MudItem>
+</MudGrid>
 
-<br />
-
-@if (ColourJustificationDTO.WidgetCount == 0)
-{
-    <a href="colourjustification/edit/@ColourJustificationDTO.ColourJustificationId" class="btn btn-primary">Edit</a>
-    @:&nbsp;
-}
-<a href="/colourjustifications/index" class="btn btn-secondary">Back to List</a>

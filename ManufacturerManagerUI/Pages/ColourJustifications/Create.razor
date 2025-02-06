@@ -4,6 +4,8 @@
 <PageTitle>Create Colour Justification</PageTitle>
 
 <EditForm Model="@ColourJustificationDTO" OnValidSubmit="CreateColourJustification">
+    <DataAnnotationsValidator />
+    <ValidationSummary />
 
     <MudGrid>
         <MudItem sm="7">

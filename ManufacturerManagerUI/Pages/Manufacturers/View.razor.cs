@@ -3,7 +3,6 @@
 namespace ManufacturerManagerUI.Pages.Manufacturers;
 
 public partial class View
-    : ManufacturerBasePageClass
 {
     List<WidgetDTO> WidgetDTOs = [];
 

@@ -3,7 +3,6 @@
 namespace ManufacturerManagerUI.Pages.Manufacturers;
 
 public partial class Index
-    : ManufacturerBasePageClass
 {
     List<ManufacturerDTO>? Manufacturers = [];
 
