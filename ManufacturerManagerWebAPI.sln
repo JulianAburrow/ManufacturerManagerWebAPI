@@ -7,6 +7,11 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebAPI", "WebAPI\WebAPI.csp
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ManufacturerManagerUI", "ManufacturerManagerUI\ManufacturerManagerUI.csproj", "{1B4AE56E-7066-4B77-8A5C-8C19537A2F72}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Scripts", "Scripts", "{5E309C54-01D7-44DD-AE3D-5DE40C80737E}"
+	ProjectSection(SolutionItems) = preProject
+		DbScripts\ManufacturerManagerWithMudBlazor_Db_Script.sql = DbScripts\ManufacturerManagerWithMudBlazor_Db_Script.sql
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
