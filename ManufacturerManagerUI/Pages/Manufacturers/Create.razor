@@ -1,6 +1,11 @@
 ﻿@page "/manufacturer/create"
 @inherits ManufacturerBasePageClass
 
+@if (ManufacturerExists)
+{
+    <ManufacturerExistsWarningComponent ManufacturerName="@ManufacturerDTO.Name" />
+}
+
 <PageTitle>Create Manufacturer</PageTitle>
 
 <EditForm Model="@ManufacturerDTO" OnValidSubmit="@CreateManufacturer">

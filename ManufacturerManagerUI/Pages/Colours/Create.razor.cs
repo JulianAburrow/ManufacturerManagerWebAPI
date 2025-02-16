@@ -31,6 +31,7 @@ public partial class Create
         }
         else
         {
+            Snackbar.Add($" An error occurred creating Colour {ColourDTO.Name}. Please try again.", Severity.Error);
             var strResponse = await response.Content.ReadAsStringAsync();
             Console.WriteLine("Json Response: \n " + strResponse);
         }

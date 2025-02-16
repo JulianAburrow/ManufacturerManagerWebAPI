@@ -35,14 +35,24 @@ public partial class Create
 
     private async Task CreateManufacturer()
     {
+        var checkResponse = await Http.GetAsync($"{ManufacturersEndpoint}/check/{ManufacturerDTO.Name}");
+
+        if (checkResponse.StatusCode.Equals(HttpStatusCode.Conflict))
+        {
+            ManufacturerExists = true;
+            return;
+        }
+
         var response = await Http.PostAsJsonAsync(ManufacturersEndpoint, ManufacturerDTO);
 
         if (response.IsSuccessStatusCode)
         {
+            Snackbar.Add($"Manufacturer {ManufacturerDTO.Name} successfully created.", Severity.Success);
             NavigationManager.NavigateTo("/manufacturers/index");
         }
         else
         {
+            Snackbar.Add($" An error occurred creating Manufacturer {ManufacturerDTO.Name}. Please try again.", Severity.Error);
             var strResponse = await response.Content.ReadAsStringAsync();
             Console.WriteLine("Json Response: \n " + strResponse);
         }

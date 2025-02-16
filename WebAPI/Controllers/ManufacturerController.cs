@@ -1,4 +1,6 @@
-﻿namespace WebAPI.Controllers;
+﻿using System.Net;
+
+namespace WebAPI.Controllers;
 
 [Route("api/[controller]")]
 [ApiController]
@@ -53,6 +55,22 @@ public class ManufacturerController(ManufacturerManagerDbContext context) : Cont
         };
 
         return Ok(manufacturerDTO);
+    }
+
+    [HttpGet("check/{manufacturerName}")]
+    public async Task<ActionResult<HttpStatusCode>> CheckForExistingManufacturer(string manufacturerName)
+    {
+        var manufacturer = await _context.Manufacturers
+            .FirstOrDefaultAsync(
+                m =>
+                    m.Name.Replace(" ", "") == manufacturerName.Replace(" ", ""));
+
+        if (manufacturer is not null)
+        {
+            return Conflict();
+        }
+
+        return NotFound();
     }
 
     [HttpPost]

@@ -1,6 +1,4 @@
-﻿using MudBlazor;
-
-namespace ManufacturerManagerUI.Shared.BasePageClasses;
+﻿namespace ManufacturerManagerUI.Shared.BasePageClasses;
 
 public class ManufacturerBasePageClass
     : BasePageClass
@@ -9,9 +7,13 @@ public class ManufacturerBasePageClass
     public int ManufacturerId { get; set; }
 
     protected ManufacturerDTO ManufacturerDTO = null!;
+
     protected List<ManufacturerStatusDTO> ManufacturerStatusDTOs = [];
 
+    protected bool ManufacturerExists;
+
     protected string ManufacturersEndpoint { get; set; } = "api/Manufacturer";
+
     protected string ManufacturerStatusesEndpoint { get; set; } = "api/ManufacturerStatus";
 
     public static ManufacturerDTO SelectManufacturer { get; set; } = new ManufacturerDTO
