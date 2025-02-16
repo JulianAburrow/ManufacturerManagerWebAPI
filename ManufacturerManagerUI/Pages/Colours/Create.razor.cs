@@ -18,8 +18,15 @@ public partial class Create
     {
         var response = await Http.PostAsJsonAsync(GlobalValues.ColoursEndpoint, ColourDTO);
 
+        if (response.StatusCode.Equals(HttpStatusCode.Conflict))
+        {
+            ColourExists = true;
+            return;
+        }
+
         if (response.IsSuccessStatusCode)
         {
+            Snackbar.Add($"Colour {ColourDTO.Name} successfully created.", Severity.Success);
             NavigationManager.NavigateTo("colours/index");
         }
         else

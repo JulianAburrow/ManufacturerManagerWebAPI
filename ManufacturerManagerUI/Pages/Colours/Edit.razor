@@ -17,6 +17,11 @@
     return;
 }
 
+@if (ColourExists)
+{
+    <ColourExistsWarningComponent ColourName="@ColourDTO.Name" />
+}
+
 <EditForm Model="@ColourDTO" OnValidSubmit="UpdateColour">
     <DataAnnotationsValidator />
     <ValidationSummary />

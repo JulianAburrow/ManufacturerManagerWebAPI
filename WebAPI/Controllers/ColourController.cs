@@ -59,11 +59,20 @@ public class ColourController(ManufacturerManagerDbContext context) : Controller
             Name = colourDTO.Name,
         };
 
+        if (_context.Colours.Any(
+                c =>
+                    c.Name.Replace(" ", "") == colour.Name.Replace(" ", "")
+                )
+            )
+        {
+            return Conflict();
+        }
+
         try
         {
             _context.Colours.Add(colour);
             await _context.SaveChangesAsync();
-            return Ok();
+            return Created();
         }
         catch
         {
@@ -82,6 +91,13 @@ public class ColourController(ManufacturerManagerDbContext context) : Controller
         }
 
         colourToUpdate.Name = colourDTO.Name;
+
+        if (_context.Colours.Any(
+            c => c.Name == colourToUpdate.Name &&
+            c.ColourId != id))
+        {
+            return Conflict();
+        }
 
         try
         {

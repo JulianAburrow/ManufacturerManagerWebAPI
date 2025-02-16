@@ -31,6 +31,13 @@ public partial class Edit
     private async Task UpdateColourJustification()
     {
         var response = await Http.PutAsJsonAsync($"{GlobalValues.ColourJustificationsEndpoint}/{ColourJustificationId}", ColourJustificationDTO);
+
+        if (response.StatusCode.Equals(HttpStatusCode.Conflict))
+        {
+            ColourJustificationExists = true;
+            return;
+        }
+
         if (response.IsSuccessStatusCode)
         {
             Snackbar.Add($"Colour Justification {ColourJustificationDTO.Justification} successfully updated.", Severity.Success);

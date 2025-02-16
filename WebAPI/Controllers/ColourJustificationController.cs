@@ -59,6 +59,15 @@ public class ColourJustificationController(ManufacturerManagerDbContext context)
             Justification = colourJustificationDTO.Justification,
         };
 
+        if (_context.ColourJustifications.Any(
+                c =>
+                    c.Justification.Replace(" ", "") == colourJustificationDTO.Justification.Replace(" ", "")
+                )
+           )
+        {
+            return Conflict();
+        }
+
         try
         {
             _context.ColourJustifications.Add(colourJustification);
@@ -82,6 +91,16 @@ public class ColourJustificationController(ManufacturerManagerDbContext context)
         }
 
         colourJustificationToUpdate.Justification = colourJustificationDTO.Justification;
+
+        if (_context.ColourJustifications.Any(
+                c =>
+                    c.Justification.Replace(" ", "") == colourJustificationDTO.Justification.Replace(" ", "") &&
+                    c.ColourJustificationId != id
+                )
+           )
+        {
+            return Conflict();
+        }
 
         try
         {

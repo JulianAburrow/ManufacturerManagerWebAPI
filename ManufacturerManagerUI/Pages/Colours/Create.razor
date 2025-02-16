@@ -3,7 +3,10 @@
 
 <PageTitle>Create Colour</PageTitle>
 
-<h3>Create Colour</h3>
+@if (ColourExists)
+{
+    <ColourExistsWarningComponent ColourName="@ColourDTO.Name" />
+}
 
 <EditForm Model="@ColourDTO" OnValidSubmit="CreateColour">
     <DataAnnotationsValidator />

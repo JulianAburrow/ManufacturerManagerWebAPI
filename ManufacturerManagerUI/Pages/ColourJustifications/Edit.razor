@@ -19,6 +19,11 @@
     }
 }
 
+@if (ColourJustificationExists)
+{
+    <ColourJustificationExistsWarningComponent ColourJustification="@ColourJustificationDTO.Justification" />
+}
+
 <EditForm Model="@ColourJustificationDTO" OnValidSubmit="UpdateColourJustification">
     <DataAnnotationsValidator />
     <ValidationSummary />

@@ -17,6 +17,13 @@ public partial class Create
     private async Task CreateColourJustification()
     {
         var response = await Http.PostAsJsonAsync(GlobalValues.ColourJustificationsEndpoint, ColourJustificationDTO);
+
+        if (response.StatusCode.Equals(HttpStatusCode.Conflict))
+        {
+            ColourJustificationExists = true;
+            return;
+        }
+
         if (response.IsSuccessStatusCode)
         {
             Snackbar.Add($"Colour Justification {ColourJustificationDTO.Justification} successfully created.", Severity.Success);

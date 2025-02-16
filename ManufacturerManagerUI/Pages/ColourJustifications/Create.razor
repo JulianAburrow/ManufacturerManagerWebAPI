@@ -3,6 +3,11 @@
 
 <PageTitle>Create Colour Justification</PageTitle>
 
+@if (ColourJustificationExists)
+{
+    <ColourJustificationExistsWarningComponent ColourJustification="@ColourJustificationDTO.Justification" />
+}
+
 <EditForm Model="@ColourJustificationDTO" OnValidSubmit="CreateColourJustification">
     <DataAnnotationsValidator />
     <ValidationSummary />

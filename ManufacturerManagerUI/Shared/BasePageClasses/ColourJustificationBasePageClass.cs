@@ -10,6 +10,8 @@ public class ColourJustificationBasePageClass
 
     protected ColourJustificationDTO ColourJustificationDTO = null!;
 
+    protected bool ColourJustificationExists;
+
     protected BreadcrumbItem GetColourJustificationHomeBreadcrumbItem(bool isDisabled = false)
     {
         return new("ColourJustifications", "/colourjustifications/index", isDisabled);

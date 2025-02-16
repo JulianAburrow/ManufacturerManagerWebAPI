@@ -31,6 +31,13 @@ public partial class Edit
     private async Task UpdateColour()
     {
         var response = await Http.PutAsJsonAsync($"{GlobalValues.ColoursEndpoint}/{ColourId}", ColourDTO);
+
+        if (response.StatusCode.Equals(HttpStatusCode.Conflict))
+        {
+            ColourExists = true;
+            return;
+        }
+
         if (response.IsSuccessStatusCode)
         {
             Snackbar.Add($"Colour {ColourDTO.Name} successfully updated.", Severity.Success);

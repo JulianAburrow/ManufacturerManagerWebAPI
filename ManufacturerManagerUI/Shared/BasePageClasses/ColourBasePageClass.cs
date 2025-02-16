@@ -1,6 +1,4 @@
-﻿using MudBlazor;
-
-namespace ManufacturerManagerUI.Shared.BasePageClasses;
+﻿namespace ManufacturerManagerUI.Shared.BasePageClasses;
 
 public class ColourBasePageClass
     : BasePageClass
@@ -9,6 +7,8 @@ public class ColourBasePageClass
     public int ColourId { get; set; }
 
     protected ColourDTO ColourDTO = null!;
+
+    protected bool ColourExists;
 
     protected BreadcrumbItem GetColourHomeBreadcrumbItem(bool isDisabled = false)
     {
