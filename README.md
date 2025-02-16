@@ -17,7 +17,7 @@ for hyphens, apostrophes etc.
 # Manufacturers and Widgets
 
 The WepAPI will allow duplicate Manufacturers and Widgets but the front end should not. The next step is to provide endpoints in
-the controllers which will check for duplicates in the database.
+the controllers which will check for duplicates in the database and return a 409 reponse if any are found.
 
 The front end will have code added to call these endpoints on create and update and respond appropriately if duplicates are found.
 
