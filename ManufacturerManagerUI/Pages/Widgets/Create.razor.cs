@@ -1,7 +1,6 @@
 ﻿namespace ManufacturerManagerUI.Pages.Widgets;
 
 using System.Net.Http.Json;
-using static ManufacturerManagerUI.GlobalValues;
 
 public partial class Create
 {
@@ -9,20 +8,38 @@ public partial class Create
     {
         try
         {
+            WidgetDTO = new WidgetDTO
+            {
+                ManufacturerId = GlobalValues.SelectValue,
+                StatusId = GlobalValues.SelectValue,
+                ColourId = GlobalValues.NoneValue,
+                ColourJustificationId = GlobalValues.NoneValue,
+            };
             WidgetStatusDTOs = await Http.GetFromJsonAsync<List<WidgetStatusDTO>>(WidgetStatusesEndpoint) ?? [];
             WidgetStatusDTOs.Insert(0, SelectWidgetStatus);
-            ManufacturerDTOs = await Http.GetFromJsonAsync<List<ManufacturerDTO>>(ManufacturersEndpoint) ?? [];
+            ManufacturerDTOs = await Http.GetFromJsonAsync<List<ManufacturerDTO>>(GlobalValues.ManufacturersEndpoint) ?? [];
             ManufacturerDTOs.Insert(0, SelectManufacturer);
-            ColourDTOs = await Http.GetFromJsonAsync<List<ColourDTO>>(ColoursEndpoint) ?? [];
+            ColourDTOs = await Http.GetFromJsonAsync<List<ColourDTO>>(GlobalValues.ColoursEndpoint) ?? [];
             ColourDTOs.Insert(0, NoneColour);
-            ColourJustificationDTOs = await Http.GetFromJsonAsync<List<ColourJustificationDTO>>(ColourJustificationsEndpoint) ?? [];
+            ColourJustificationDTOs = await Http.GetFromJsonAsync<List<ColourJustificationDTO>>(GlobalValues.ColourJustificationsEndpoint) ?? [];
             ColourJustificationDTOs.Insert(0, NoneColourJustification);
+            MainLayout.SetHeaderValue("Create Widget");
         }
         catch (Exception ex)
         {
             Console.WriteLine("Error fetching information: " + ex.Message);
             Console.WriteLine("StackTrace: " + ex.StackTrace);
         }
+    }
+
+    protected override void OnInitialized()
+    {
+        MainLayout.SetBreadCrumbs(
+        [
+            GetHomeBreadcrumbItem(),
+            GetWidgetHomeBreadcrumbItem(),
+            GetCustomBreadcrumbItem("Create Widget"),
+        ]);
     }
 
     private async Task CreateWidget()
@@ -45,10 +62,12 @@ public partial class Create
 
         if (response.IsSuccessStatusCode)
         {
+            Snackbar.Add($"Widget {WidgetDTO.Name} successfully created.", Severity.Success);
             NavigationManager.NavigateTo("/widgets/index");
         }
         else
         {
+            Snackbar.Add($"An error occurred creating Widget {WidgetDTO.Name}. Please try again", Severity.Error);
             var strResponse = await response.Content.ReadAsStringAsync();
             Console.WriteLine("Json Response: \n " + strResponse);
         }

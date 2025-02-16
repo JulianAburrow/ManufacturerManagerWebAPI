@@ -29,16 +29,14 @@ public class WidgetDTO : IValidatableObject
 
     public string? StatusName { get; set; }
 
-    [Required(ErrorMessage = "{0} is required")]
+    [Range(0.01, double.MaxValue, ErrorMessage = "{0} is required")]
     [Display(Name = "Cost Price")]
     public decimal CostPrice { get; set; }
 
-    [Required(ErrorMessage = "{0} is required")]
+    [Range(0.01, double.MaxValue, ErrorMessage = "{0} is required")]
     [Display(Name = "Retail Price")]
     public decimal RetailPrice { get; set; }
 
-    [Required(ErrorMessage = "{0} is required")]
-    [Display(Name = "Stock Level")]
     public int StockLevel { get; set; }
 
     public byte[]? WidgetImage { get; set; }
@@ -47,7 +45,7 @@ public class WidgetDTO : IValidatableObject
     {
         var result = new List<ValidationResult>();
 
-        if (ColourId == (int) ColoursEnum.Pink && ColourJustificationId is null) // No ColourJustificationId chosen
+        if (ColourId == (int) ColoursEnum.Pink && ColourJustificationId == 0) // No ColourJustificationId chosen
         {
             result.Add(new ValidationResult(
                 "Colour Justification is required when Colour is Pink",

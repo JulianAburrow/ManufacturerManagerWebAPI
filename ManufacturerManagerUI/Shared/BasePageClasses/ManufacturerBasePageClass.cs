@@ -8,23 +8,26 @@ public class ManufacturerBasePageClass
     [Parameter]
     public int ManufacturerId { get; set; }
 
-    protected ManufacturerDTO ManufacturerDTO = new();
+    protected ManufacturerDTO ManufacturerDTO = null!;
     protected List<ManufacturerStatusDTO> ManufacturerStatusDTOs = [];
 
     protected string ManufacturersEndpoint { get; set; } = "api/Manufacturer";
     protected string ManufacturerStatusesEndpoint { get; set; } = "api/ManufacturerStatus";
 
-    private static string Select { get; set; } = "Select";
-
     public static ManufacturerDTO SelectManufacturer { get; set; } = new ManufacturerDTO
     {
-        ManufacturerId = 0,
-        Name = Select,
+        ManufacturerId = GlobalValues.SelectValue,
+        Name = GlobalValues.Select,
     };
 
     public static ManufacturerStatusDTO SelectManufacturerStatus { get; set; } = new ManufacturerStatusDTO
     {
-        StatusId = 0,
-        StatusName = Select,
+        StatusId = GlobalValues.SelectValue,
+        StatusName = GlobalValues.Select,
     };
+
+    protected BreadcrumbItem GetManufacturerHomeBreadcrumbItem(bool isDisabled = false)
+    {
+        return new("Manufacturers", "/manufacturers/index", isDisabled);
+    }
 }

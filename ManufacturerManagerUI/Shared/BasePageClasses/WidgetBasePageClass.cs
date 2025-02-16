@@ -6,32 +6,34 @@ public class WidgetBasePageClass
     [Parameter]
     public int WidgetId { get; set; }
 
-    protected WidgetDTO WidgetDTO = new();
+    protected WidgetDTO WidgetDTO = null!;
     protected List<WidgetStatusDTO> WidgetStatusDTOs = [];
     protected List<ManufacturerDTO> ManufacturerDTOs = [];
     protected List<ColourDTO> ColourDTOs = [];
     protected List<ColourJustificationDTO> ColourJustificationDTOs = [];
-    private static string Select { get; set; } = "Select";
-    private static string None { get; set; } = "None";
     protected string WidgetStatusesEndpoint { get; set; } = "api/WidgetStatus";
     public static ManufacturerDTO SelectManufacturer = new ManufacturerDTO
     {
-        ManufacturerId = 0,
-        Name = Select,
+        ManufacturerId = GlobalValues.SelectValue,
+        Name = GlobalValues.Select,
     };
     public static ColourDTO NoneColour { get; set; } = new ColourDTO
     {
-        ColourId = 0,
-        Name = None,
+        ColourId = GlobalValues.NoneValue,
+        Name = GlobalValues.None,
     };
     public static ColourJustificationDTO NoneColourJustification { get; set; } = new ColourJustificationDTO
     {
-        ColourJustificationId = 0,
-        Justification = None,
+        ColourJustificationId = GlobalValues.NoneValue,
+        Justification = GlobalValues.None,
     };
     public static WidgetStatusDTO SelectWidgetStatus { get; set; } = new WidgetStatusDTO
     {
-        StatusId = 0,
-        StatusName = Select,
+        StatusId = GlobalValues.SelectValue,
+        StatusName = GlobalValues.Select,
     };
+    protected BreadcrumbItem GetWidgetHomeBreadcrumbItem(bool isDisabled = false)
+    {
+        return new("Widgets", "/widgets/index", isDisabled);
+    }
 }

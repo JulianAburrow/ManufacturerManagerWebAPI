@@ -3,18 +3,26 @@
 
 <PageTitle>Create Widget</PageTitle>
 
-<h3>Create Widget</h3>
-
 <EditForm Model="@WidgetDTO" OnValidSubmit="CreateWidget">
+    <DataAnnotationsValidator />
+    <ValidationSummary />
 
-    <CreateUpdateWidgetComponent
-        WidgetDTO="@WidgetDTO"
-        ManufacturerDTOs="@ManufacturerDTOs"
-        WidgetStatusDTOs="@WidgetStatusDTOs"
-        ColourDTOs="@ColourDTOs"
-        ColourJustificationDTOs="@ColourJustificationDTOs"/>
-
-    <input type="submit" class="btn btn-primary" value="Create" />
-    &nbsp;
-    <a href="/widgets/index" class="btn btn-secondary">Cancel</a>
+    <MudGrid>
+        <MudItem sm="7">
+            <MudCard>
+                <CreateUpdateWidgetComponent
+                    WidgetDTO="@WidgetDTO"
+                    ManufacturerDTOs="@ManufacturerDTOs"
+                    WidgetStatusDTOs="@WidgetStatusDTOs"
+                    ColourDTOs="@ColourDTOs"
+                    ColourJustificationDTOs="@ColourJustificationDTOs"/>
+                <MudCardActions>
+                    <input type="submit" class="btn btn-primary" value="Create" />
+                    &nbsp;
+                    <a href="/widgets/index" class="btn btn-secondary">Cancel</a>
+                </MudCardActions>
+            </MudCard>
+        </MudItem>
+    </MudGrid>
+    
 </EditForm>

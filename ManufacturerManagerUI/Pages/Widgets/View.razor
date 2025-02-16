@@ -9,49 +9,28 @@
 
 @if (WidgetDTO is null)
 {
-    <p><em>Loading...</em></p>
+    <MudAlert Severity="Severity.Info" ContentAlignment="HorizontalAlignment.Center">Loading Widget...</MudAlert>
     return;
 }
 
-<table class="table table-striped">
-    <tbody>
-        <tr>
-            <th>Widget</th>
-            <td>@WidgetDTO.Name</td>
-        </tr>
-        <tr>
-            <th>Manufacturer</th>
-            <td><a href="/manufacturer/view/@WidgetDTO.ManufacturerId">@WidgetDTO.ManufacturerName</a></td>
-        </tr>
-        <tr>
-            <th>Colour</th>
-            <td><a href="/colour/view/@WidgetDTO.ColourId">@WidgetDTO.ColourName</a></td>
-        </tr>
-        <tr>
-            <th>Colour Justification</th>
-            <td><a href="/colourjustification/view/@WidgetDTO.ColourJustificationId">@WidgetDTO.ColourJustificationText</a></td>
-        </tr>
-        <tr>
-            <th>Status</th>
-            <td>@WidgetDTO.StatusName</td>
-        </tr>
-        <tr>
-            <th>Cost Price</th>
-            <td>@WidgetDTO.CostPrice</td>
-        </tr>
-        <tr>
-            <th>Retail Price</th>
-            <td>@WidgetDTO.RetailPrice</td>
-        </tr>
-        <tr>
-            <th>Stock Level</th>
-            <td>@WidgetDTO.StockLevel</td>
-        </tr>
-    </tbody>
-</table>
-
-<br />
-
-<a href="/widget/edit/@WidgetDTO.WidgetId" class="btn btn-primary">Edit</a>
-&nbsp;
-<a href="/widgets/index" class="btn btn-secondary">Back to List</a>
+<MudGrid>
+    <MudItem sm="7">
+        <MudCard>
+            <MudCardContent>
+                <MudField Label="Widget">@WidgetDTO.Name</MudField>
+                <MudField Label="Manufacturer"><a href="/manufacturer/view/@WidgetDTO.ManufacturerId">@WidgetDTO.ManufacturerName</a></MudField>
+                <MudField Label="Colour">@WidgetDTO.ColourName</MudField>
+                <MudField Label="Colour Justification">@WidgetDTO.ColourJustificationText</MudField>
+                <MudField Label="Status">@WidgetDTO.StatusName</MudField>
+                <MudField Label="Cost Price">@WidgetDTO.CostPrice</MudField>
+                <MudField Label="Retail Price">@WidgetDTO.RetailPrice</MudField>
+                <MudField Label="Stock Level">@WidgetDTO.StockLevel</MudField>
+            </MudCardContent>
+            <MudCardActions>
+                <a href="/widget/edit/@WidgetDTO.WidgetId" class="btn btn-primary">Edit</a>
+                &nbsp;
+                <a href="/widgets/index" class="btn btn-secondary">Back to List</a>
+            </MudCardActions>
+        </MudCard>
+    </MudItem>
+</MudGrid>

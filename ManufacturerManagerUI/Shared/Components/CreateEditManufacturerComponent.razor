@@ -1,19 +1,11 @@
-﻿@using ManufacturerManagerUI.Models
-
-<DataAnnotationsValidator />
-<ValidationSummary />
-
-<div class="form-group">
-    <label for="Name">Name</label>
-    <InputText id="Name" class="form-control" @bind-Value="ManufacturerDTO.Name" />
-</div>
-<div class="form-group">
-    <label for="StatusId">Status</label>
-    <InputSelect id="StatusId" class="form-control" @bind-Value="ManufacturerDTO.StatusId">
+﻿<MudCardContent>
+    <MudTextField Label="Name" @bind-Value="@ManufacturerDTO.Name" AutoFocus OnlyValidateIfDirty="true" />
+    <MudSelect Label="Status" @bind-Value="@ManufacturerDTO.StatusId">
         @foreach (var manufacturerStatusDTO in ManufacturerStatusDTOs)
         {
-            <option value="@manufacturerStatusDTO.StatusId">@manufacturerStatusDTO.StatusName</option>
+            <MudSelectItem T="int" Value="@manufacturerStatusDTO.StatusId">
+                @manufacturerStatusDTO.StatusName
+            </MudSelectItem>
         }
-    </InputSelect>
-</div>
-<br />
+    </MudSelect>
+</MudCardContent>

@@ -3,14 +3,26 @@
 
 <PageTitle>Edit Manufacturer</PageTitle>
 
-<h3>Edit Manufacturer</h3>
+@if (ManufacturerDTO == null)
+{
+    <MudAlert Severity="Severity.Info" ContentAlignment="HorizontalAlignment.Center">Loading Colour Justification...</MudAlert>
+    return;
+}
 
 <EditForm Model="@ManufacturerDTO" OnValidSubmit="@UpdateManufacturer">
-    
-    <CreateEditManufacturerComponent ManufacturerDTO="@ManufacturerDTO" ManufacturerStatusDTOs="@ManufacturerStatusDTOs" />
+    <DataAnnotationsValidator />
+    <ValidationSummary />
 
-    <input type="submit" class="btn btn-primary" value="Update" />
-    &nbsp;
-    <a href="/manufacturers/index" class="btn btn-secondary">Cancel</a>
-
+    <MudGrid>
+        <MudItem sm="7">
+            <MudCard>
+                <CreateEditManufacturerComponent ManufacturerDTO="@ManufacturerDTO" ManufacturerStatusDTOs="@ManufacturerStatusDTOs" />
+                <MudCardActions>
+                    <input type="submit" class="btn btn-primary" value="Update" />
+                    &nbsp;
+                    <a href="/manufacturers/index" class="btn btn-secondary">Cancel</a>
+                </MudCardActions>
+            </MudCard>
+        </MudItem>
+    </MudGrid>
 </EditForm>

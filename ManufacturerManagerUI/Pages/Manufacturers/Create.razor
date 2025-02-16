@@ -3,13 +3,21 @@
 
 <PageTitle>Create Manufacturer</PageTitle>
 
-<h3>Create Manufacturer</h3>
-
 <EditForm Model="@ManufacturerDTO" OnValidSubmit="@CreateManufacturer">
-    
-    <CreateEditManufacturerComponent ManufacturerDTO="@ManufacturerDTO" ManufacturerStatusDTOs="@ManufacturerStatusDTOs" />
+    <DataAnnotationsValidator />
+    <ValidationSummary />
 
-    <input type="submit" class="btn btn-primary" value="Create" />
-    &nbsp;
-    <a href="/manufacturers/index" class="btn btn-secondary">Cancel</a>
+    <MudGrid>
+        <MudItem sm="7">
+            <MudCard>
+                <CreateEditManufacturerComponent ManufacturerDTO="@ManufacturerDTO" ManufacturerStatusDTOs="@ManufacturerStatusDTOs" />
+                <MudCardActions>
+                    <button type="submit" class="btn btn-primary">Create</button>
+                    &nbsp;
+                    <a href="/manufacturers/index" class="btn btn-secondary">Cancel</a>
+                </MudCardActions>
+            </MudCard>
+        </MudItem>
+    </MudGrid>
+
 </EditForm>

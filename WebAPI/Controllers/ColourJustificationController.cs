@@ -1,6 +1,4 @@
-﻿using Microsoft.Identity.Client;
-
-namespace WebAPI.Controllers;
+﻿namespace WebAPI.Controllers;
 
 [Route("api/[controller]")]
 [ApiController]

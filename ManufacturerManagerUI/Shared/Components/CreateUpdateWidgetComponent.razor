@@ -1,64 +1,44 @@
-﻿@using ManufacturerManagerUI.Models
-
-<DataAnnotationsValidator />
-<ValidationSummary />
-
-<div class="form-group">
-    <label for="Name">Name</label>
-    <InputText id="Name" class="form-control" @bind-Value="WidgetDTO.Name" />
-</div>
-<div class="form-group">
-    <label for="ManufacturerId">Manufacturer</label>
-    <InputSelect id="ManufacturerId" class="form-control" @bind-Value="WidgetDTO.ManufacturerId" @bind-Value:after="CheckManufacturerStatus">
+﻿<MudCardContent>
+    <MudTextField Label="Name" @bind-Value="@WidgetDTO.Name" AutoFocus OnlyValidateIfDirty="true" />`
+    <MudSelect Label="Manufacturer" @bind-Value="WidgetDTO.ManufacturerId" @bind-Value:after="CheckManufacturerStatus">
         @foreach (var manufacturerDTO in ManufacturerDTOs)
         {
-            <option value="@manufacturerDTO.ManufacturerId">@manufacturerDTO.Name</option>
+            <MudSelectItem T="int" value="@manufacturerDTO.ManufacturerId">
+                @manufacturerDTO.Name
+            </MudSelectItem>
         }
-    </InputSelect>
+    </MudSelect>
     @if (ShowWidgetWillBeInactiveWarning)
     {
-        <div class="alert alert-warning" role="alert">
+        <MudAlert Severity="Severity.Warning">
             The selected Manufacturer is inactive. The Widget will be inactive.
-        </div>
+        </MudAlert>
     }
-</div>
-<div class="form-group">
-    <label for="ColourId">Colour</label>
-    <InputSelect id="ColourId" class="form-control" @bind-Value="WidgetDTO.ColourId">
+    <MudSelect T="int?" Label="Colour" @bind-Value="WidgetDTO.ColourId">
         @foreach (var colourDTO in ColourDTOs)
         {
-            <option value="@colourDTO.ColourId">@colourDTO.Name</option>
+            <MudSelectItem T="int?" value="@colourDTO.ColourId">
+                @colourDTO.Name
+            </MudSelectItem>
         }
-    </InputSelect>
-</div>
-<div class="form-group">
-    <label for="ColourJustificationId">Colour Justification</label>
-    <InputSelect id="ColourJustificationId" class="form-control" @bind-Value="WidgetDTO.ColourJustificationId">
+    </MudSelect>
+    <MudSelect T="int?" Label="Colour Justification" @bind-Value="WidgetDTO.ColourJustificationId">
         @foreach (var colourJustificationDTO in ColourJustificationDTOs)
         {
-            <option value="@colourJustificationDTO.ColourJustificationId">@colourJustificationDTO.Justification</option>
+            <MudSelectItem T="int?" value="@colourJustificationDTO.ColourJustificationId">
+                @colourJustificationDTO.Justification
+            </MudSelectItem>
         }
-    </InputSelect>
-</div>
-<div class="form-group">
-    <label for="StatusId">Status</label>
-    <InputSelect id="StatusId" class="form-control" @bind-Value="WidgetDTO.StatusId">
+    </MudSelect>
+    <MudSelect Label="Status" @bind-Value="WidgetDTO.StatusId">
         @foreach (var widgetStatusDTO in WidgetStatusDTOs)
         {
-            <option value="@widgetStatusDTO.StatusId">@widgetStatusDTO.StatusName</option>
+            <MudSelectItem T="int" value="@widgetStatusDTO.StatusId">
+                @widgetStatusDTO.StatusName
+            </MudSelectItem>
         }
-    </InputSelect>
-</div>
-<div class="form-group">
-    <label for="CostPrice">Cost Price</label>
-    <input type="number" id="CostPrice" class="form-control" @bind-value="WidgetDTO.CostPrice" />
-</div>
-<div class="form-group">
-    <label for="RetailPrice">Retail Price</label>
-    <input type="number" id="RetailPrice" class="form-control" @bind-value="WidgetDTO.RetailPrice" />
-</div>
-<div class="form-group">
-    <label for="StockLevel">Stock Level</label>
-    <input type="number" id="StockLevel" class="form-control" @bind-value="WidgetDTO.StockLevel" />
-</div>
-<br />
+    </MudSelect>
+    <MudTextField Label="Cost Price" @bind-value="WidgetDTO.CostPrice" />
+    <MudTextField Label="Retail Price" @bind-value="WidgetDTO.RetailPrice" />
+    <MudTextField Label="Stock Level" @bind-value="WidgetDTO.StockLevel" />
+</MudCardContent>

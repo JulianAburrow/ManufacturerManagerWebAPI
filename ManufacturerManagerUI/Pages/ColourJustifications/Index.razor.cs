@@ -4,14 +4,14 @@ namespace ManufacturerManagerUI.Pages.ColourJustifications;
 
 public partial class Index
 {
-    List<ColourJustificationDTO> ColourJustifications { get; set; } = null!;
+    List<ColourJustificationDTO> ColourJustificationDTOs { get; set; } = null!;
     
     protected override async Task OnInitializedAsync()
     {
         try
         {
-            ColourJustifications = await Http.GetFromJsonAsync<List<ColourJustificationDTO>>(GlobalValues.ColourJustificationsEndpoint) ?? [];
-            Snackbar.Add($"{ColourJustifications.Count} item(s) found.", ColourJustifications.Count > 0 ? Severity.Info : Severity.Warning);
+            ColourJustificationDTOs = await Http.GetFromJsonAsync<List<ColourJustificationDTO>>(GlobalValues.ColourJustificationsEndpoint) ?? [];
+            Snackbar.Add($"{ColourJustificationDTOs.Count} item(s) found.", ColourJustificationDTOs.Count > 0 ? Severity.Info : Severity.Warning);
             MainLayout.SetHeaderValue("Colour Justifications");
         }
         catch (Exception ex)

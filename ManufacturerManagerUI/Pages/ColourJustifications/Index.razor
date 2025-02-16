@@ -8,19 +8,19 @@
 <br />
 <br />
 
-@if (ColourJustifications == null)
+@if (ColourJustificationDTOs == null)
 {
     <MudAlert Severity="Severity.Info" ContentAlignment="HorizontalAlignment.Center">Loading Colour Justifications...</MudAlert>
     return;
 }
 
-@if (ColourJustifications.Count == 0)
+@if (ColourJustificationDTOs.Count == 0)
 {
     <MudAlert Severity="Severity.Warning" ContentAlignment="HorizontalAlignment.Center">No Colour Justifications found.</MudAlert>
     return;
 }
 
-<MudTable Items="ColourJustifications"
+<MudTable Items="ColourJustificationDTOs"
           SortLabel="SortBy"
           Hover
           RowsPerPage="10"

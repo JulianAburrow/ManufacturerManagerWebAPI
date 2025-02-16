@@ -9,11 +9,22 @@ public partial class View
         try
         {
             WidgetDTO = await Http.GetFromJsonAsync<WidgetDTO>($"{WidgetsEndpoint}/{WidgetId}") ?? new();
+            MainLayout.SetHeaderValue("View Widget");
         }
         catch (Exception ex)
         {
             Console.WriteLine("Error fetching widget: " + ex.Message);
             Console.WriteLine("StackTrace: " + ex.StackTrace);
         }
+    }
+
+    protected override void OnInitialized()
+    {
+        MainLayout.SetBreadCrumbs(
+        [
+            GetHomeBreadcrumbItem(),
+            GetWidgetHomeBreadcrumbItem(),
+            GetCustomBreadcrumbItem(ViewTextForBreadcrumb),
+        ]);
     }
 }

@@ -3,17 +3,30 @@
 
 <PageTitle>Edit Widget</PageTitle>
 
-<h3>Edit Widget</h3>
+@if (WidgetDTO == null)
+{
+    <MudAlert Severity="Severity.Info" ContentAlignment="HorizontalAlignment.Center">Loading Colour Justification...</MudAlert>
+    return;
+}
 
 <EditForm Model="@WidgetDTO" OnValidSubmit="UpdateWidget">
+    <DataAnnotationsValidator />
+    <ValidationSummary />
 
-    <CreateUpdateWidgetComponent WidgetDTO="@WidgetDTO"
-                                 ManufacturerDTOs="@ManufacturerDTOs"
-                                 WidgetStatusDTOs="@WidgetStatusDTOs"
-                                 ColourDTOs="@ColourDTOs"
-                                 ColourJustificationDTOs="@ColourJustificationDTOs" />
-
-    <input type="submit" class="btn btn-primary" value="Update" />
-    &nbsp;
-    <a href="/widgets/index" class="btn btn-secondary">Cancel</a>
+    <MudGrid>
+        <MudItem sm="7">
+            <MudCard>
+                <CreateUpdateWidgetComponent WidgetDTO="@WidgetDTO"
+                                             ManufacturerDTOs="@ManufacturerDTOs"
+                                             WidgetStatusDTOs="@WidgetStatusDTOs"
+                                             ColourDTOs="@ColourDTOs"
+                                             ColourJustificationDTOs="@ColourJustificationDTOs" />
+                <MudCardActions>
+                    <input type="submit" class="btn btn-primary" value="Update" />
+                    &nbsp;
+                    <a href="/widgets/index" class="btn btn-secondary">Cancel</a>
+                </MudCardActions>
+            </MudCard>
+        </MudItem>
+    </MudGrid>    
 </EditForm>

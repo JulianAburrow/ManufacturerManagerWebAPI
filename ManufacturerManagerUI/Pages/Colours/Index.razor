@@ -8,19 +8,19 @@
 <br />
 <br />
 
-@if (Colours == null)
+@if (ColourDTOs == null)
 {
     <MudAlert Severity="Severity.Info" ContentAlignment="HorizontalAlignment.Center">Loading Colours...</MudAlert>
     return;
 }
 
-@if (Colours.Count == 0)
+@if (ColourDTOs.Count == 0)
 {
     <MudAlert Severity="Severity.Warning" ContentAlignment="HorizontalAlignment.Center">No Colours found.</MudAlert>
     return;
 }
 
-<MudTable Items="Colours"
+<MudTable Items="ColourDTOs"
           SortLabel="SortBy"
           Hover
           RowsPerPage="10"

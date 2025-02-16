@@ -14,7 +14,7 @@ public class ManufacturerDTO
     [Display(Name = "Status")]
     public int StatusId { get; set; }
 
-    public string? StatusName { get; set; } = null!;
+    public string StatusName { get; set; } = null!;
 
     public int WidgetCount { get; set; }
 }

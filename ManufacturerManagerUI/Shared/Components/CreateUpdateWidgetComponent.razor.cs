@@ -27,10 +27,6 @@ public partial class CreateUpdateWidgetComponent()
         if (ShowWidgetWillBeInactiveWarning)
         {
             WidgetDTO.StatusId = 2;
-        }
-        else
-        {
-            WidgetDTO.StatusId = 0;
-        }        
+        }   
     }
 }

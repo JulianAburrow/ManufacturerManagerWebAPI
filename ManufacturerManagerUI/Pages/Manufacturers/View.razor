@@ -1,44 +1,39 @@
 ﻿@page "/manufacturer/view/{ManufacturerId:int}"
 @inherits ManufacturerBasePageClass
 
-
 <PageTitle>View Manufacturer</PageTitle>
-
-<h3>View Manufacturer</h3>
 
 <br />
 
 @if (ManufacturerDTO is null)
 {
-    <p><em>Loading...</em></p>
+    <MudAlert Severity="Severity.Info" ContentAlignment="HorizontalAlignment.Center">Loading Manufacturer...</MudAlert>
     return;
 }
 
-<table class="table table-striped">
-    <tbody>
-        <tr>
-            <th>Manufacturer</th>
-            <td>@ManufacturerDTO.Name</td>
-        </tr>
-        <tr>
-            <th>Status</th>
-            <td>@ManufacturerDTO.StatusName</td>
-        </tr>
-        <tr>
-            <th>Widgets</th>
-            <td>
-                @ManufacturerDTO.WidgetCount
-                @if (ManufacturerDTO.WidgetCount > 0)
-                {
-                    <DisplayWidgetListComponent WidgetDTOs="WidgetDTOs" />
-                }
-            </td>
-        </tr>
-    </tbody>
-</table>
-
-<br />
-
-<a href="/manufacturer/edit/@ManufacturerDTO.ManufacturerId" class="btn btn-primary">Edit</a>
-&nbsp;
-<a href="/manufacturers/index" class="btn btn-secondary">Back to List</a>
+<MudGrid>
+    <MudItem sm="7">
+        <MudCard>
+            <MudCardContent>
+                <MudTabs Elevation="2" Rounded="true" ApplyEffectsToContainer="true" PanelClass="pa-6">
+                    <MudTabPanel Text="Manufacturer">
+                        <MudField Label="Manufacturer">@ManufacturerDTO.Name</MudField>
+                        <MudField Label="Status">@ManufacturerDTO.StatusName</MudField>
+                        <MudField Label="Widgets">@ManufacturerDTO.WidgetCount</MudField>
+                    </MudTabPanel>
+                    @if (ManufacturerDTO.WidgetCount > 0)
+                    {
+                        <MudTabPanel Text="Widgets">
+                            <DisplayWidgetListComponent WidgetDTOs="WidgetDTOs" />
+                        </MudTabPanel>
+                    }
+                </MudTabs>
+            </MudCardContent>
+            <MudCardActions>
+                <a href="/manufacturer/edit/@ManufacturerDTO.ManufacturerId" class="btn btn-primary">Edit</a>
+                &nbsp;
+                <a href="/manufacturers/index" class="btn btn-secondary">Back to List</a>
+            </MudCardActions>
+        </MudCard>
+    </MudItem>
+</MudGrid>

@@ -3,41 +3,58 @@
 
 <PageTitle>Manufacturers</PageTitle>
 
-<h3>Manufacturers</h3>
-
 <a href="/manufacturer/create" class="btn btn-primary">Create Manufacturer</a>
 
-@if (Manufacturers is not null && Manufacturers.Count == 0)
+<br />
+<br />
+
+@if (ManufacturerDTOs == null)
 {
-    <br />
-    <br />
-    <p><em>Loading...</em></p>
-    <p>(If this does not update there are no manufacturers)</p>
+    <MudAlert Severity="Severity.Info" ContentAlignment="HorizontalAlignment.Center">Loading Manufacturers...</MudAlert>
     return;
 }
 
-<table class="table">
-    <thead>
-        <tr>
-            <th>Manufacturer</th>
-            <th>Status</th>
-            <th>Widgets</th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var Manufacturer in Manufacturers)
-        {
-            <tr>
-                <td>@Manufacturer.Name</td>
-                <td>@Manufacturer.StatusName</td>
-                <td>@Manufacturer.WidgetCount</td>
-                <td>
-                    <a href="/manufacturer/view/@Manufacturer.ManufacturerId" class="btn btn-primary">View</a>
-                    &nbsp;
-                    <a href="/manufacturer/edit/@Manufacturer.ManufacturerId" class="btn btn-primary">Edit</a>
-                </td>
-            </tr>
-        }
-    </tbody>
-</table>
+@if (ManufacturerDTOs.Count == 0)
+{
+    <MudAlert Severity="Severity.Warning" ContentAlignment="HorizontalAlignment.Center">No Manufacturers found.</MudAlert>
+    return;
+}
+
+<MudTable Items="ManufacturerDTOs"
+    SortLabel="SortBy"
+    Hover
+    RowsPerPage="10"
+    FixedHeader
+    Height="700">
+    <HeaderContent>
+        <MudTh title="Sort by Name">
+            <MudTableSortLabel SortBy="new Func<ManufacturerDTO, object>(x => x.Name)">
+                Name
+            </MudTableSortLabel>
+        </MudTh>
+        <MudTh title="Sort by Status">
+            <MudTableSortLabel SortBy="new Func<ManufacturerDTO, object>(x => x.StatusName)">
+                Status
+            </MudTableSortLabel>
+        </MudTh>
+        <MudTh title="Sort by Widgets">
+            <MudTableSortLabel SortBy="new Func<ManufacturerDTO, object>(x => x.WidgetCount)">
+                Widgets
+            </MudTableSortLabel>
+        </MudTh>
+        <MudTh></MudTh>
+    </HeaderContent>
+    <RowTemplate>
+        <MudTd>@context.Name</MudTd>
+        <MudTd>@context.StatusName</MudTd>
+        <MudTd>@context.WidgetCount</MudTd>
+        <MudTd>
+            <a class="btn btn-primary" href="/manufacturer/view/@context.ManufacturerId">View</a>
+            &nbsp;
+            <a class="btn btn-primary" href="/manufacturer/edit/@context.ManufacturerId">Edit</a>
+        </MudTd>
+    </RowTemplate>
+    <PagerContent>
+        <MudTablePager PageSizeOptions="new int[] { 5, 10, 25, 50, 100, int.MaxValue }" />
+    </PagerContent>
+</MudTable>

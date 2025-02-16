@@ -8,14 +8,29 @@ public partial class Create
     {
         try
         {
+            ManufacturerDTO = new ManufacturerDTO
+            {
+                StatusId = GlobalValues.SelectValue,
+            };
             ManufacturerStatusDTOs = await Http.GetFromJsonAsync<List<ManufacturerStatusDTO>>(ManufacturerStatusesEndpoint) ?? [];
             ManufacturerStatusDTOs.Insert(0, SelectManufacturerStatus);
+            MainLayout.SetHeaderValue("Create Manufacturer");
         }
         catch (Exception ex)
         {
             Console.WriteLine("Error fetching manufacturer statuses: " + ex.Message);
             Console.WriteLine("StackTrace: " + ex.StackTrace);
         }
+    }
+
+    protected override void OnInitialized()
+    {
+        MainLayout.SetBreadCrumbs(
+        [
+            GetHomeBreadcrumbItem(),
+            GetManufacturerHomeBreadcrumbItem(),
+            GetCustomBreadcrumbItem("Create Manufacturer")
+        ]);
     }
 
     private async Task CreateManufacturer()
