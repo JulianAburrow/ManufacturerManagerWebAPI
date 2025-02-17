@@ -58,6 +58,13 @@ public partial class Create
             WidgetDTO.StatusId = 2;
         }
 
+        await CheckForExistingWidget();
+
+        if (WidgetExists)
+        {
+            return;
+        }
+
         var response = await Http.PostAsJsonAsync(WidgetsEndpoint, WidgetDTO);
 
         if (response.IsSuccessStatusCode)

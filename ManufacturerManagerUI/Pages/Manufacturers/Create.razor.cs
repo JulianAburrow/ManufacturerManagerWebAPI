@@ -35,16 +35,12 @@ public partial class Create
 
     private async Task CreateManufacturer()
     {
-        var checkResponse = await Http
-            .GetAsync(
-                $"{ManufacturersEndpoint}/check/{ManufacturerDTO.Name}/{ManufacturerDTO.ManufacturerId}"
-            );
+        await CheckForExistingManufacturer();
 
-        if (checkResponse.StatusCode.Equals(HttpStatusCode.Conflict))
+        if (ManufacturerExists)
         {
-            ManufacturerExists = true;
             return;
-        }
+        }    
 
         var response = await Http.PostAsJsonAsync(ManufacturersEndpoint, ManufacturerDTO);
 

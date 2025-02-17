@@ -1,4 +1,6 @@
-﻿namespace WebAPI.Controllers;
+﻿using System.Net;
+
+namespace WebAPI.Controllers;
 
 [Route("api/[controller]")]
 [ApiController]
@@ -63,6 +65,28 @@ public class WidgetController(ManufacturerManagerDbContext context) : Controller
             WidgetImage = widget.WidgetImage,
         };
         return Ok(widgetDTO);
+    }
+
+    [HttpGet("check/{widgetName}/{id}")]
+    public async Task<ActionResult<HttpStatusCode>> CheckForExistingWidget(string widgetName, int id)
+    {
+        var widgets = await _context.Widgets
+            .Where(
+                w =>
+                    w.Name.Replace(" ", "") == widgetName.Replace(" ", ""))
+            .ToListAsync();
+
+        if (id > 0)
+        {
+            widgets = widgets.Where(w => w.WidgetId != id).ToList();
+        }
+
+        if (widgets.Count > 0)
+        {
+            return Conflict();
+        }
+
+        return Ok();
     }
 
     [HttpGet("widgetsbymanufacturer/{manufacturerId}")]

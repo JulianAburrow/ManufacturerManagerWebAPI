@@ -1,4 +1,6 @@
-﻿namespace ManufacturerManagerUI.Shared.BasePageClasses;
+﻿using System.Net.WebSockets;
+
+namespace ManufacturerManagerUI.Shared.BasePageClasses;
 
 public class ManufacturerBasePageClass
     : BasePageClass
@@ -31,5 +33,13 @@ public class ManufacturerBasePageClass
     protected BreadcrumbItem GetManufacturerHomeBreadcrumbItem(bool isDisabled = false)
     {
         return new("Manufacturers", "/manufacturers/index", isDisabled);
+    }
+
+    protected async Task CheckForExistingManufacturer()
+    {
+        var checkResponse = await Http
+            .GetAsync($"{ManufacturersEndpoint}/check/{ManufacturerDTO.Name}/{ManufacturerDTO.ManufacturerId}");
+
+        ManufacturerExists = checkResponse.StatusCode.Equals(HttpStatusCode.Conflict);
     }
 }

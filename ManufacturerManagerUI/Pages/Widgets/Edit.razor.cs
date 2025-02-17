@@ -49,6 +49,13 @@ public partial class Edit
             WidgetDTO.ColourJustificationId = null;
         }
 
+        await CheckForExistingWidget();
+
+        if (WidgetExists)
+        {
+            return;
+        }
+
         var response = await Http.PutAsJsonAsync($"{WidgetsEndpoint}/{WidgetId}", WidgetDTO);
         if (response.IsSuccessStatusCode)
         {

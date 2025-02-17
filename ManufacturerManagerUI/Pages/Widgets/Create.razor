@@ -3,6 +3,11 @@
 
 <PageTitle>Create Widget</PageTitle>
 
+@if (WidgetExists)
+{
+    <ManufacturerExistsWarningComponent ManufacturerName="@WidgetDTO.Name" />
+}
+
 <EditForm Model="@WidgetDTO" OnValidSubmit="CreateWidget">
     <DataAnnotationsValidator />
     <ValidationSummary />

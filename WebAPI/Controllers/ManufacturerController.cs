@@ -71,7 +71,7 @@ public class ManufacturerController(ManufacturerManagerDbContext context) : Cont
             manufacturers = manufacturers.Where(m => m.ManufacturerId != id).ToList();
         }
 
-        if (manufacturers.FirstOrDefault() is not null)
+        if (manufacturers.Count > 0)
         {
             return Conflict();
         }
