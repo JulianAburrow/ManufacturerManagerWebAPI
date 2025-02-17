@@ -12,6 +12,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Scripts", "Scripts", "{5E30
 		DbScripts\ManufacturerManagerWithMudBlazor_Db_Script.sql = DbScripts\ManufacturerManagerWithMudBlazor_Db_Script.sql
 	EndProjectSection
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{02EA681E-C7D8-13C7-8484-4AC65E1B71E8}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -29,5 +31,9 @@ Global
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{00C6990C-6F64-4CBA-A772-924DE160D363} = {02EA681E-C7D8-13C7-8484-4AC65E1B71E8}
+		{1B4AE56E-7066-4B77-8A5C-8C19537A2F72} = {02EA681E-C7D8-13C7-8484-4AC65E1B71E8}
 	EndGlobalSection
 EndGlobal
