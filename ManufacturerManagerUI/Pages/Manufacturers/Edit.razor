@@ -9,6 +9,11 @@
     return;
 }
 
+@if (ManufacturerExists)
+{
+    <ManufacturerExistsWarningComponent ManufacturerName="@ManufacturerDTO.Name" />
+}
+
 <EditForm Model="@ManufacturerDTO" OnValidSubmit="@UpdateManufacturer">
     <DataAnnotationsValidator />
     <ValidationSummary />

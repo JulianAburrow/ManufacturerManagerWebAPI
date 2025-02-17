@@ -57,20 +57,26 @@ public class ManufacturerController(ManufacturerManagerDbContext context) : Cont
         return Ok(manufacturerDTO);
     }
 
-    [HttpGet("check/{manufacturerName}")]
-    public async Task<ActionResult<HttpStatusCode>> CheckForExistingManufacturer(string manufacturerName)
+    [HttpGet("check/{manufacturerName}/{id}")]
+    public async Task<ActionResult<HttpStatusCode>> CheckForExistingManufacturer(string manufacturerName, int id)
     {
-        var manufacturer = await _context.Manufacturers
-            .FirstOrDefaultAsync(
+        var manufacturers = await _context.Manufacturers
+            .Where(
                 m =>
-                    m.Name.Replace(" ", "") == manufacturerName.Replace(" ", ""));
+                    m.Name.Replace(" ", "") == manufacturerName.Replace(" ", ""))
+            .ToListAsync();
 
-        if (manufacturer is not null)
+        if (id > 0)
+        {
+            manufacturers = manufacturers.Where(m => m.ManufacturerId != id).ToList();
+        }
+
+        if (manufacturers.FirstOrDefault() is not null)
         {
             return Conflict();
         }
 
-        return NotFound();
+        return Ok();
     }
 
     [HttpPost]

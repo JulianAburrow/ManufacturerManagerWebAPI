@@ -31,7 +31,17 @@ public partial class Edit
 
     private async Task UpdateManufacturer()
     {
+        var checkResponse = await Http
+            .GetAsync($"{ManufacturersEndpoint}/check/{ManufacturerDTO.Name}/{ManufacturerDTO.ManufacturerId}");
+
+        if (checkResponse.StatusCode.Equals(HttpStatusCode.Conflict))
+        {
+            ManufacturerExists = true;
+            return;
+        }
+
         var response = await Http.PutAsJsonAsync($"{ManufacturersEndpoint}/{ManufacturerId}", ManufacturerDTO);
+        
         if (response.IsSuccessStatusCode)
         {
             Snackbar.Add($"Manufacturer {ManufacturerDTO.Name} successfully updated.", Severity.Success);
