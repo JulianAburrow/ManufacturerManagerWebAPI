@@ -21,6 +21,8 @@ the controllers which will check for duplicates in the database and return a 409
 
 The front end will have code added to call these endpoints on create and update and respond appropriately if duplicates are found.
 
+This has been started and will be completed shortly. Currently only the create functionality for Manufacturer has this check.
+
 # Setting Up
 
 You will need to run the ManufacturerManagerWithMudBlazor_Db_Script.sql script against a SQL Server and then change the connection string in appsettings.json
