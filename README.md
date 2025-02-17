@@ -20,7 +20,7 @@ for hyphens, apostrophes etc.
 
 The WepAPI will allow duplicate Manufacturers and Widgets but the business rules for the particular UI consuming the api do not. There are now endpoints in the ManufacturerController and the WidgetController to checks for duplicates in the database and return a Conflict reponse if any are found.
 
-The front end create and update code now calls the appropriate endpoints and responds appropriately if duplicates are found. It is not possible to update an item to have the same name as an existing one.
+The front end create and update code now calls the relevant endpoint and responds appropriately if duplicates are found. It is not possible to update an item to have the same name as an existing one.
 
 # Setting Up
 
