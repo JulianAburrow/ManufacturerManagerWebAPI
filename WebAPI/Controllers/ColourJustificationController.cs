@@ -72,7 +72,7 @@ public class ColourJustificationController(ManufacturerManagerDbContext context)
         {
             _context.ColourJustifications.Add(colourJustification);
             await _context.SaveChangesAsync();
-            return Ok();
+            return Created();
         }
         catch
         {

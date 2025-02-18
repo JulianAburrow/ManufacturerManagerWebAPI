@@ -1,14 +1,3 @@
-using Microsoft.AspNetCore.Mvc;
-using Moq;
-using WebAPI.Controllers;
-using WebAPI.DTOs;
-using WebAPI.Models;
-using Xunit;
-using System.Collections.Generic;
-using System.Threading.Tasks;
-using WebAPI.Data;
-using Microsoft.EntityFrameworkCore;
-
 namespace Tests;
 
 public class ColourTests
@@ -123,8 +112,7 @@ public class ColourTests
             .FirstOrDefaultAsync(c => c.Name == TestColour);
         Assert.NotNull(createdColour);
 
-        createdColour.Name = "NewColour";
-        await controller.UpdateColour(createdColour.ColourId, new ColourDTO { Name = createdColour.Name });
+        await controller.UpdateColour(createdColour.ColourId, new ColourDTO { Name = "NewColour" });
 
         var updatedColour = await context.Colours
             .FirstOrDefaultAsync(c => c.ColourId == createdColour.ColourId);
