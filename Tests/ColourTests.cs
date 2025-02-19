@@ -5,16 +5,23 @@ public class ColourTests
     private const string TestColour = "TestColour";
 
     [Fact]
-    public async Task GetColours_ReturnsAllColours()
+    public async Task GetColours_GetsAllColours()
     {
+        var colour1 = "Colour1";
+        var colour2 = "Colour2";
+        var colour3 = "Colour3";
+        var colour4 = "Colour4";
         // Arrange
         var context = Shared.GetInMemoryDbContext();
+        context.Colours.RemoveRange(context.Colours);
+        await context.SaveChangesAsync();
+
         context.Colours.AddRange(new List<ColourModel>
         {
-            new() { Name = "Red" },
-            new() { Name = "Blue" },
-            new() { Name = "Green" },
-            new() { Name = "Yellow" },
+            new() { Name = colour1 },
+            new() { Name = colour2 },
+            new() { Name = colour3 },
+            new() { Name = colour4 },
         });
         await context.SaveChangesAsync();
 
@@ -27,28 +34,29 @@ public class ColourTests
         var okResult = Assert.IsType<OkObjectResult>(result.Result);
         var actualColours = Assert.IsType<List<ColourDTO>>(okResult.Value);
         Assert.Equal(4, actualColours.Count);
-        Assert.Equal("Blue", actualColours[0].Name);
-        Assert.Equal("Green", actualColours[1].Name);
-        Assert.Equal("Red", actualColours[2].Name);
-        Assert.Equal("Yellow", actualColours[3].Name);
+        Assert.Equal(colour1, actualColours[0].Name);
+        Assert.Equal(colour2, actualColours[1].Name);
+        Assert.Equal(colour3, actualColours[2].Name);
+        Assert.Equal(colour4, actualColours[3].Name);
     }
 
     [Fact]
-    public async Task GetColour_ReturnsCorrectColour()
+    public async Task GetColour_GetsCorrectColour()
     {
+        var colourName = "Colour1";
         var context = Shared.GetInMemoryDbContext();
         context.Colours.RemoveRange(context.Colours);
         await context.SaveChangesAsync();
 
         var controller = new ColourController(context);
-        context.Colours.Add(new ColourModel { Name = "Red" });
+        context.Colours.Add(new ColourModel { Name = colourName });
         await context.SaveChangesAsync();
 
         var result = await controller.GetColour(1);
 
         var okResult = Assert.IsType<OkObjectResult>(result.Result);
         var actualColour = Assert.IsType<ColourDTO>(okResult.Value);
-        Assert.Equal("Red", actualColour.Name);
+        Assert.Equal(colourName, actualColour.Name);
         Assert.Equal(1, actualColour.ColourId);
     }
 
@@ -102,6 +110,7 @@ public class ColourTests
     [Fact]
     public async Task UpdateColour_UpdatesColour()
     {
+        var newColour = "NewColour";
         var context = Shared.GetInMemoryDbContext();
         var controller = new ColourController(context);
 
@@ -112,13 +121,13 @@ public class ColourTests
             .FirstOrDefaultAsync(c => c.Name == TestColour);
         Assert.NotNull(createdColour);
 
-        await controller.UpdateColour(createdColour.ColourId, new ColourDTO { Name = "NewColour" });
+        await controller.UpdateColour(createdColour.ColourId, new ColourDTO { Name = newColour });
 
         var updatedColour = await context.Colours
             .FirstOrDefaultAsync(c => c.ColourId == createdColour.ColourId);
         Assert.NotNull(updatedColour);
 
-        Assert.Equal("NewColour", updatedColour.Name);
+        Assert.Equal(newColour, updatedColour.Name);
     }
 
     [Fact]

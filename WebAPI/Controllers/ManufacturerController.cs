@@ -92,7 +92,7 @@ public class ManufacturerController(ManufacturerManagerDbContext context) : Cont
         {
             _context.Manufacturers.Add(manufacturer);
             await _context.SaveChangesAsync();
-            return Ok();
+            return Created();
         }
         catch
         {

@@ -7,15 +7,21 @@ public class ColourJustificationTests
     private const string TestJustification = "TestJustification";
 
     [Fact]
-    public async Task GetColourJustifications_ReturnsAllColourJustifications()
+    public async Task GetColourJustifications_GetsAllColourJustifications()
     {
+        var justification1 = "Justification1";
+        var justification2 = "Justification2";
+        var justification3 = "Justification3";
+        var justification4 = "Justification4";
         var context = Shared.GetInMemoryDbContext();
+        context.ColourJustifications.RemoveRange(context.ColourJustifications);
+
         context.ColourJustifications.AddRange(new List<ColourJustificationModel>
         {
-            new() { Justification = "Justification1" },
-            new() { Justification = "Justification2" },
-            new() { Justification = "Justification3" },
-            new() { Justification = "Justification4" },
+            new() { Justification = justification1 },
+            new() { Justification = justification2 },
+            new() { Justification = justification3 },
+            new() { Justification = justification4 },
         });
         await context.SaveChangesAsync();
 
@@ -26,14 +32,14 @@ public class ColourJustificationTests
         var okResult = Assert.IsType<OkObjectResult>(result.Result);
         var actualJustifications = Assert.IsType<List<ColourJustificationDTO>>(okResult.Value);
         Assert.Equal(4, actualJustifications.Count);
-        Assert.Equal("Justification1", actualJustifications[0].Justification);
-        Assert.Equal("Justification2", actualJustifications[1].Justification);
-        Assert.Equal("Justification3", actualJustifications[2].Justification);
-        Assert.Equal("Justification4", actualJustifications[3].Justification);
+        Assert.Equal(justification1, actualJustifications[0].Justification);
+        Assert.Equal(justification2, actualJustifications[1].Justification);
+        Assert.Equal(justification3, actualJustifications[2].Justification);
+        Assert.Equal(justification4, actualJustifications[3].Justification);
     }
 
     [Fact]
-    public async Task GetColourJustification_ReturnsCorrectColourJustification()
+    public async Task GetColourJustification_GetsCorrectColourJustification()
     {
         var context = Shared.GetInMemoryDbContext();
         context.ColourJustifications.RemoveRange(context.ColourJustifications);
@@ -65,6 +71,8 @@ public class ColourJustificationTests
     public async Task CreateColourJustification_CreatesColourJustification()
     {
         var context = Shared.GetInMemoryDbContext();
+        context.ColourJustifications.RemoveRange(context.ColourJustifications);
+        await context.SaveChangesAsync();
 
         var colourJustificationDTO = new ColourJustificationDTO
         {
