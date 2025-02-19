@@ -132,7 +132,7 @@ public class WidgetController(ManufacturerManagerDbContext context) : Controller
         return Ok(widgetDTOs);
     }
 
-    [HttpGet(template: "widgetsbycolourjustification/{colourJustificationId}")]
+    [HttpGet("widgetsbycolourjustification/{colourJustificationId}")]
     public async Task<ActionResult<List<WidgetDTO>>> GetWidgetsForColourJustification(int colourJustificationId)
     {
         var widgets = await _context.Widgets
@@ -173,7 +173,7 @@ public class WidgetController(ManufacturerManagerDbContext context) : Controller
         {
             _context.Widgets.Add(widget);
             await _context.SaveChangesAsync();
-            return Ok();
+            return Created();
         }
         catch
         {

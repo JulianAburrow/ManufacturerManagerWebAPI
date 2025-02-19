@@ -1,5 +1,4 @@
-﻿using Microsoft.EntityFrameworkCore;
-using WebAPI.Data;
+﻿using WebAPI.Data;
 
 namespace Tests;
 

@@ -1,6 +1,4 @@
-﻿using Microsoft.Identity.Client;
-
-namespace Tests;
+﻿namespace Tests;
 
 public class ColourJustificationTests
 {
