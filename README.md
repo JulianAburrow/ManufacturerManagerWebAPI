@@ -26,3 +26,7 @@ The front end create and update code now calls the relevant endpoint and respond
 
 You will need to run the ManufacturerManagerWithMudBlazor_Db_Script.sql script against a SQL Server and then change the connection string in appsettings.json
 to the appropriate server in order to run this application.
+
+# NB
+
+Some tests are not yet working correctly. They pass when run in isolation but fail when run as part of a batch. Still trying to figure out why...
