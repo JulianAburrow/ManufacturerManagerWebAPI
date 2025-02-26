@@ -1,6 +1,4 @@
-﻿using System.Net.Http.Json;
-
-namespace ManufacturerManagerUI.Pages.ColourJustifications;
+﻿namespace ManufacturerManagerUI.Pages.ColourJustifications;
 
 public partial class View
 

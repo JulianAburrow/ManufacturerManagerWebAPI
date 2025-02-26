@@ -1,7 +1,4 @@
-﻿
-using System.Net.Http.Json;
-
-namespace ManufacturerManagerUI.Pages.Manufacturers;
+﻿namespace ManufacturerManagerUI.Pages.Manufacturers;
 public partial class Edit
 {
     protected override async Task OnInitializedAsync()

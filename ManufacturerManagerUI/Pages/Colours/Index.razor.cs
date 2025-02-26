@@ -1,7 +1,5 @@
 ﻿namespace ManufacturerManagerUI.Pages.Colours;
 
-using System.Net.Http.Json;
-
 public partial class Index
 {
     List<ColourDTO> ColourDTOs = null!;

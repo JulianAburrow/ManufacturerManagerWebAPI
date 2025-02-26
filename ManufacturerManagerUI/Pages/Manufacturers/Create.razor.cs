@@ -1,7 +1,5 @@
 ﻿namespace ManufacturerManagerUI.Pages.Manufacturers;
 
-using System.Net.Http.Json;
-
 public partial class Create
 {
     protected override async Task OnInitializedAsync()

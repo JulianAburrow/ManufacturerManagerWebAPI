@@ -1,7 +1,5 @@
 ﻿namespace ManufacturerManagerUI.Pages.Colours;
 
-using System.Net.Http.Json;
-
 public partial class Edit
 {
     protected override async Task OnInitializedAsync()

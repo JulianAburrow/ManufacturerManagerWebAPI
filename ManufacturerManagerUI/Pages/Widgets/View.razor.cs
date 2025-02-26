@@ -1,6 +1,4 @@
-﻿using System.Net.Http.Json;
-
-namespace ManufacturerManagerUI.Pages.Widgets;
+﻿namespace ManufacturerManagerUI.Pages.Widgets;
 
 public partial class View
 {

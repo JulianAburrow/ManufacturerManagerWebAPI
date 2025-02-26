@@ -1,7 +1,4 @@
-﻿using System.Net.Http.Json;
-using static ManufacturerManagerUI.GlobalValues;
-
-namespace ManufacturerManagerUI.Pages.Widgets;
+﻿namespace ManufacturerManagerUI.Pages.Widgets;
 
 public partial class Edit
 {
