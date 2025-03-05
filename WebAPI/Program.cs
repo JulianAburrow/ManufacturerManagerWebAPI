@@ -1,17 +1,18 @@
 using Scalar.AspNetCore;
+using WebAPI.Extensions;
 
 var builder = WebApplication.CreateBuilder(args);
+
+var configuration = builder.Configuration;
 
 // Add services to the container.
 
 builder.Services.AddControllers();
-// Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
+
 builder.Services.AddOpenApi();
-builder.Services.AddDbContext<ManufacturerManagerDbContext>(options =>
-{
-    options.UseSqlServer(builder.Configuration
-        .GetConnectionString("ManufacturerManager"));
-});
+builder.Services.ConfigureSqlConnections(configuration);
+builder.Services.AddDependencies();
+
 builder.Services.AddCors(options =>
 {
     options.AddPolicy("AllowAll", builder =>

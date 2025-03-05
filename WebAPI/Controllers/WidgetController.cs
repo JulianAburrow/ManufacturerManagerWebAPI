@@ -1,6 +1,4 @@
-﻿using System.Net;
-
-namespace WebAPI.Controllers;
+﻿namespace WebAPI.Controllers;
 
 [Route("api/[controller]")]
 [ApiController]

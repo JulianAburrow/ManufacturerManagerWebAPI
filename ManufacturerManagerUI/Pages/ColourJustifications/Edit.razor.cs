@@ -28,7 +28,7 @@ public partial class Edit
 
     private async Task UpdateColourJustification()
     {
-        var response = await Http.PutAsJsonAsync($"{GlobalValues.ColourJustificationsEndpoint}/{ColourJustificationId}", ColourJustificationDTO);
+        var response = await Http.PutAsJsonAsync($"{ColourJustificationsEndpoint}/{ColourJustificationId}", ColourJustificationDTO);
 
         if (response.StatusCode.Equals(HttpStatusCode.Conflict))
         {
@@ -43,9 +43,8 @@ public partial class Edit
         }
         else
         {
-            Snackbar.Add($"An error occurred updating Colour Justification {ColourJustificationDTO.Justification}. Please try again", Severity.Error);
             var strResponse = await response.Content.ReadAsStringAsync();
-            Console.WriteLine("Json Response: \n " + strResponse);
+            Snackbar.Add($"An error occurred updating Colour Justification {ColourJustificationDTO.Justification}. Please try again. The error message is {strResponse}.", Severity.Error);
         }
     }
 }

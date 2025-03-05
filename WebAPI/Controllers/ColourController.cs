@@ -2,111 +2,31 @@
 
 [Route("api/[controller]")]
 [ApiController]
-public class ColourController(ManufacturerManagerDbContext context) : ControllerBase
+public class ColourController(IColourHandler colourHandler) : ControllerBase
 {
-    private readonly ManufacturerManagerDbContext _context = context;
+    private readonly IColourHandler _colourHandler = colourHandler;
 
     [HttpGet]
     public async Task<ActionResult<List<ColourDTO>>> GetColours()
     {
-        var colours = await _context.Colours
-            .Include(c => c.Widgets)
-            .OrderBy(c => c.Name)
-            .AsNoTracking()
-            .ToListAsync();
-
-        var colourDTOs = new List<ColourDTO>();
-        foreach (var colour in colours)
-        {
-            colourDTOs.Add(new ColourDTO
-            {
-                ColourId = colour.ColourId,
-                Name = colour.Name,
-                WidgetCount = colour.Widgets.Count,
-            });
-        }
-
-        return Ok(colourDTOs);
+        return await _colourHandler.GetColoursAsync();
     }
 
     [HttpGet("{id}")]
     public async Task<ActionResult<ColourDTO>> GetColour(int id)
     {
-        var colour = await _context.Colours
-            .Include(c => c.Widgets)
-            .AsNoTracking()
-            .FirstOrDefaultAsync(c => c.ColourId == id);
-        if (colour is null)
-        {
-            return NotFound();
-        }
-
-        var colourDTO = new ColourDTO
-        {
-            ColourId = colour.ColourId,
-            Name = colour.Name,
-            WidgetCount = colour.Widgets.Count,
-        };
-
-        return Ok(colourDTO);
+        return await _colourHandler.GetColourAsync(id);
     }
 
     [HttpPost]
     public async Task<ActionResult> CreateColour(ColourDTO colourDTO)
     {
-        var colour = new ColourModel
-        {
-            Name = colourDTO.Name,
-        };
-
-        if (_context.Colours.Any(
-                c =>
-                    c.Name.Replace(" ", "") == colour.Name.Replace(" ", "")
-                )
-            )
-        {
-            return Conflict();
-        }
-
-        try
-        {
-            _context.Colours.Add(colour);
-            await _context.SaveChangesAsync();
-            return Created();
-        }
-        catch
-        {
-            return BadRequest();
-        }
+        return await _colourHandler.CreateColourAsync(colourDTO);
     }
 
     [HttpPut("{id}")]
     public async Task<ActionResult> UpdateColour(int id, ColourDTO colourDTO)
     {
-        var colourToUpdate = _context.Colours
-            .FirstOrDefault(c => c.ColourId == id);
-        if (colourToUpdate is null)
-        {
-            return NotFound();
-        }
-
-        colourToUpdate.Name = colourDTO.Name;
-
-        if (_context.Colours.Any(
-            c => c.Name == colourToUpdate.Name &&
-            c.ColourId != id))
-        {
-            return Conflict();
-        }
-
-        try
-        {
-            await _context.SaveChangesAsync();
-            return Ok();
-        }
-        catch
-        {
-            return BadRequest();
-        }
+        return await _colourHandler.UpdateColourAsync(id, colourDTO);
     }
 }

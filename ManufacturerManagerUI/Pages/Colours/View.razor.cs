@@ -8,7 +8,7 @@ public partial class View
     {
         try
         {
-            ColourDTO = await Http.GetFromJsonAsync<ColourDTO>($"{GlobalValues.ColoursEndpoint}/{ColourId}") ?? new();
+            ColourDTO = await Http.GetFromJsonAsync<ColourDTO>($"{ColoursEndpoint}/{ColourId}") ?? new();
             WidgetDTOs = await Http.GetFromJsonAsync<List<WidgetDTO>>($"{WidgetsEndpoint}/widgetsbycolour/{ColourId}") ?? new();
             MainLayout.SetHeaderValue("View Colour");
         }
