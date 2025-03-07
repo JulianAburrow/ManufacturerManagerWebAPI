@@ -28,14 +28,17 @@ public partial class Edit
 
     private async Task UpdateManufacturer()
     {
-        await CheckForExistingManufacturer();
+        var response = await Http.PutAsJsonAsync($"{ManufacturersEndpoint}/{ManufacturerId}", ManufacturerDTO);
+
+        if (response.StatusCode.Equals(HttpStatusCode.Conflict))
+        {
+            ManufacturerExists = true;
+        }
 
         if (ManufacturerExists)
         {
             return;
-        }
-
-        var response = await Http.PutAsJsonAsync($"{ManufacturersEndpoint}/{ManufacturerId}", ManufacturerDTO);
+        }        
         
         if (response.IsSuccessStatusCode)
         {

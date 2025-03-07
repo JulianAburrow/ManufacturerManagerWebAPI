@@ -20,26 +20,18 @@ public class ManufacturerBasePageClass
 
     public static ManufacturerDTO SelectManufacturer { get; set; } = new ManufacturerDTO
     {
-        ManufacturerId = GlobalValues.SelectValue,
-        Name = GlobalValues.Select,
+        ManufacturerId = SelectValue,
+        Name = Select,
     };
 
     public static ManufacturerStatusDTO SelectManufacturerStatus { get; set; } = new ManufacturerStatusDTO
     {
-        StatusId = GlobalValues.SelectValue,
-        StatusName = GlobalValues.Select,
+        StatusId = SelectValue,
+        StatusName = Select,
     };
 
-    protected BreadcrumbItem GetManufacturerHomeBreadcrumbItem(bool isDisabled = false)
+    protected static BreadcrumbItem GetManufacturerHomeBreadcrumbItem(bool isDisabled = false)
     {
         return new("Manufacturers", "/manufacturers/index", isDisabled);
-    }
-
-    protected async Task CheckForExistingManufacturer()
-    {
-        var checkResponse = await Http
-            .GetAsync($"{ManufacturersEndpoint}/check/{ManufacturerDTO.Name}/{ManufacturerDTO.ManufacturerId}");
-
-        ManufacturerExists = checkResponse.StatusCode.Equals(HttpStatusCode.Conflict);
     }
 }

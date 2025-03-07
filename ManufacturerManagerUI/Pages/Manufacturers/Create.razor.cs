@@ -8,7 +8,7 @@ public partial class Create
         {
             ManufacturerDTO = new ManufacturerDTO
             {
-                StatusId = GlobalValues.SelectValue,
+                StatusId = SelectValue,
             };
             ManufacturerStatusDTOs = await Http.GetFromJsonAsync<List<ManufacturerStatusDTO>>(ManufacturerStatusesEndpoint) ?? [];
             ManufacturerStatusDTOs.Insert(0, SelectManufacturerStatus);
@@ -33,14 +33,17 @@ public partial class Create
 
     private async Task CreateManufacturer()
     {
-        await CheckForExistingManufacturer();
+        var response = await Http.PostAsJsonAsync(ManufacturersEndpoint, ManufacturerDTO);
+
+        if (response.StatusCode.Equals(HttpStatusCode.Conflict))
+        {
+            ManufacturerExists = true;
+        }
 
         if (ManufacturerExists)
         {
             return;
-        }    
-
-        var response = await Http.PostAsJsonAsync(ManufacturersEndpoint, ManufacturerDTO);
+        }        
 
         if (response.IsSuccessStatusCode)
         {

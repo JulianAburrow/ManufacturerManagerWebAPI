@@ -137,7 +137,6 @@ public class ColourHandlerTests
             .FirstOrDefaultAsync(c => c.Name == Colour1);
         Assert.NotNull(createdColour);
 
-        createdColour.Name = Colour2;
         var result = await _handler.UpdateColourAsync(createdColour.ColourId, new ColourDTO { Name = Colour2 });
 
         Assert.IsType<ConflictObjectResult>(result);

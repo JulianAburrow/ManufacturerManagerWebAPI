@@ -18,7 +18,7 @@ public class ColourControllerTests
     [Fact]
     public async Task GetColours_ReturnsListOfColours()
     {
-        var mockColours = new List<ColourDTO> { new() { Name = Colour1 } };
+        var mockColours = new List<ColourDTO> { new() { Name = Colour1 }, };
         _mockColourHandler.Setup(handler => handler.GetColoursAsync())
             .ReturnsAsync(mockColours);
 

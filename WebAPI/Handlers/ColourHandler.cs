@@ -97,7 +97,7 @@ public class ColourHandler(ManufacturerManagerDbContext context) : IColourHandle
         }
         catch (Exception ex)
         {
-            return new BadRequestObjectResult($"An error occurred while updating the colour: {ex.Message}");
+            return new BadRequestObjectResult($"An error occurred while updating the Colour: {ex.Message}");
         }
     }
 }
