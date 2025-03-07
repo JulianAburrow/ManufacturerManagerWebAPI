@@ -7,8 +7,8 @@ public class ManufacturerStatusController(IManufacturerStatusHandler manufacture
     private readonly IManufacturerStatusHandler _manufacturerStatusHandler = manufacturerStatusHandler;
 
     [HttpGet]
-    public async Task<ActionResult<List<ManufacturerStatusDTO>>> GetManufacturerStatuses()
+    public async Task<List<ManufacturerStatusDTO>> GetManufacturerStatuses()
     {
-        return Ok(await _manufacturerStatusHandler.GetManufacturerStatusesAsync());
+        return await _manufacturerStatusHandler.GetManufacturerStatusesAsync();
     }
 }

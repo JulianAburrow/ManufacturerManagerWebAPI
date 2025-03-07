@@ -7,8 +7,8 @@ public class WidgetStatusController(IWidgetStatusHandler widgetStatusHandler) : 
     private readonly IWidgetStatusHandler _widgetStatusHandler = widgetStatusHandler;
 
     [HttpGet]
-    public async Task<ActionResult<List<WidgetStatusDTO>>> GetWidgetStatuses()
+    public async Task<List<WidgetStatusDTO>> GetWidgetStatuses()
     {
-        return Ok(await _widgetStatusHandler.GetWidgetStatusesAsync());
+        return await _widgetStatusHandler.GetWidgetStatusesAsync();
     }
 }
