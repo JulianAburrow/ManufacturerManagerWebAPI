@@ -3,6 +3,8 @@
 A new take on an old theme. This time there is a WebAPI to manage all the Manufacturers, Widgets and associated admin items.
 The front end is a Blazor WASM application with added MudBlazor for functionality and the back end is an ASP.Net Core WebAPI.
 
+#NB This is undergoing major refactoring and therefore not everything may be as described below (particularly the business rules)
+
 # Business Rules
 
 The business roles for the WebAPI and the Blazor WASM are deliberately different to demonstrate two ways of approaching essentially the same issue.
@@ -18,7 +20,7 @@ for hyphens, apostrophes etc.
 
 # -  Manufacturers and Widgets
 
-The WepAPI will allow duplicate Manufacturers and Widgets but the business rules for the particular UI consuming the api do not. There are now endpoints in the ManufacturerController and the WidgetController to checks for duplicates in the database and return a Conflict reponse if any are found.
+The WepAPI will allow duplicate Manufacturers and Widgets but the business rules for the particular UI consuming the api do not. There are now endpoints in the ManufacturerController and the WidgetController to check for duplicates in the database and return a Conflict reponse if any are found.
 
 The front end create and update code now calls the relevant endpoint and responds appropriately if duplicates are found. It is not possible to update an item to have the same name as an existing one.
 
