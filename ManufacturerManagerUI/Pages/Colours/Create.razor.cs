@@ -16,7 +16,7 @@ public partial class Create
 
     private async Task CreateColour()
     {
-        var response = await Http.PostAsJsonAsync(GlobalValues.ColoursEndpoint, ColourDTO);
+        var response = await Http.PostAsJsonAsync(ColoursEndpoint, ColourDTO);
 
         if (response.StatusCode.Equals(HttpStatusCode.Conflict))
         {

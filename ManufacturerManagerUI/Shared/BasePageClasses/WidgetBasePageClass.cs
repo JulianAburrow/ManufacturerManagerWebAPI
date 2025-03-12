@@ -24,25 +24,25 @@ public class WidgetBasePageClass
 
     public static ManufacturerDTO SelectManufacturer = new ManufacturerDTO
     {
-        ManufacturerId = GlobalValues.SelectValue,
-        Name = GlobalValues.Select,
+        ManufacturerId = SelectValue,
+        Name = Select,
     };
 
     public static ColourDTO NoneColour { get; set; } = new ColourDTO
     {
-        ColourId = GlobalValues.NoneValue,
-        Name = GlobalValues.None,
+        ColourId = NoneValue,
+        Name = None,
     };
 
     public static ColourJustificationDTO NoneColourJustification { get; set; } = new ColourJustificationDTO
     {
-        ColourJustificationId = GlobalValues.NoneValue,
-        Justification = GlobalValues.None,
+        ColourJustificationId = NoneValue,
+        Justification = None,
     };
     public static WidgetStatusDTO SelectWidgetStatus { get; set; } = new WidgetStatusDTO
     {
-        StatusId = GlobalValues.SelectValue,
-        StatusName = GlobalValues.Select,
+        StatusId = SelectValue,
+        StatusName = Select,
     };
     protected BreadcrumbItem GetWidgetHomeBreadcrumbItem(bool isDisabled = false)
     {

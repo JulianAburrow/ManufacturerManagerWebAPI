@@ -2,6 +2,8 @@
 
 public interface IManufacturerHandler
 {
+    Task<List<ManufacturerModel>> CheckForExistingManufacturerAsync(string manufacturerName, int id);
+
     Task<List<ManufacturerDTO>> GetManufacturersAsync();
 
     Task<ManufacturerDTO>? GetManufacturerAsync(int id);

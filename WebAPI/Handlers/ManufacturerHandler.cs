@@ -4,13 +4,23 @@ public class ManufacturerHandler(ManufacturerManagerDbContext context) : IManufa
 {
     private readonly ManufacturerManagerDbContext _context = context;
 
-    public async Task<ActionResult> CreateManufacturerAsync(ManufacturerDTO manufacturerDTO)
+    public async Task<List<ManufacturerModel>> CheckForExistingManufacturerAsync(string manufacturerName, int id)
     {
-        if (_context.Manufacturers.Any(m => m.Name == manufacturerDTO.Name))
+        var manufacturers = await _context.Manufacturers
+            .Where(
+                m => m.Name.Replace(" ", "") == manufacturerName.Replace(" ", ""))
+            .ToListAsync();
+
+        if (id > 0)
         {
-            return new ConflictObjectResult("A manufacturer with this name already exists");
+            manufacturers = [.. manufacturers.Where(m => m.ManufacturerId != id)];
         }
 
+        return manufacturers;
+    }
+
+    public async Task<ActionResult> CreateManufacturerAsync(ManufacturerDTO manufacturerDTO)
+    {
         var manufacturer = new ManufacturerModel
         {
             Name = manufacturerDTO.Name,
@@ -25,7 +35,7 @@ public class ManufacturerHandler(ManufacturerManagerDbContext context) : IManufa
         }
         catch (Exception ex)
         {
-            return new BadRequestObjectResult($"An error occurred while creating the manufacturer: {ex.Message}");
+            return new BadRequestObjectResult($"An error occurred while creating the Manufacturer: {ex.Message}");
         }
     }
 
@@ -90,21 +100,16 @@ public class ManufacturerHandler(ManufacturerManagerDbContext context) : IManufa
             return new NotFoundObjectResult("No Manufacturer with this id could be found");
         }
 
-        if (_context.Manufacturers.Any(m => m.Name == manufacturerDTO.Name && m.ManufacturerId != manufacturerDTO.ManufacturerId))
-        {
-            return new ConflictObjectResult("A manufacturer with this name already exists");
-        }
-
         manufacturerToUpdate.Name = manufacturerDTO.Name;
         manufacturerToUpdate.StatusId = manufacturerDTO.StatusId;
 
-        if (manufacturerToUpdate.StatusId == 2) // Inactive
+        if (manufacturerToUpdate.StatusId == (int) StatusesEnum.Inactive) // Inactive
         {
             var widgets = _context.Widgets
                 .Where(w => w.ManufacturerId == manufacturerToUpdate.ManufacturerId);
             foreach (var widget in widgets)
             {
-                widget.StatusId = 2;
+                widget.StatusId = (int) StatusesEnum.Inactive;
             }
         }
 

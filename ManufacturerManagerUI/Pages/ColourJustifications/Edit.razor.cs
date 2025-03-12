@@ -6,7 +6,7 @@ public partial class Edit
     {
         try
         {
-            ColourJustificationDTO = await Http.GetFromJsonAsync<ColourJustificationDTO>($"{GlobalValues.ColourJustificationsEndpoint}/{ColourJustificationId}") ?? new();
+            ColourJustificationDTO = await Http.GetFromJsonAsync<ColourJustificationDTO>($"{ColourJustificationsEndpoint}/{ColourJustificationId}") ?? new();
             MainLayout.SetHeaderValue("Edit Colour Justification");
         }
         catch (Exception ex)

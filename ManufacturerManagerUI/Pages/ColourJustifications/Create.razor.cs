@@ -16,7 +16,7 @@ public partial class Create
 
     private async Task CreateColourJustification()
     {
-        var response = await Http.PostAsJsonAsync(GlobalValues.ColourJustificationsEndpoint, ColourJustificationDTO);
+        var response = await Http.PostAsJsonAsync(ColourJustificationsEndpoint, ColourJustificationDTO);
 
         if (response.StatusCode.Equals(HttpStatusCode.Conflict))
         {

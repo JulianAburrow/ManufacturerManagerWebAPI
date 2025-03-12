@@ -9,7 +9,7 @@ public partial class View
     {
         try
         {
-            ColourJustificationDTO = await Http.GetFromJsonAsync<ColourJustificationDTO>($"{GlobalValues.ColourJustificationsEndpoint}/{ColourJustificationId}") ?? new();
+            ColourJustificationDTO = await Http.GetFromJsonAsync<ColourJustificationDTO>($"{ColourJustificationsEndpoint}/{ColourJustificationId}") ?? new();
             WidgetDTOs = await Http.GetFromJsonAsync<List<WidgetDTO>>($"{WidgetsEndpoint}/widgetsbycolourjustification/{ColourJustificationId}") ?? new();
             MainLayout.SetHeaderValue("View Colour Justification");
         }

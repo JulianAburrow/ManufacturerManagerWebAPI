@@ -37,6 +37,13 @@ public partial class Edit
 
     private async Task UpdateWidget()
     {
+        await CheckForExistingWidget();
+
+        if (WidgetExists)
+        {
+            return;
+        }
+
         if (WidgetDTO.ColourId == 0)
         {
             WidgetDTO.ColourId = null;
@@ -44,13 +51,6 @@ public partial class Edit
         if (WidgetDTO.ColourJustificationId == 0 || WidgetDTO.ColourId == null)
         {
             WidgetDTO.ColourJustificationId = null;
-        }
-
-        await CheckForExistingWidget();
-
-        if (WidgetExists)
-        {
-            return;
         }
 
         var response = await Http.PutAsJsonAsync($"{WidgetsEndpoint}/{WidgetId}", WidgetDTO);

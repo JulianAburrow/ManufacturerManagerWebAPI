@@ -8,18 +8,18 @@ public partial class Create
         {
             WidgetDTO = new WidgetDTO
             {
-                ManufacturerId = GlobalValues.SelectValue,
-                StatusId = GlobalValues.SelectValue,
-                ColourId = GlobalValues.NoneValue,
-                ColourJustificationId = GlobalValues.NoneValue,
+                ManufacturerId = SelectValue,
+                StatusId = SelectValue,
+                ColourId = NoneValue,
+                ColourJustificationId = NoneValue,
             };
             WidgetStatusDTOs = await Http.GetFromJsonAsync<List<WidgetStatusDTO>>(WidgetStatusesEndpoint) ?? [];
             WidgetStatusDTOs.Insert(0, SelectWidgetStatus);
-            ManufacturerDTOs = await Http.GetFromJsonAsync<List<ManufacturerDTO>>(GlobalValues.ManufacturersEndpoint) ?? [];
+            ManufacturerDTOs = await Http.GetFromJsonAsync<List<ManufacturerDTO>>(ManufacturersEndpoint) ?? [];
             ManufacturerDTOs.Insert(0, SelectManufacturer);
-            ColourDTOs = await Http.GetFromJsonAsync<List<ColourDTO>>(GlobalValues.ColoursEndpoint) ?? [];
+            ColourDTOs = await Http.GetFromJsonAsync<List<ColourDTO>>(ColoursEndpoint) ?? [];
             ColourDTOs.Insert(0, NoneColour);
-            ColourJustificationDTOs = await Http.GetFromJsonAsync<List<ColourJustificationDTO>>(GlobalValues.ColourJustificationsEndpoint) ?? [];
+            ColourJustificationDTOs = await Http.GetFromJsonAsync<List<ColourJustificationDTO>>(ColourJustificationsEndpoint) ?? [];
             ColourJustificationDTOs.Insert(0, NoneColourJustification);
             MainLayout.SetHeaderValue("Create Widget");
         }
@@ -42,6 +42,14 @@ public partial class Create
 
     private async Task CreateWidget()
     {
+
+        await CheckForExistingWidget();
+
+        if (WidgetExists)
+        {
+            return;
+        }
+
         if (WidgetDTO.ColourId == 0)
         {
             WidgetDTO.ColourId = null;
@@ -51,16 +59,9 @@ public partial class Create
             WidgetDTO.ColourJustificationId = null;
         }
         var manufacturer = ManufacturerDTOs.FirstOrDefault(x => x.ManufacturerId == WidgetDTO.ManufacturerId);
-        if (manufacturer?.StatusName == "Inactive")
+        if (manufacturer?.StatusName == StatusesEnum.Inactive.ToString())
         {
-            WidgetDTO.StatusId = 2;
-        }
-
-        await CheckForExistingWidget();
-
-        if (WidgetExists)
-        {
-            return;
+            WidgetDTO.StatusId = (int) StatusesEnum.Inactive;
         }
 
         var response = await Http.PostAsJsonAsync(WidgetsEndpoint, WidgetDTO);

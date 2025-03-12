@@ -6,7 +6,7 @@ public partial class Edit
     {
         try
         {
-            ColourDTO = await Http.GetFromJsonAsync<ColourDTO>($"{GlobalValues.ColoursEndpoint}/{ColourId}") ?? new();
+            ColourDTO = await Http.GetFromJsonAsync<ColourDTO>($"{ColoursEndpoint}/{ColourId}") ?? new();
             MainLayout.SetHeaderValue("Edit Colour");
         }
         catch (Exception ex)

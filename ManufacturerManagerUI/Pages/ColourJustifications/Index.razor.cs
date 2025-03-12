@@ -8,7 +8,7 @@ public partial class Index
     {
         try
         {
-            ColourJustificationDTOs = await Http.GetFromJsonAsync<List<ColourJustificationDTO>>(GlobalValues.ColourJustificationsEndpoint) ?? [];
+            ColourJustificationDTOs = await Http.GetFromJsonAsync<List<ColourJustificationDTO>>(ColourJustificationsEndpoint) ?? [];
             Snackbar.Add($"{ColourJustificationDTOs.Count} item(s) found.", ColourJustificationDTOs.Count > 0 ? Severity.Info : Severity.Warning);
             MainLayout.SetHeaderValue("Colour Justifications");
         }

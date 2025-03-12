@@ -6,6 +6,14 @@ public class ManufacturerController(IManufacturerHandler manufacturerHandler) : 
 {
     private readonly IManufacturerHandler _manufacturerHandler = manufacturerHandler;
 
+    [HttpGet("check/{manufacturerName}/{id}")]
+    public async Task<ActionResult<HttpStatusCode>> CheckForExistingManufacturers(string manufacturerName, int id)
+    {
+        var manufacturers = await _manufacturerHandler.CheckForExistingManufacturerAsync(manufacturerName, id);
+
+        return manufacturers.Count == 0 ? Ok() : Conflict();
+    }
+
     [HttpGet]
     public async Task<ActionResult<List<ManufacturerDTO>>> GetManufacturers()
     {

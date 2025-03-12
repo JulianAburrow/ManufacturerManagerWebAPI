@@ -11,7 +11,7 @@
 
 @if (WidgetExists)
 {
-    <ManufacturerExistsWarningComponent ManufacturerName="@WidgetDTO.Name" />
+    <WidgetExistsWarningComponent WidgetName="@WidgetDTO.Name" />
 }
 
 <EditForm Model="@WidgetDTO" OnValidSubmit="UpdateWidget">
