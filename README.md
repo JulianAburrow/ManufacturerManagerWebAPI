@@ -3,10 +3,6 @@
 A new take on an old theme. This time there is a WebAPI to manage all the Manufacturers, Widgets and associated admin items.
 The front end is a Blazor WASM application with added MudBlazor for functionality and the back end is an ASP.Net Core WebAPI.
 
-# NB This is undergoing major refactoring and therefore not everything may be as described below (particularly the business rules)
-
-But it still works.
-
 # Business Rules
 
 The business roles for the WebAPI and the Blazor WASM are deliberately different to demonstrate two ways of approaching essentially the same issue.
@@ -34,3 +30,5 @@ to the appropriate server in order to run this application.
 # NB
 
 Some tests are not yet working correctly. They pass when run in isolation but fail when run as part of a batch. Still trying to figure out why...
+
+Tests are currently incomplete - working on this too.
