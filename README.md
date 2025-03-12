@@ -30,3 +30,5 @@ to the appropriate server in order to run this application.
 # NB
 
 Some tests are not yet working correctly. They pass when run in isolation but fail when run as part of a batch. Still trying to figure out why...
+
+Tests are currently incomplete - working on this too.
