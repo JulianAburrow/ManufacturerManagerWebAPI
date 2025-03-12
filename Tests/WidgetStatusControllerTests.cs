@@ -14,7 +14,7 @@ public class WidgetStatusControllerTests
     }
 
     [Fact]
-    public async Task GetWidgetStatuses_GetsWidgetStatuses()
+    public async Task GetWidgetStatuses_ReturnsListOfWidgetStatuses()
     {
         var status1 = "Status1";
         var status2 = "Status2";
