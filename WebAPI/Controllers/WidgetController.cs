@@ -13,13 +13,13 @@ public class WidgetController(IWidgetHandler widgetHandler) : ControllerBase
     }
 
     [HttpGet("{id}")]
-    public async Task<WidgetDTO>? GetWidget(int id)
+    public async Task<ActionResult<WidgetDTO>>? GetWidget(int id)
     {
         return await _widgetHandler.GetWidgetAsync(id);
     }
 
     [HttpGet("check/{widgetName}/{id}")]
-    public async Task<ActionResult<HttpStatusCode>> CheckForExistingWidgetS(string widgetName, int id)
+    public async Task<ActionResult<HttpStatusCode>> CheckForExistingWidgets(string widgetName, int id)
     {
         var widgets = await _widgetHandler.CheckForExistingWidgetAsync(widgetName, id);
 
@@ -39,7 +39,7 @@ public class WidgetController(IWidgetHandler widgetHandler) : ControllerBase
     }
 
     [HttpGet("widgetsbycolourjustification/{colourJustificationId}")]
-    public async Task<ActionResult<List<WidgetDTO>>> GetWidgetsForColourJustificationAsync(int colourJustificationId)
+    public async Task<ActionResult<List<WidgetDTO>>> GetWidgetsForColourJustification(int colourJustificationId)
     {
         return await _widgetHandler.GetWidgetsForColourJustificationAsync(colourJustificationId);
     }

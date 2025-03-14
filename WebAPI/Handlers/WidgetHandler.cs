@@ -113,7 +113,7 @@ public class WidgetHandler(ManufacturerManagerDbContext context) : IWidgetHandle
         var widgets = await _context.Widgets
             .Include(w => w.Colour)
             .AsNoTracking()
-            .Where(w => w.ColourJustificationId == colourId)
+            .Where(w => w.ColourId == colourId)
             .OrderBy(w => w.Name)
             .ToListAsync();
         var widgetDTOs = new List<WidgetDTO>();

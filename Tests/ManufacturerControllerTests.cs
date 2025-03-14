@@ -8,7 +8,6 @@ public class ManufacturerControllerTests
     private const string Manufacturer1 = "Manufacturer1";
     private const string Manufacturer2 = "Manufacturer2";
     private const string ActiveStatus = "Active";
-    private const string InactiveStatus = "Inactive";
 
     public ManufacturerControllerTests()
     {
@@ -68,7 +67,7 @@ public class ManufacturerControllerTests
     }
 
     [Fact]
-    public async Task UpdateManufacturer_ReturnsActionResult_WhenUpdateSuccessful()
+    public async Task UpdateManufacturer_ReturnsOkResult_WhenUpdateSuccessful()
     {
         var updatedManufacturer = new ManufacturerDTO { Name = Manufacturer2, StatusId = 2 };
         _mockManufacturerHandler.Setup(handler => handler.UpdateManufacturerAsync(1, updatedManufacturer))

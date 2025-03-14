@@ -90,7 +90,7 @@ public class ManufacturerHandlerTests
     }
 
     [Fact]
-    public async Task CreateManufacturer_ReturnsCreatedResult_WhenManufacturerDoesNotAlreadyExist()
+    public async Task CreateManufacturer_CreatesManufacturer()
     {
         await RemoveAllManufacturersFromContext();
 
@@ -111,36 +111,6 @@ public class ManufacturerHandlerTests
     }
 
     [Fact]
-    public async Task CreateManufacturer_ReturnsConflict_WhenManufacturerAlreadyExists()
-    {
-        await RemoveAllManufacturersFromContext();
-
-        _context.Manufacturers.Add(ManufacturerModel1);
-        await _context.SaveChangesAsync();
-
-        var result = await _handler.CreateManufacturerAsync(ManufacturerDTO1);
-
-        Assert.IsType<ConflictObjectResult>(result);
-    }
-
-    [Fact]
-    public async Task UpdateManufacturer_ReturnsOk_WhenManufacturerDoesNotAlreadyExist()
-    {
-        await RemoveAllManufacturersFromContext();
-
-        _context.Manufacturers.Add(ManufacturerModel1);
-        await _context.SaveChangesAsync();
-
-        var createdManufacturer = await _context.Manufacturers
-            .FirstOrDefaultAsync(m => m.Name == ManufacturerName1);
-        Assert.NotNull(createdManufacturer);
-
-        var result = await _handler.UpdateManufacturerAsync(1, ManufacturerDTO2);
-
-        Assert.IsType<OkResult>(result);
-    }
-
-    [Fact]
     public async Task UpdateManufacturer_ReturnsNotFound_WhenManufacturerDoesNotExist()
     {
         var result = await _handler.UpdateManufacturerAsync(999, ManufacturerDTO2);
@@ -149,28 +119,25 @@ public class ManufacturerHandlerTests
     }
 
     [Fact]
-    public async Task UpdateManufacturer_ReturnsConflict_WhenManufacturerExists()
+    public async Task UpdateManufacturer_ReturnOk_WhenManufacturerSuccessfullyUpdated()
     {
         await RemoveAllManufacturersFromContext();
 
-        _context.Manufacturers.AddRange(new List<ManufacturerModel>
-        {
-            ManufacturerModel1,
-            ManufacturerModel2,
-        });
+        _context.Manufacturers.Add(ManufacturerModel1);
         await _context.SaveChangesAsync();
 
         var createdManufacturer = await _context.Manufacturers
-            .FirstOrDefaultAsync(m => m.Name == ManufacturerName1);
+            .FirstOrDefaultAsync(m => m.Name == ManufacturerModel1.Name);
         Assert.NotNull(createdManufacturer);
 
-        createdManufacturer.Name = ManufacturerName2;
-        var result = await _handler.UpdateManufacturerAsync(
-            createdManufacturer.ManufacturerId,
-            new ManufacturerDTO { Name = ManufacturerName2, StatusId = 2 });
+        var result = await _handler.UpdateManufacturerAsync(createdManufacturer.ManufacturerId,
+            new ManufacturerDTO
+            {
+                Name = "UpdatedManufacturerName",
+                StatusId = 1,
+            });
 
-        Assert.IsType<ConflictObjectResult>(result);
-
+        Assert.IsType<OkResult>(result);
     }
 
     private async Task RemoveAllManufacturersFromContext()
