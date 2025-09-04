@@ -32,9 +32,9 @@ public partial class Create
 
     protected override void OnInitialized()
     {
+        base.OnInitialized();
         MainLayout.SetBreadCrumbs(
         [
-            GetHomeBreadcrumbItem(),
             GetWidgetHomeBreadcrumbItem(),
             GetCustomBreadcrumbItem("Create Widget"),
         ]);

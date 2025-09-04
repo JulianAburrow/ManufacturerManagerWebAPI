@@ -9,6 +9,31 @@ public class BasePageClass : ComponentBase
     [Inject] protected ISnackbar Snackbar { get; set; } = default!;
 
     [Inject] protected HttpClient Http { get; set; } = default!;
+
+    [Inject] protected IConfiguration Configuration { get; set; } = default!;
+
+    protected override void OnInitialized()
+    {
+        //var apiKeyName = Configuration["ApiSettings:ApiKeyName"];
+        //var apiToken = Configuration["ApiSettings:ApiToken"];
+        var apiKeyName = "X-Api-Key";
+        var apiToken = "your-secret-api-key";
+        if (string.IsNullOrWhiteSpace(apiKeyName) || string.IsNullOrWhiteSpace(apiToken))
+        {
+            throw new InvalidOperationException("ApiKeyName or ApiToken is not configured in appsettings.json");
+        }
+
+        if (Http.DefaultRequestHeaders.Contains(apiKeyName))
+        {
+            Http.DefaultRequestHeaders.Remove(apiKeyName);
+        }
+        Http.DefaultRequestHeaders.Add(apiKeyName, apiToken);
+
+        MainLayout.SetBreadCrumbs(
+        [
+            GetHomeBreadcrumbItem(),
+        ]);
+    }
     
     [Inject] protected NavigationManager NavigationManager { get; set; } = default!;
     protected string WidgetsEndpoint { get; set; } = "api/Widget";

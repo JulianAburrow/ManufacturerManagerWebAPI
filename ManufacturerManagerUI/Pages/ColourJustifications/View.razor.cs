@@ -22,9 +22,9 @@ public partial class View
 
     protected override void OnInitialized()
     {
+        base.OnInitialized();
         MainLayout.SetBreadCrumbs(
         [
-            GetHomeBreadcrumbItem(),
             GetColourJustificationHomeBreadcrumbItem(),
             GetCustomBreadcrumbItem(ViewTextForBreadcrumb),
         ]);

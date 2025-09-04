@@ -18,9 +18,9 @@ public partial class Edit
 
     protected override void OnInitialized()
     {
+        base.OnInitialized();
         MainLayout.SetBreadCrumbs(
         [
-            GetHomeBreadcrumbItem(),
             GetColourJustificationHomeBreadcrumbItem(),
             GetCustomBreadcrumbItem("Edit"),
         ]);

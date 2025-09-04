@@ -21,9 +21,9 @@ public partial class View
 
     protected override void OnInitialized()
     {
+        base.OnInitialized();
         MainLayout.SetBreadCrumbs(
         [
-            GetHomeBreadcrumbItem(),
             GetManufacturerHomeBreadcrumbItem(),
             GetCustomBreadcrumbItem(ViewTextForBreadcrumb),
         ]);

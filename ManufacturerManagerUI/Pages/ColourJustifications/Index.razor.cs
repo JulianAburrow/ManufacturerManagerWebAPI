@@ -21,9 +21,9 @@ public partial class Index
 
     protected override void OnInitialized()
     {
+        base.OnInitialized();
         MainLayout.SetBreadCrumbs(
         [
-            GetHomeBreadcrumbItem(),
             GetCustomBreadcrumbItem("Colour Justifications")
         ]);
     }

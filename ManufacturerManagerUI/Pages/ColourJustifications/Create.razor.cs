@@ -4,11 +4,11 @@ public partial class Create
 {
     protected override void OnInitialized()
     {
+        base.OnInitialized();
         ColourJustificationDTO = new();
         MainLayout.SetHeaderValue("Create Colour Justification");
         MainLayout.SetBreadCrumbs(
         [
-            GetHomeBreadcrumbItem(),
             GetColourJustificationHomeBreadcrumbItem(),
             GetCustomBreadcrumbItem(CreateTextForBreadcrumb),
         ]);

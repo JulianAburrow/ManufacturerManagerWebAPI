@@ -1,5 +1,3 @@
-using Scalar.AspNetCore;
-using WebAPI.Extensions;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -25,7 +23,10 @@ builder.Services.AddCors(options =>
 });
 
 var app = builder.Build();
+
 app.UseCors("AllowAll");
+
+app.UseMiddleware<ApiKeyMiddleware>();
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())

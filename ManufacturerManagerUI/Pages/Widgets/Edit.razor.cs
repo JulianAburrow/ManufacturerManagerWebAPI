@@ -29,7 +29,6 @@ public partial class Edit
     {
         MainLayout.SetBreadCrumbs(
         [
-            GetHomeBreadcrumbItem(),
             GetWidgetHomeBreadcrumbItem(),
             GetCustomBreadcrumbItem("Edit"),
         ]);
