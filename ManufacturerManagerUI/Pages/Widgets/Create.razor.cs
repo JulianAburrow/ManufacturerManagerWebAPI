@@ -35,6 +35,7 @@ public partial class Create
         base.OnInitialized();
         MainLayout.SetBreadCrumbs(
         [
+            GetHomeBreadcrumbItem(),
             GetWidgetHomeBreadcrumbItem(),
             GetCustomBreadcrumbItem("Create Widget"),
         ]);

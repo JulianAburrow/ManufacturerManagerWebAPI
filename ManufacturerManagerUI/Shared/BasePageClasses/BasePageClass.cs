@@ -28,11 +28,6 @@ public class BasePageClass : ComponentBase
             Http.DefaultRequestHeaders.Remove(apiKeyName);
         }
         Http.DefaultRequestHeaders.Add(apiKeyName, apiToken);
-
-        MainLayout.SetBreadCrumbs(
-        [
-            GetHomeBreadcrumbItem(),
-        ]);
     }
     
     [Inject] protected NavigationManager NavigationManager { get; set; } = default!;
