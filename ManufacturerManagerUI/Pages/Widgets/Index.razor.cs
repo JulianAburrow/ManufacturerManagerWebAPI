@@ -23,6 +23,7 @@ public partial class Index
         base.OnInitialized();
         MainLayout.SetBreadCrumbs(
         [
+            GetHomeBreadcrumbItem(),
             GetCustomBreadcrumbItem("Widgets")
         ]);
     }

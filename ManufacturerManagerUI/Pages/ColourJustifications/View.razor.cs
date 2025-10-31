@@ -25,6 +25,7 @@ public partial class View
         base.OnInitialized();
         MainLayout.SetBreadCrumbs(
         [
+            GetHomeBreadcrumbItem(),
             GetColourJustificationHomeBreadcrumbItem(),
             GetCustomBreadcrumbItem(ViewTextForBreadcrumb),
         ]);

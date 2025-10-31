@@ -6,5 +6,9 @@ public partial class Home
     {
         base.OnInitialized();
         MainLayout.SetHeaderValue("Home");
+        MainLayout.SetBreadCrumbs(
+        [
+            GetHomeBreadcrumbItem(true),
+        ]);
     }
 }

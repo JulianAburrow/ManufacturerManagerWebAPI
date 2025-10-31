@@ -21,6 +21,7 @@ public partial class Edit
         base.OnInitialized();
         MainLayout.SetBreadCrumbs(
         [
+            GetHomeBreadcrumbItem(),
             GetColourHomeBreadcrumbItem(),
             GetCustomBreadcrumbItem("Edit"),
         ]);
