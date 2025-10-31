@@ -15,7 +15,8 @@ public class ColourController(IColourHandler colourHandler) : ControllerBase
     [HttpGet("{id}")]
     public async Task<ActionResult<ColourDTO>> GetColour(int id)
     {
-        return await _colourHandler.GetColourAsync(id);
+        var result = await _colourHandler.GetColourAsync(id);
+        return result is null ? NotFound() : Ok(result);
     }
 
     [HttpPost]

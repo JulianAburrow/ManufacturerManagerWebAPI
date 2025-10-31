@@ -1,6 +1,4 @@
-﻿using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
-
-namespace Tests;
+﻿namespace Tests;
 
 public class ManufacturerHandlerTests
 {

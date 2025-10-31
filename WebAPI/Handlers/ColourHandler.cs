@@ -20,6 +20,7 @@ public class ColourHandler(ManufacturerManagerDbContext context) : IColourHandle
         {
             _context.Colours.Add(colour);
             await _context.SaveChangesAsync();
+            colourDTO.ColourId = colour.ColourId;
             return new CreatedResult($"/api/colours/{colour.ColourId}", colourDTO);
         }
         catch (Exception ex)
@@ -93,7 +94,7 @@ public class ColourHandler(ManufacturerManagerDbContext context) : IColourHandle
         try
         {
             await _context.SaveChangesAsync();
-            return new OkResult();
+            return new NoContentResult();
         }
         catch (Exception ex)
         {

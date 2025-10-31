@@ -23,7 +23,8 @@ public class ManufacturerController(IManufacturerHandler manufacturerHandler) : 
     [HttpGet("{id}")]
     public async Task<ActionResult<ManufacturerDTO>> GetManufacturer(int id)
     {
-        return await _manufacturerHandler.GetManufacturerAsync(id);        
+        var result = await _manufacturerHandler.GetManufacturerAsync(id);
+        return result is null ? NotFound() : Ok(result);
     }
 
     [HttpPost]

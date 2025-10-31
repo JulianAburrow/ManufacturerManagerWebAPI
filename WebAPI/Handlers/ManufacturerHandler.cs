@@ -31,6 +31,7 @@ public class ManufacturerHandler(ManufacturerManagerDbContext context) : IManufa
         {
             _context.Manufacturers.Add(manufacturer);
             await _context.SaveChangesAsync();
+            manufacturerDTO.ManufacturerId = manufacturer.ManufacturerId;
             return new CreatedResult($"/api/manufacturers/{manufacturer.ManufacturerId}", manufacturerDTO);
         }
         catch (Exception ex)
@@ -92,8 +93,8 @@ public class ManufacturerHandler(ManufacturerManagerDbContext context) : IManufa
 
     public async Task<ActionResult> UpdateManufacturerAsync(int id, ManufacturerDTO manufacturerDTO)
     {
-        var manufacturerToUpdate = _context.Manufacturers
-            .FirstOrDefault(m => m.ManufacturerId == id);
+        var manufacturerToUpdate = await _context.Manufacturers
+            .FindAsync(id);
 
         if (manufacturerToUpdate is null)
         {
@@ -103,7 +104,7 @@ public class ManufacturerHandler(ManufacturerManagerDbContext context) : IManufa
         manufacturerToUpdate.Name = manufacturerDTO.Name;
         manufacturerToUpdate.StatusId = manufacturerDTO.StatusId;
 
-        if (manufacturerToUpdate.StatusId == (int) StatusesEnum.Inactive) // Inactive
+        if (manufacturerToUpdate.StatusId == (int) StatusesEnum.Inactive)
         {
             var widgets = _context.Widgets
                 .Where(w => w.ManufacturerId == manufacturerToUpdate.ManufacturerId);
@@ -116,7 +117,7 @@ public class ManufacturerHandler(ManufacturerManagerDbContext context) : IManufa
         try
         {
             await _context.SaveChangesAsync();
-            return new OkResult();
+            return new NoContentResult();
         }
         catch (Exception ex)
         {

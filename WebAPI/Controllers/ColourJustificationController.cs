@@ -15,7 +15,8 @@ public class ColourJustificationController(IColourJustificationHandler colourJus
     [HttpGet("{id}")]
     public async Task<ActionResult<ColourJustificationDTO>> GetColourJustification(int id)
     {
-        return await _colourJustificationHandler.GetColourJustificationAsync(id);
+        var result = await _colourJustificationHandler.GetColourJustificationAsync(id);
+        return result is null ? new NotFoundResult() : Ok(result);
     }
 
     [HttpPost]
