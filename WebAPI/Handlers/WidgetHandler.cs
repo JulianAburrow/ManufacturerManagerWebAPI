@@ -41,6 +41,7 @@ public class WidgetHandler(ManufacturerManagerDbContext context) : IWidgetHandle
         {
             _context.Widgets.Add(widget);
             await _context.SaveChangesAsync();
+            widgetDTO.WidgetId = widget.WidgetId;
             return new CreatedResult($"/api/widgets/{widget.WidgetId}", widgetDTO);
         }
         catch (Exception ex)
@@ -191,7 +192,7 @@ public class WidgetHandler(ManufacturerManagerDbContext context) : IWidgetHandle
         try
         {
             await _context.SaveChangesAsync();
-            return new OkResult();
+            return new NoContentResult();
         }
         catch (Exception ex)
         {

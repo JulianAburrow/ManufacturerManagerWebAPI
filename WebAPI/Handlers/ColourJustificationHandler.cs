@@ -16,6 +16,7 @@ public class ColourJustificationHandler(ManufacturerManagerDbContext context) : 
         {
             _context.ColourJustifications.Add(colourJustification);
             await _context.SaveChangesAsync();
+            colourJustificationDTO.ColourJustificationId = colourJustification.ColourJustificationId;
             return new CreatedResult($"/api/colourjustifications/{colourJustification.ColourJustificationId}", colourJustificationDTO);
         }
         catch(Exception ex)
@@ -84,7 +85,7 @@ public class ColourJustificationHandler(ManufacturerManagerDbContext context) : 
         try
         {
             await _context.SaveChangesAsync();
-            return new OkResult();
+            return new NoContentResult();
         }
         catch (Exception ex)
         {

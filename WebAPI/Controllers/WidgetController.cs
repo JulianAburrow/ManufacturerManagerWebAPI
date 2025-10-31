@@ -13,9 +13,10 @@ public class WidgetController(IWidgetHandler widgetHandler) : ControllerBase
     }
 
     [HttpGet("{id}")]
-    public async Task<ActionResult<WidgetDTO>>? GetWidget(int id)
+    public async Task<ActionResult<WidgetDTO>> GetWidget(int id)
     {
-        return await _widgetHandler.GetWidgetAsync(id);
+        var result = await _widgetHandler.GetWidgetAsync(id);
+        return result is null ? NotFound() : Ok(result);
     }
 
     [HttpGet("check/{widgetName}/{id}")]
