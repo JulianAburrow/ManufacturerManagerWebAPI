@@ -7,10 +7,10 @@ public class ColourJustificationHandlerTests
     private readonly ColourJustificationHandler _handler;
     private readonly ManufacturerManagerDbContext _context;
 
-    private const string Justification1 = "Justification1";
-    private const string Justification2 = "Justification2";
-    private const string Justification3 = "Justification3";
-    private const string Justification4 = "Justification4";
+    private const string Justification1 = "A reason";
+    private const string Justification2 = "C reason";
+    private const string Justification3 = "D reason";
+    private const string Justification4 = "B reason";
 
     public ColourJustificationHandlerTests()
     {
@@ -35,10 +35,10 @@ public class ColourJustificationHandlerTests
         var result = await _handler.GetColourJustificationsAsync();
 
         Assert.Equal(4, result.Count);
-        Assert.Equal(Justification1, result[0].Justification);
-        Assert.Equal(Justification2, result[1].Justification);
-        Assert.Equal(Justification3, result[2].Justification);
-        Assert.Equal(Justification4, result[3].Justification);
+        Assert.Equal("A reason", result[0].Justification);
+        Assert.Equal("B reason", result[1].Justification);
+        Assert.Equal("C reason", result[2].Justification);
+        Assert.Equal("D reason", result[3].Justification);
     }
 
     [Fact]
@@ -46,7 +46,12 @@ public class ColourJustificationHandlerTests
     {
         await RemoveAllColourJustificationsFromContext();
 
-        _context.ColourJustifications.Add(new ColourJustificationModel { Justification = Justification1 });
+        var widgets = new List<WidgetModel>
+        {
+            new() { Name = "Widget1" },
+            new() { Name = "Widget2" },
+        };
+        _context.ColourJustifications.Add(new ColourJustificationModel { Justification = Justification1, Widgets = widgets });
         await _context.SaveChangesAsync();
 
         var result = await _handler.GetColourJustificationAsync(1);
@@ -54,6 +59,7 @@ public class ColourJustificationHandlerTests
         Assert.NotNull(result);
         Assert.Equal(Justification1, result.Justification);
         Assert.Equal(1, result.ColourJustificationId);
+        Assert.Equal(2, result.WidgetCount);
     }
 
     [Fact]
@@ -81,6 +87,7 @@ public class ColourJustificationHandlerTests
             .FirstOrDefaultAsync(c => c.Justification == Justification1);
         Assert.NotNull(createdColourJustification);
         Assert.Equal(Justification1, createdColourJustification.Justification);
+        Assert.Equal(1, createdColourJustification.ColourJustificationId);
     }
 
     [Fact]
@@ -97,7 +104,11 @@ public class ColourJustificationHandlerTests
 
         var result = await _handler.UpdateColourJustificationAsync(createdColourJustification.ColourJustificationId, new ColourJustificationDTO { Justification = Justification2 });
 
-        Assert.IsType<OkResult>(result);
+        Assert.IsType<NoContentResult>(result);
+
+        var updated = await _context.ColourJustifications.FindAsync(createdColourJustification.ColourJustificationId);
+        Assert.NotNull(updated);
+        Assert.Equal(Justification2, updated!.Justification);
     }
 
     [Fact]
@@ -105,6 +116,28 @@ public class ColourJustificationHandlerTests
     {
         var result = await _handler.UpdateColourJustificationAsync(999, new ColourJustificationDTO { Justification = Justification1 });
         Assert.IsType<NotFoundObjectResult>(result);
+    }
+
+    [Fact]
+    public async Task UpdateColourJustification_ReturnsConflict_WhenColourJustificationExists()
+    {
+        await RemoveAllColourJustificationsFromContext();
+
+        _context.ColourJustifications.AddRange(new List<ColourJustificationModel>
+        {
+            new() { Justification = Justification1 },
+            new() { Justification = Justification2 },
+        });
+
+        await _context.SaveChangesAsync();
+
+        var createdColourJustification = await _context.ColourJustifications
+            .FirstOrDefaultAsync(c => c.Justification == Justification1);
+        Assert.NotNull(createdColourJustification);
+
+        var result = await _handler.UpdateColourJustificationAsync(createdColourJustification.ColourJustificationId, new ColourJustificationDTO { Justification = Justification2 });
+
+        Assert.IsType<ConflictObjectResult>(result);
     }
 
     private async Task RemoveAllColourJustificationsFromContext()

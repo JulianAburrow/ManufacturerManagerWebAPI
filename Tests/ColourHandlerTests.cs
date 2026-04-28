@@ -5,10 +5,10 @@ public class ColourHandlerTests
     private readonly ColourHandler _handler;
     private readonly ManufacturerManagerDbContext _context;
 
-    private const string Colour1 = "Colour1";
-    private const string Colour2 = "Colour2";
-    private const string Colour3 = "Colour3";
-    private const string Colour4 = "Colour4";
+    private const string Colour1 = "Red";
+    private const string Colour2 = "Blue";
+    private const string Colour3 = "Yellow";
+    private const string Colour4 = "Green";
 
     public ColourHandlerTests()
     {
@@ -33,10 +33,11 @@ public class ColourHandlerTests
         var result = await _handler.GetColoursAsync();
 
         Assert.Equal(4, result.Count);
-        Assert.Equal(Colour1, result[0].Name);
-        Assert.Equal(Colour2, result[1].Name);
-        Assert.Equal(Colour3, result[2].Name);
-        Assert.Equal(Colour4, result[3].Name);
+
+        Assert.Equal("Blue", result[0].Name);
+        Assert.Equal("Green", result[1].Name);
+        Assert.Equal("Red", result[2].Name);
+        Assert.Equal("Yellow", result[3].Name);
     }
 
     [Fact]
@@ -44,15 +45,24 @@ public class ColourHandlerTests
     {
         await RemoveAllColoursFromContext();
 
-        _context.Colours.Add(new ColourModel { Name = Colour1 });
+        var colour = new ColourModel { Name = Colour1 };
+        _context.Colours.Add(colour);
+
+        _context.Widgets.AddRange(
+            new WidgetModel { Name = "W1", Colour = colour },
+            new WidgetModel { Name = "W2", Colour = colour }
+        );
+
         await _context.SaveChangesAsync();
 
-        var result = await _handler.GetColourAsync(1);
+        var result = await _handler.GetColourAsync(colour.ColourId);
 
         Assert.NotNull(result);
         Assert.Equal(Colour1, result.Name);
-        Assert.Equal(1, result.ColourId);
+        Assert.Equal(colour.ColourId, result.ColourId);
+        Assert.Equal(2, result.WidgetCount);
     }
+
 
     [Fact]
     public async Task GetColour_ReturnsNull_WhenColourDoesNotExist()
@@ -75,8 +85,10 @@ public class ColourHandlerTests
         var result = await _handler.CreateColourAsync(colourDTO);
 
         var createdResult = Assert.IsType<CreatedResult>(result);
+
         var createdColour = await _context.Colours
             .FirstOrDefaultAsync(c => c.Name == Colour1);
+
         Assert.NotNull(createdColour);
         Assert.Equal(Colour1, createdColour.Name);
     }
@@ -97,11 +109,11 @@ public class ColourHandlerTests
     }
 
     [Fact]
-    public async Task UpdateColour_ReturnsOk_WhenColourDoesNotAlreadyExist()
+    public async Task UpdateColour_ReturnsNoContent_WhenColourDoesNotAlreadyExist()
     {
-       await RemoveAllColoursFromContext();
+        await RemoveAllColoursFromContext();
 
-        _context.Colours.Add(new ColourModel { Name = Colour1 });            
+        _context.Colours.Add(new ColourModel { Name = Colour1 });
         await _context.SaveChangesAsync();
 
         var createdColour = await _context.Colours
@@ -110,7 +122,11 @@ public class ColourHandlerTests
 
         var result = await _handler.UpdateColourAsync(createdColour.ColourId, new ColourDTO { Name = Colour2 });
 
-        Assert.IsType<OkResult>(result);
+        Assert.IsType<NoContentResult>(result);
+
+        var updated = await _context.Colours.FindAsync(createdColour.ColourId);
+        Assert.NotNull(updated);
+        Assert.Equal(Colour2, updated!.Name);
     }
 
     [Fact]

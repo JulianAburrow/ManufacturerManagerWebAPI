@@ -1,7 +1,4 @@
-﻿using Microsoft.Identity.Client;
-using WebAPI.Controllers;
-
-namespace Tests;
+﻿namespace Tests;
 
 public class WidgetControllerTests
 {
@@ -18,7 +15,7 @@ public class WidgetControllerTests
     }
 
     [Fact]
-    public async Task GetWidgets_ReturnsListOfWidgets()
+    public async Task GetWidgets_ReturnsOk_WithListOfWidgets()
     {
         var mockWidgets = new List<WidgetDTO> { new() { Name = Widget1 } };
         _mockWidgetHandler.Setup(handler => handler.GetWidgetsAsync())
@@ -26,34 +23,40 @@ public class WidgetControllerTests
 
         var result = await _widgetController.GetWidgets();
 
-        var returnValue = Assert.IsType<List<WidgetDTO>>(result.Value);
+        var okResult = Assert.IsType<OkObjectResult>(result.Result);
+        var returnValue = Assert.IsType<List<WidgetDTO>>(okResult.Value);
+
         Assert.Single(returnValue);
+        Assert.Equal(Widget1, returnValue[0].Name);
     }
 
     [Fact]
-    public async Task GetWidget_ReturnsWidget()
+    public async Task GetWidget_ReturnsOk_WithWidget()
     {
         var mockWidget = new WidgetDTO { WidgetId = 1, Name = Widget1, StatusId = 1 };
         _mockWidgetHandler.Setup(handler => handler.GetWidgetAsync(1))
-            .ReturnsAsync(mockWidget);
+            .ReturnsAsync((WidgetDTO?)mockWidget);
+
 
         var result = await _widgetController.GetWidget(1);
 
-        var returnValue = Assert.IsType<WidgetDTO>(result.Value);
+        var okResult = Assert.IsType<OkObjectResult>(result.Result);
+        var returnValue = Assert.IsType<WidgetDTO>(okResult.Value);
+
         Assert.Equal(1, returnValue.WidgetId);
         Assert.Equal(Widget1, returnValue.Name);
         Assert.Equal(1, returnValue.StatusId);
     }
 
     [Fact]
-    public async Task GetWidget_ReturnsNull_WhenWidgetNotFound()
+    public async Task GetWidget_ReturnsNotFound_WhenWidgetNotFound()
     {
         _mockWidgetHandler.Setup(handler => handler.GetWidgetAsync(1))
-            .ReturnsAsync((WidgetDTO)null);
+            .ReturnsAsync((WidgetDTO?)null);
 
         var result = await _widgetController.GetWidget(1);
 
-        Assert.Null(result.Result);
+        Assert.IsType<NotFoundResult>(result.Result);
     }
 
     [Fact]
@@ -78,85 +81,5 @@ public class WidgetControllerTests
         var result = await _widgetController.UpdateWidget(1, updatedWidget);
 
         Assert.IsType<OkResult>(result);
-    }
-
-    [Fact]
-    public async Task CheckForExistingWidgets_ReturnsOk_WhenNoExistingWidgets()
-    {
-        _mockWidgetHandler.Setup(handler => handler.CheckForExistingWidgetAsync("WidgetName", 1))
-            .ReturnsAsync([]);
-
-        var result = await _widgetController.CheckForExistingWidgets("WidgetName", 1);
-
-        Assert.IsType<OkResult>(result.Result);
-    }
-
-    [Fact]
-    public async Task CheckForExistingWidgets_ReturnsConflict_WhenExistingWidgetsFound()
-    {
-        var existingWidgets = new List<WidgetModel> { new() { WidgetId = 1, Name = Widget2 } };
-        _mockWidgetHandler.Setup(handler => handler.CheckForExistingWidgetAsync(Widget2, 1))
-            .ReturnsAsync(existingWidgets);
-
-        var result = await _widgetController.CheckForExistingWidgets(Widget2, 1);
-
-        Assert.IsType<ConflictResult>(result.Result);
-    }
-
-    //[Fact]
-    //public async Task GetWidgetsForManufacturer_ReturnsListOfWidgetsForManufacturer()
-    //{
-    //    var mockWidgets = new List<WidgetDTO>
-    //    {
-    //        new() { WidgetId = 1, Name = Widget1, ManufacturerId = 1 },
-    //        new() { WidgetId = 2, Name = Widget2, ManufacturerId = 2 }
-    //    };
-    //    _mockWidgetHandler.Setup(handler => handler.GetWidgetsForManufacturerAsync(1))
-    //        .ReturnsAsync(mockWidgets);
-
-    //    var result = await _widgetController.GetWidgetsForManufacturer(1);
-
-    //    var returnValue = Assert.IsType<List<WidgetDTO>>(result.Value);
-    //    Assert.Single(returnValue);
-    //    Assert.Equal(1, returnValue[0].WidgetId);
-    //    Assert.Equal(Widget1, returnValue[0].Name);
-    //}
-
-    //[Fact]
-    //public async Task GetWidgetsForColour_ReturnsListOfWidgetsForColour()
-    //{
-    //    var mockWidgets = new List<WidgetDTO>
-    //    {
-    //        new() { WidgetId = 1, Name = Widget1, ManufacturerId = 1, ColourId = 1 },
-    //        new() { WidgetId = 2, Name = Widget2, ManufacturerId = 1, ColourId = 2 },
-    //    };
-    //    _mockWidgetHandler.Setup(handler => handler.GetWidgetsForColourAsync(1))
-    //        .ReturnsAsync(mockWidgets);
-
-    //    var result = await _widgetController.GetWidgetsForColour(1);
-
-    //    var returnValue = Assert.IsType<List<WidgetDTO>>(result.Value);
-    //    Assert.Single(returnValue);
-    //    Assert.Equal(1, returnValue[0].WidgetId);
-    //    Assert.Equal(Widget1, returnValue[0].Name);
-    //}
-
-    //[Fact]
-    //public async Task GetWidgetsForColour_ReturnsListOfWidgetsForColour()
-    //{
-    //    var mockWidgets = new List<WidgetDTO>
-    //        {
-    //            new() { WidgetId = 1, Name = Widget1, ColourId = 1 },
-    //            new() { WidgetId = 2, Name = Widget2, ColourId = 2 }
-    //        };
-    //    _mockWidgetHandler.Setup(handler => handler.GetWidgetsForColourAsync(1))
-    //        .ReturnsAsync(mockWidgets);
-
-    //    var result = await _widgetController.GetWidgetsForColour(1);
-
-    //    var returnValue = Assert.IsType<List<WidgetDTO>>(result.Value);
-    //    Assert.Single(returnValue);
-    //    Assert.Equal(1, returnValue[0].ColourId);
-    //    //Assert.Equal(1, returnValue[1].ColourId);
-    //}
+    } 
 }

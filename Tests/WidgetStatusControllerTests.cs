@@ -14,7 +14,7 @@ public class WidgetStatusControllerTests
     }
 
     [Fact]
-    public async Task GetWidgetStatuses_ReturnsListOfWidgetStatuses()
+    public async Task GetWidgetStatuses_ReturnsOk_WithListOfWidgetStatuses()
     {
         var status1 = "Status1";
         var status2 = "Status2";
@@ -28,7 +28,9 @@ public class WidgetStatusControllerTests
             .ReturnsAsync(mockWidgetStatuses);
 
         var result = await _widgetStatusController.GetWidgetStatuses();
-        var returnValue = Assert.IsType<List<WidgetStatusDTO>>(result);
+
+        var okResult = Assert.IsType<OkObjectResult>(result.Result);
+        var returnValue = Assert.IsType<List<WidgetStatusDTO>>(okResult.Value);
 
         Assert.Equal(2, returnValue.Count);
         Assert.Equal(status1, returnValue[0].StatusName);

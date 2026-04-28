@@ -48,12 +48,4 @@ public class WidgetBasePageClass
     {
         return new("Widgets", "/widgets/index", isDisabled);
     }
-
-    protected async Task CheckForExistingWidget()
-    {
-        var checkResponse = await Http
-            .GetAsync($"{WidgetsEndpoint}/check/{WidgetDTO.Name}/{WidgetDTO.WidgetId}");
-
-         WidgetExists = checkResponse.StatusCode.Equals(HttpStatusCode.Conflict);
-    }
 }

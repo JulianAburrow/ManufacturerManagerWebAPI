@@ -9,7 +9,7 @@ public partial class View
         try
         {
             ManufacturerDTO = await Http.GetFromJsonAsync<ManufacturerDTO>($"{ManufacturersEndpoint}/{ManufacturerId}") ?? new();
-            WidgetDTOs = await Http.GetFromJsonAsync<List<WidgetDTO>>($"{WidgetsEndpoint}/widgetsbymanufacturer/{ManufacturerId}") ?? new();
+            WidgetDTOs = await Http.GetFromJsonAsync<List<WidgetDTO>>($"{ManufacturersEndpoint}/{ManufacturerId}/widgets") ?? new();
             MainLayout.SetHeaderValue("View Manufacturer");
         }
         catch (Exception ex)

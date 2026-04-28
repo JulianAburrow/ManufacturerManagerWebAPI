@@ -3,20 +3,24 @@
 public class ManufacturerControllerTests
 {
     private readonly Mock<IManufacturerHandler> _mockManufacturerHandler;
+    private readonly Mock<IWidgetHandler> _mockWidgetHandler;
     private readonly ManufacturerController _manufacturerController;
 
     private const string Manufacturer1 = "Manufacturer1";
     private const string Manufacturer2 = "Manufacturer2";
+    private const string Widget1 = "Widget1";
+    private const string Widget2 = "Widget2";
     private const string ActiveStatus = "Active";
 
     public ManufacturerControllerTests()
     {
         _mockManufacturerHandler = new Mock<IManufacturerHandler>();
-        _manufacturerController = new ManufacturerController(_mockManufacturerHandler.Object);
+        _mockWidgetHandler = new Mock<IWidgetHandler>();
+        _manufacturerController = new ManufacturerController(_mockManufacturerHandler.Object, _mockWidgetHandler.Object);
     }
 
     [Fact]
-    public async Task GetManufacturers_ReturnsListOfManufacturers()
+    public async Task GetManufacturers_ReturnsOk_WithListOfManufacturers()
     {
         var mockManufacturers = new List<ManufacturerDTO> { new() { Name = Manufacturer1 }, };
         _mockManufacturerHandler.Setup(handler => handler.GetManufacturersAsync())
@@ -24,7 +28,9 @@ public class ManufacturerControllerTests
 
         var result = await _manufacturerController.GetManufacturers();
 
-        var returnValue = Assert.IsType<List<ManufacturerDTO>>(result.Value);
+        var okResult = Assert.IsType<OkObjectResult>(result.Result);
+        var returnValue = Assert.IsType<List<ManufacturerDTO>>(okResult.Value);
+
         Assert.Single(returnValue);
     }
 
@@ -33,29 +39,31 @@ public class ManufacturerControllerTests
     {
         var mockManufacturer = new ManufacturerDTO { ManufacturerId = 1, Name = Manufacturer1, StatusName = ActiveStatus };
         _mockManufacturerHandler.Setup(handler => handler.GetManufacturerAsync(1))
-            .ReturnsAsync(mockManufacturer);
+            .ReturnsAsync((ManufacturerDTO?)mockManufacturer);
 
         var result = await _manufacturerController.GetManufacturer(1);
 
-        var returnValue = Assert.IsType<ManufacturerDTO>(result.Value);
+        var okResult = Assert.IsType<OkObjectResult>(result.Result);
+        var returnValue = Assert.IsType<ManufacturerDTO>(okResult.Value);
+
         Assert.Equal(1, returnValue.ManufacturerId);
         Assert.Equal(Manufacturer1, returnValue.Name);
         Assert.Equal(ActiveStatus, returnValue.StatusName);
     }
 
     [Fact]
-    public async Task GetManufacturer_ReturnsNull_WhenManufacturerNotFound()
+    public async Task GetManufacturer_ReturnsNotFound_WhenManufacturerNotFound()
     {
         _mockManufacturerHandler.Setup(handler => handler.GetManufacturerAsync(1))
-            .ReturnsAsync((ManufacturerDTO)null);
+            .ReturnsAsync((ManufacturerDTO?)null);
 
         var result = await _manufacturerController.GetManufacturer(1);
 
-        Assert.Null(result.Result);
+        Assert.IsType<NotFoundResult>(result.Result);
     }
 
     [Fact]
-    public async Task CreateManufacturer_ReturnsOkResult_WhenCreateSuccessful()
+    public async Task CreateManufacturer_ReturnsOk_WhenCreateSuccessful()
     {
         var newManufacturer = new ManufacturerDTO { Name = Manufacturer1, StatusId = 1 };
         _mockManufacturerHandler.Setup(handler => handler.CreateManufacturerAsync(newManufacturer))
@@ -67,7 +75,7 @@ public class ManufacturerControllerTests
     }
 
     [Fact]
-    public async Task UpdateManufacturer_ReturnsOkResult_WhenUpdateSuccessful()
+    public async Task UpdateManufacturer_ReturnsOk_WhenUpdateSuccessful()
     {
         var updatedManufacturer = new ManufacturerDTO { Name = Manufacturer2, StatusId = 2 };
         _mockManufacturerHandler.Setup(handler => handler.UpdateManufacturerAsync(1, updatedManufacturer))
@@ -76,5 +84,25 @@ public class ManufacturerControllerTests
         var result = await _manufacturerController.UpdateManufacturer(1, updatedManufacturer);
 
         Assert.IsType<OkResult>(result);
+    }
+
+    [Fact]
+    public async Task GetWidgetsForManufacturer_ReturnsOk_WithListOfWidgetsForManufacturer()
+    {
+        var mockWidgets = new List<WidgetDTO>
+        {
+            new() { WidgetId = 1, Name = Widget1, ManufacturerId = 1 },
+        };
+        _mockWidgetHandler.Setup(handler => handler.GetWidgetsForManufacturerAsync(1))
+            .ReturnsAsync(mockWidgets);
+
+        var result = await _manufacturerController.GetWidgetsForManufacturer(1);
+
+        var okResult = Assert.IsType<OkObjectResult>(result.Result);
+        var returnValue = Assert.IsType<List<WidgetDTO>>(okResult.Value);
+
+        Assert.Single(returnValue);
+        Assert.Equal(1, returnValue[0].WidgetId);
+        Assert.Equal(Widget1, returnValue[0].Name);
     }
 }

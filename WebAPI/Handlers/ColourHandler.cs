@@ -25,11 +25,11 @@ public class ColourHandler(ManufacturerManagerDbContext context) : IColourHandle
         }
         catch (Exception ex)
         {
-            return new BadRequestObjectResult($"An error occurred while creating the colour: {ex.Message}");
+            return new BadRequestObjectResult($"An error occurred while creating the colour: {ex.Message}.");
         }
     }
 
-    public async Task<ColourDTO>? GetColourAsync(int id)
+    public async Task<ColourDTO?> GetColourAsync(int id)
     {
         var colour = await _context.Colours
             .Include(c => c.Widgets)
@@ -81,7 +81,7 @@ public class ColourHandler(ManufacturerManagerDbContext context) : IColourHandle
 
         if (colourToUpdate is null)
         {
-            return new NotFoundObjectResult("No Colour with this id could be found");
+            return new NotFoundObjectResult("No Colour with this id could be found.");
         }
 
         colourToUpdate.Name = colourDTO.Name;
@@ -98,7 +98,7 @@ public class ColourHandler(ManufacturerManagerDbContext context) : IColourHandle
         }
         catch (Exception ex)
         {
-            return new BadRequestObjectResult($"An error occurred while updating the Colour: {ex.Message}");
+            return new BadRequestObjectResult($"An error occurred while updating the Colour: {ex.Message}.");
         }
     }
 }

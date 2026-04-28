@@ -12,7 +12,7 @@ public class ManufacturerStatusControllerTests
     }
 
     [Fact]
-    public async Task GetManufacturerStatuses_ReturnsListOfManufacturerStatuses()
+    public async Task GetManufacturerStatuses_ReturnsOk_WithListOfManufacturerStatuses()
     {
         var status1 = "Status1";
         var status2 = "Status2";
@@ -26,7 +26,9 @@ public class ManufacturerStatusControllerTests
             .ReturnsAsync(mockManufacturerStatuses);
 
         var result = await _manufacturerStatusController.GetManufacturerStatuses();
-        var returnValue = Assert.IsType<List<ManufacturerStatusDTO>>(result);
+
+        var okResult = Assert.IsType<OkObjectResult>(result.Result);
+        var returnValue = Assert.IsType<List<ManufacturerStatusDTO>>(okResult.Value);
 
         Assert.Equal(2, returnValue.Count);
         Assert.Equal(status1, returnValue[0].StatusName);

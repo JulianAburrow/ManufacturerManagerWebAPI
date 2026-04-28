@@ -34,12 +34,4 @@ public class ManufacturerBasePageClass
     {
         return new("Manufacturers", "/manufacturers/index", isDisabled);
     }
-
-    protected async Task CheckForExistingManufacturer()
-    {
-        var checkResponse = await Http
-            .GetAsync($"{ManufacturersEndpoint}/check/{ManufacturerDTO.Name}/{ManufacturerDTO.ManufacturerId}");
-
-        ManufacturerExists = checkResponse.StatusCode.Equals(HttpStatusCode.Conflict);
-    }
 }

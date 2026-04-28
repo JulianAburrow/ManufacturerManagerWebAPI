@@ -31,12 +31,6 @@ public class ManufacturerHandlerTests
         StatusId = 1,
     };
 
-    private ManufacturerDTO ManufacturerDTO2 = new()
-    {
-        Name = ManufacturerName2,
-        StatusId = 2,
-    };
-
     public ManufacturerHandlerTests()
     {
         _context = Shared.GetInMemoryDbContext();
@@ -106,18 +100,19 @@ public class ManufacturerHandlerTests
         Assert.NotNull(createdManufacturer);
         Assert.Equal(ManufacturerName1, createdManufacturer.Name);
         Assert.Equal(1, createdManufacturer.StatusId);
+        Assert.Equal(1, createdManufacturer.ManufacturerId);
     }
 
     [Fact]
     public async Task UpdateManufacturer_ReturnsNotFound_WhenManufacturerDoesNotExist()
     {
-        var result = await _handler.UpdateManufacturerAsync(999, ManufacturerDTO2);
+        var result = await _handler.UpdateManufacturerAsync(999, ManufacturerDTO1);
 
         Assert.IsType<NotFoundObjectResult>(result);
     }
 
     [Fact]
-    public async Task UpdateManufacturer_ReturnOk_WhenManufacturerSuccessfullyUpdated()
+    public async Task UpdateManufacturer_ReturnsNoContent_WhenManufacturerSuccessfullyUpdated()
     {
         await RemoveAllManufacturersFromContext();
 
@@ -135,7 +130,29 @@ public class ManufacturerHandlerTests
                 StatusId = 1,
             });
 
-        Assert.IsType<OkResult>(result);
+        Assert.IsType<NoContentResult>(result);
+    }
+
+    [Fact]
+    public async Task UpdateManufacturer_ReturnsConflict_WhenManufacturerExists()
+    {
+        await RemoveAllManufacturersFromContext();
+
+        _context.Manufacturers.AddRange(new List<ManufacturerModel>
+        {
+            new() { Name = ManufacturerName1, StatusId = 1 },
+            new() { Name = ManufacturerName2, StatusId = 2 },
+        });
+
+        await _context.SaveChangesAsync();
+
+        var createdManufacturer = await _context.Manufacturers
+            .FirstOrDefaultAsync(c => c.Name == ManufacturerName1);
+        Assert.NotNull(createdManufacturer);
+
+        var result = await _handler.UpdateManufacturerAsync(createdManufacturer.ManufacturerId, new ManufacturerDTO { Name = ManufacturerName2, StatusId = 2 });
+
+        Assert.IsType<ConflictObjectResult>(result);
     }
 
     private async Task RemoveAllManufacturersFromContext()

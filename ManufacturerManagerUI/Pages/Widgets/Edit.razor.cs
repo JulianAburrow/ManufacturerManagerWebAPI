@@ -37,13 +37,6 @@ public partial class Edit
 
     private async Task UpdateWidget()
     {
-        await CheckForExistingWidget();
-
-        if (WidgetExists)
-        {
-            return;
-        }
-
         if (WidgetDTO.ColourId == 0)
         {
             WidgetDTO.ColourId = null;
@@ -54,6 +47,13 @@ public partial class Edit
         }
 
         var response = await Http.PutAsJsonAsync($"{WidgetsEndpoint}/{WidgetId}", WidgetDTO);
+
+        if (response.StatusCode.Equals(HttpStatusCode.Conflict))
+        {
+            WidgetExists = true;
+            return;
+        }
+
         if (response.IsSuccessStatusCode)
         {
             Snackbar.Add($"Widget {WidgetDTO.Name} successfully updated.", Severity.Success);

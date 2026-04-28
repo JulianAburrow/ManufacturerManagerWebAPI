@@ -21,8 +21,8 @@ public class ManufacturerStatusHandlerTests
 
         _context.ManufacturerStatuses.AddRange(new List<ManufacturerStatusModel>
         {
-            new() { StatusName = testManufacturerStatus1 },
             new() { StatusName = testManufacturerStatus2 },
+            new() { StatusName = testManufacturerStatus1 },
         });
         await _context.SaveChangesAsync();
 
