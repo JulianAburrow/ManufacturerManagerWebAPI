@@ -2,29 +2,23 @@
 
 [Route("api/[controller]")]
 [ApiController]
-public class ManufacturerController(IManufacturerHandler manufacturerHandler) : ControllerBase
+public class ManufacturerController(IManufacturerHandler manufacturerHandler, IWidgetHandler widgetHandler) : ControllerBase
 {
     private readonly IManufacturerHandler _manufacturerHandler = manufacturerHandler;
-
-    [HttpGet("check/{manufacturerName}/{id}")]
-    public async Task<ActionResult<HttpStatusCode>> CheckForExistingManufacturers(string manufacturerName, int id)
-    {
-        var manufacturers = await _manufacturerHandler.CheckForExistingManufacturerAsync(manufacturerName, id);
-
-        return manufacturers.Count == 0 ? Ok() : Conflict();
-    }
+    private readonly IWidgetHandler _widgetHandler = widgetHandler;
 
     [HttpGet]
     public async Task<ActionResult<List<ManufacturerDTO>>> GetManufacturers()
     {
-        return await _manufacturerHandler.GetManufacturersAsync();
+        var manufacturers = await _manufacturerHandler.GetManufacturersAsync();
+        return Ok(manufacturers);
     }
 
     [HttpGet("{id}")]
     public async Task<ActionResult<ManufacturerDTO>> GetManufacturer(int id)
     {
         var result = await _manufacturerHandler.GetManufacturerAsync(id);
-        return result is null ? NotFound() : Ok(result);
+        return result is ManufacturerDTO dto ? Ok(dto) : NotFound();
     }
 
     [HttpPost]
@@ -37,5 +31,12 @@ public class ManufacturerController(IManufacturerHandler manufacturerHandler) : 
     public async Task<IActionResult> UpdateManufacturer(int id, ManufacturerDTO manufacturerDTO)
     {
         return await _manufacturerHandler.UpdateManufacturerAsync(id, manufacturerDTO);
+    }
+
+    [HttpGet("{id}/widgets")]
+    public async Task<ActionResult<List<WidgetDTO>>> GetWidgetsForManufacturer(int id)
+    {
+        var widgets = await _widgetHandler.GetWidgetsForManufacturerAsync(id);
+        return Ok(widgets);
     }
 }

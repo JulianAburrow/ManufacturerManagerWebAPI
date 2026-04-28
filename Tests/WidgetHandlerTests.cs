@@ -8,36 +8,35 @@ public class WidgetHandlerTests
     private const string WidgetName1 = "WidgetName1";
     private const string WidgetName2 = "WidgetName2";
 
-    private const string ActiveStatus = "Active";
-    private const string InactiveStatus = "Inactive";
+    private WidgetModel CreateWidgetModel1() =>
+        new WidgetModel
+        {
+            Name = WidgetName1,
+            ManufacturerId = 1,
+            Manufacturer = new ManufacturerModel { ManufacturerId = 1, Name = "Manufacturer1" },
+            StatusId = 1,
+            Status = new WidgetStatusModel { StatusId = 1, StatusName = "Active" },
+            ColourId = 1,
+            ColourJustificationId = 1,
+            CostPrice = 1,
+            RetailPrice = 1,
+            StockLevel = 1,
+        };
 
-    private WidgetModel WidgetModel1 = new()
-    {
-        Name = WidgetName1,
-        ManufacturerId = 1,
-        Manufacturer = new ManufacturerModel { Name = "Manufacturer1" },
-        StatusId = 1,
-        Status = new WidgetStatusModel { StatusId = 1, StatusName = "Active" },
-        ColourId = 1,
-        ColourJustificationId = 1,
-        CostPrice = 1,
-        RetailPrice = 1,
-        StockLevel = 1,
-    };
-
-    private WidgetModel WidgetModel2 = new()
-    {
-        Name = WidgetName2,
-        ManufacturerId = 2,
-        Manufacturer = new ManufacturerModel { Name = "Manufacturer2" },
-        StatusId = 2,
-        Status = new WidgetStatusModel { StatusId = 2, StatusName = "Inactive" },
-        ColourId = 2,
-        ColourJustificationId = 2,
-        CostPrice = 1,
-        RetailPrice = 1,
-        StockLevel = 1,
-    };
+    private WidgetModel CreateWidgetModel2() =>
+        new WidgetModel
+        {
+            Name = WidgetName2,
+            ManufacturerId = 2,
+            Manufacturer = new ManufacturerModel { ManufacturerId = 2, Name = "Manufacturer2" },
+            StatusId = 2,
+            Status = new WidgetStatusModel { StatusId = 2, StatusName = "Inactive" },
+            ColourId = 2,
+            ColourJustificationId = 2,
+            CostPrice = 1,
+            RetailPrice = 1,
+            StockLevel = 1,
+        };
 
     private WidgetDTO WidgetDTO1 = new()
     {
@@ -73,8 +72,8 @@ public class WidgetHandlerTests
 
         _context.Widgets.AddRange(new List<WidgetModel>
         {
-            WidgetModel1,
-            WidgetModel2,
+            CreateWidgetModel1(),
+            CreateWidgetModel2(),
         });
         await _context.SaveChangesAsync();
 
@@ -93,8 +92,8 @@ public class WidgetHandlerTests
 
         _context.Widgets.AddRange(new List<WidgetModel>
         {
-            WidgetModel1,
-            WidgetModel2,
+            CreateWidgetModel1(),
+            CreateWidgetModel2(),
         });
         await _context.SaveChangesAsync();
 
@@ -129,8 +128,8 @@ public class WidgetHandlerTests
 
         _context.Widgets.AddRange(new List<WidgetModel>
         {
-            WidgetModel1,
-            WidgetModel2,
+            CreateWidgetModel1(),
+            CreateWidgetModel2(),
         });
 
         await _context.SaveChangesAsync();
@@ -152,8 +151,8 @@ public class WidgetHandlerTests
 
         _context.Widgets.AddRange(new List<WidgetModel>
         {
-            WidgetModel1,
-            WidgetModel2,
+            CreateWidgetModel1(),
+            CreateWidgetModel2(),
         });
         await _context.SaveChangesAsync();
 
@@ -174,8 +173,8 @@ public class WidgetHandlerTests
 
         _context.Widgets.AddRange(new List<WidgetModel>
         {
-            WidgetModel1,
-            WidgetModel2,
+            CreateWidgetModel1(),
+            CreateWidgetModel2(),
         });
         await _context.SaveChangesAsync();
 
@@ -210,6 +209,7 @@ public class WidgetHandlerTests
             .FirstOrDefaultAsync(w => w.Name == WidgetName1);
         Assert.NotNull(createdWidget);
         Assert.Equal(WidgetName1, createdWidget.Name);
+        Assert.Equal(1, createdWidget.WidgetId);
         Assert.Equal(1, createdWidget.ManufacturerId);
         Assert.Equal(1, createdWidget.StatusId);
         Assert.Equal(1, createdWidget.ColourId);
@@ -228,15 +228,15 @@ public class WidgetHandlerTests
     }
 
     [Fact]
-    public async Task UpdateWidget_ReturnsOk_WhenWidgetSuccessfullyUpdated()
+    public async Task UpdateWidget_ReturnsNoContent_WhenWidgetSuccessfullyUpdated()
     {
         await RemoveAllWidgetsFromContext();
 
-        _context.Widgets.Add(WidgetModel1);
+        _context.Widgets.Add(CreateWidgetModel1());
         await _context.SaveChangesAsync();
 
         var createdWidget = await _context.Widgets
-            .FirstOrDefaultAsync(w => w.Name == WidgetModel1.Name);
+            .FirstOrDefaultAsync(w => w.Name == WidgetName1);
         Assert.NotNull(createdWidget);
 
         var result = await _handler.UpdateWidgetAsync(createdWidget.WidgetId,
@@ -252,7 +252,29 @@ public class WidgetHandlerTests
                 StockLevel = 1,
             });
 
-        Assert.IsType<OkResult>(result);
+        Assert.IsType<NoContentResult>(result);
+    }
+
+    [Fact]
+    public async Task UpdateWidget_ReturnsConflict_WhenWidgetExists()
+    {
+        await RemoveAllWidgetsFromContext();
+
+        _context.Widgets.AddRange(new List<WidgetModel>
+        {
+            new() { Name = WidgetName1, StatusId = 1 },
+            new() { Name = WidgetName2, StatusId = 2 },
+        });
+
+        await _context.SaveChangesAsync();
+
+        var createdWidget = await _context.Widgets
+            .FirstOrDefaultAsync(c => c.Name == WidgetName1);
+        Assert.NotNull(createdWidget);
+
+        var result = await _handler.UpdateWidgetAsync(createdWidget.WidgetId, new WidgetDTO { Name = WidgetName2, StatusId = 2 });
+
+        Assert.IsType<ConflictObjectResult>(result);
     }
 
     private async Task RemoveAllWidgetsFromContext()

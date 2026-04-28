@@ -4,23 +4,13 @@ public class ManufacturerHandler(ManufacturerManagerDbContext context) : IManufa
 {
     private readonly ManufacturerManagerDbContext _context = context;
 
-    public async Task<List<ManufacturerModel>> CheckForExistingManufacturerAsync(string manufacturerName, int id)
-    {
-        var manufacturers = await _context.Manufacturers
-            .Where(
-                m => m.Name.Replace(" ", "") == manufacturerName.Replace(" ", ""))
-            .ToListAsync();
-
-        if (id > 0)
-        {
-            manufacturers = [.. manufacturers.Where(m => m.ManufacturerId != id)];
-        }
-
-        return manufacturers;
-    }
-
     public async Task<ActionResult> CreateManufacturerAsync(ManufacturerDTO manufacturerDTO)
     {
+        if (_context.Manufacturers.Any(m => m.Name == manufacturerDTO.Name))
+        {
+            return new ConflictObjectResult("A manufacturer with the same name already exists.");
+        }
+
         var manufacturer = new ManufacturerModel
         {
             Name = manufacturerDTO.Name,
@@ -40,7 +30,7 @@ public class ManufacturerHandler(ManufacturerManagerDbContext context) : IManufa
         }
     }
 
-    public async Task<ManufacturerDTO>? GetManufacturerAsync(int id)
+    public async Task<ManufacturerDTO?> GetManufacturerAsync(int id)
     {
         var manufacturer = await _context.Manufacturers
             .Include(m => m.Widgets)
@@ -103,6 +93,13 @@ public class ManufacturerHandler(ManufacturerManagerDbContext context) : IManufa
 
         manufacturerToUpdate.Name = manufacturerDTO.Name;
         manufacturerToUpdate.StatusId = manufacturerDTO.StatusId;
+
+        if (_context.Manufacturers.Any(m => m.Name == manufacturerDTO.Name && m.ManufacturerId != id))
+        {
+            return new ConflictObjectResult("A manufacturer with the same name already exists.");
+        }
+
+        using var scope = new TransactionScope(TransactionScopeAsyncFlowOption.Enabled);
 
         if (manufacturerToUpdate.StatusId == (int) StatusesEnum.Inactive)
         {

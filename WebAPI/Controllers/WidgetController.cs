@@ -9,40 +9,15 @@ public class WidgetController(IWidgetHandler widgetHandler) : ControllerBase
     [HttpGet]
     public async Task<ActionResult<List<WidgetDTO>>> GetWidgets()
     {
-        return await _widgetHandler.GetWidgetsAsync();
+        var widgets = await _widgetHandler.GetWidgetsAsync();
+        return Ok(widgets);
     }
 
     [HttpGet("{id}")]
     public async Task<ActionResult<WidgetDTO>> GetWidget(int id)
     {
         var result = await _widgetHandler.GetWidgetAsync(id);
-        return result is null ? NotFound() : Ok(result);
-    }
-
-    [HttpGet("check/{widgetName}/{id}")]
-    public async Task<ActionResult<HttpStatusCode>> CheckForExistingWidgets(string widgetName, int id)
-    {
-        var widgets = await _widgetHandler.CheckForExistingWidgetAsync(widgetName, id);
-
-        return widgets.Count == 0 ? Ok() : Conflict();
-    }
-
-    [HttpGet("widgetsbymanufacturer/{manufacturerId}")]
-    public async Task<ActionResult<List<WidgetDTO>>> GetWidgetsForManufacturer(int manufacturerId)
-    {
-        return await _widgetHandler.GetWidgetsForManufacturerAsync(manufacturerId);
-    }
-
-    [HttpGet("widgetsbycolour/{colourId}")]
-    public async Task<ActionResult<List<WidgetDTO>>> GetWidgetsForColour(int colourId)
-    {
-        return await _widgetHandler.GetWidgetsForColourAsync(colourId);
-    }
-
-    [HttpGet("widgetsbycolourjustification/{colourJustificationId}")]
-    public async Task<ActionResult<List<WidgetDTO>>> GetWidgetsForColourJustification(int colourJustificationId)
-    {
-        return await _widgetHandler.GetWidgetsForColourJustificationAsync(colourJustificationId);
+        return result is WidgetDTO dto ? Ok(dto) : NotFound();
     }
 
     [HttpPost]

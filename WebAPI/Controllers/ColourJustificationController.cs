@@ -2,21 +2,23 @@
 
 [Route("api/[controller]")]
 [ApiController]
-public class ColourJustificationController(IColourJustificationHandler colourJustificationHandler) : ControllerBase
+public class ColourJustificationController(IColourJustificationHandler colourJustificationHandler, IWidgetHandler widgetHandler) : ControllerBase
 {
     private readonly IColourJustificationHandler _colourJustificationHandler = colourJustificationHandler;
+    private readonly IWidgetHandler _widgetHandler = widgetHandler;
 
     [HttpGet]
     public async Task<ActionResult<List<ColourJustificationDTO>>> GetColourJustifications()
     {
-        return await _colourJustificationHandler.GetColourJustificationsAsync();
+        var result = await _colourJustificationHandler.GetColourJustificationsAsync();
+        return Ok(result);
     }
 
     [HttpGet("{id}")]
     public async Task<ActionResult<ColourJustificationDTO>> GetColourJustification(int id)
     {
         var result = await _colourJustificationHandler.GetColourJustificationAsync(id);
-        return result is null ? new NotFoundResult() : Ok(result);
+        return result is ColourJustificationDTO dto ? Ok(dto) : NotFound();
     }
 
     [HttpPost]
@@ -31,4 +33,9 @@ public class ColourJustificationController(IColourJustificationHandler colourJus
         return await _colourJustificationHandler.UpdateColourJustificationAsync(id, colourJustificationDTO);
     }
 
+    [HttpGet("{id}/widgets")]
+    public async Task<ActionResult<List<WidgetDTO>>> GetWidgetsForColourJustification(int id)
+    {
+        return await _widgetHandler.GetWidgetsForColourJustificationAsync(id);
+    }
 }

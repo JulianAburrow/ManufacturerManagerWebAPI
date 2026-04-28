@@ -5,25 +5,14 @@ namespace WebAPI.Handlers;
 public class WidgetHandler(ManufacturerManagerDbContext context) : IWidgetHandler
 {
     private readonly ManufacturerManagerDbContext _context = context;
-
-    public async Task<List<WidgetModel>> CheckForExistingWidgetAsync(string widgetName, int id)
-    {
-        var widgets = await _context.Widgets
-            .Where(
-                w =>
-                    w.Name.Replace(" ", "") == widgetName.Replace(" ", ""))
-            .ToListAsync();
-
-        if (id > 0)
-        {
-            widgets = [.. widgets.Where(w => w.WidgetId != id)];
-        }
-
-        return widgets;
-    }
-
+    
     public async Task<ActionResult> CreateWidgetAsync(WidgetDTO widgetDTO)
     {
+        if (_context.Widgets.Any(w => w.Name == widgetDTO.Name))
+        {
+            return new ConflictObjectResult("A widget with the same name already exists.");
+        }
+
         var widget = new WidgetModel
         {
             Name = widgetDTO.Name,
@@ -50,7 +39,7 @@ public class WidgetHandler(ManufacturerManagerDbContext context) : IWidgetHandle
         }
     }
 
-    public async Task<WidgetDTO>? GetWidgetAsync(int id)
+    public async Task<WidgetDTO?> GetWidgetAsync(int id)
     {
         var widget = await _context.Widgets
             .Include(w => w.Manufacturer)
@@ -174,6 +163,7 @@ public class WidgetHandler(ManufacturerManagerDbContext context) : IWidgetHandle
     {
         var widgetToUpdate = _context.Widgets
             .FirstOrDefault(w => w.WidgetId == id);
+
         if (widgetToUpdate is null)
         {
             return new NotFoundObjectResult("No Widget with this id could be found");
@@ -188,6 +178,11 @@ public class WidgetHandler(ManufacturerManagerDbContext context) : IWidgetHandle
         widgetToUpdate.RetailPrice = widgetDTO.RetailPrice;
         widgetToUpdate.StockLevel = widgetDTO.StockLevel;
         widgetToUpdate.WidgetImage = widgetDTO.WidgetImage;
+
+        if (_context.Widgets.Any(w => w.Name == widgetToUpdate.Name && w.WidgetId != id))
+        {
+            return new ConflictObjectResult("A widget with this name already exists.");
+        }
 
         try
         {

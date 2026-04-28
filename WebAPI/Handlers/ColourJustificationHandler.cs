@@ -7,6 +7,11 @@ public class ColourJustificationHandler(ManufacturerManagerDbContext context) : 
 
     public async Task<ActionResult> CreateColourJustificationAsync(ColourJustificationDTO colourJustificationDTO)
     {
+        if (_context.ColourJustifications.Any(c => c.Justification == colourJustificationDTO.Justification))
+        {
+            return new ConflictObjectResult("A colour justification with this justification already exists.");
+        }
+
         var colourJustification = new ColourJustificationModel
         {
             Justification = colourJustificationDTO.Justification,
@@ -25,7 +30,7 @@ public class ColourJustificationHandler(ManufacturerManagerDbContext context) : 
         }
     }
 
-    public async Task<ColourJustificationDTO>? GetColourJustificationAsync(int id)
+    public async Task<ColourJustificationDTO?> GetColourJustificationAsync(int id)
     {
         var colourJustification = await _context.ColourJustifications
             .Include(c => c.Widgets)
@@ -77,10 +82,15 @@ public class ColourJustificationHandler(ManufacturerManagerDbContext context) : 
 
         if (colourJustificationToUpdate is null)
         {
-            return new NotFoundObjectResult("No colour justification with this id could be found");
+            return new NotFoundObjectResult("No colour justification with this id could be found.");
         }
 
         colourJustificationToUpdate.Justification = colourJustificationDTO.Justification;
+
+        if (_context.ColourJustifications.Any(c => c.ColourJustificationId != id && c.Justification == colourJustificationDTO.Justification))
+        {
+            return new ConflictObjectResult("A colour justification with this justification already exists.");
+        }
 
         try
         {

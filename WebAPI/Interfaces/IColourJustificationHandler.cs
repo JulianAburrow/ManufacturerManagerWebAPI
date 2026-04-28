@@ -4,7 +4,7 @@ public interface IColourJustificationHandler
 {
     Task<List<ColourJustificationDTO>> GetColourJustificationsAsync();
 
-    Task<ColourJustificationDTO>? GetColourJustificationAsync(int id);
+    Task<ColourJustificationDTO?> GetColourJustificationAsync(int id);
 
     Task<ActionResult> CreateColourJustificationAsync(ColourJustificationDTO colourJustificationDTO);
 

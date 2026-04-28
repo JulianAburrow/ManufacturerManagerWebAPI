@@ -1,6 +1,4 @@
-﻿using MudBlazor;
-
-namespace ManufacturerManagerUI.Layout;
+﻿namespace ManufacturerManagerUI.Layout;
 
 public partial class MainLayout
 {

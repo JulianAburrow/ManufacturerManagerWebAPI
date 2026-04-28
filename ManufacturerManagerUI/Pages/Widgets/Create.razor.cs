@@ -37,20 +37,12 @@ public partial class Create
         [
             GetHomeBreadcrumbItem(),
             GetWidgetHomeBreadcrumbItem(),
-            GetCustomBreadcrumbItem("Create Widget"),
+            GetCustomBreadcrumbItem(CreateTextForBreadcrumb),
         ]);
     }
 
     private async Task CreateWidget()
     {
-
-        await CheckForExistingWidget();
-
-        if (WidgetExists)
-        {
-            return;
-        }
-
         if (WidgetDTO.ColourId == 0)
         {
             WidgetDTO.ColourId = null;
@@ -66,6 +58,12 @@ public partial class Create
         }
 
         var response = await Http.PostAsJsonAsync(WidgetsEndpoint, WidgetDTO);
+
+        if (response.StatusCode.Equals(HttpStatusCode.Conflict))
+        {
+            WidgetExists = true;
+            return;
+        }
 
         if (response.IsSuccessStatusCode)
         {
