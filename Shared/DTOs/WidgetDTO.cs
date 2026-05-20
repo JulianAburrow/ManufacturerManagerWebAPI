@@ -1,7 +1,6 @@
-﻿
-namespace ManufacturerManagerUI.Models;
+﻿namespace Shared.DTOs;
 
-public class WidgetDTO : IValidatableObject
+public class WidgetDTO
 {
     public int WidgetId { get; set; }
 
@@ -40,19 +39,4 @@ public class WidgetDTO : IValidatableObject
     public int StockLevel { get; set; }
 
     public byte[]? WidgetImage { get; set; }
-
-    public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
-    {
-        var result = new List<ValidationResult>();
-
-        if (ColourId == (int) ColoursEnum.Pink && ColourJustificationId == 0) // No ColourJustificationId chosen
-        {
-            result.Add(new ValidationResult(
-                "Colour Justification is required when Colour is Pink",
-                    ["WidgetDTO.ColourJustificationId"]
-            ));
-        }
-
-        return result;
-    }
 }

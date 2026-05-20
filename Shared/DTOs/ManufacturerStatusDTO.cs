@@ -1,4 +1,4 @@
-﻿namespace WebAPI.DTOs;
+﻿namespace Shared.DTOs;
 
 public class ManufacturerStatusDTO
 {
