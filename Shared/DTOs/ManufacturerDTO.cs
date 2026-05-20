@@ -1,6 +1,4 @@
-﻿
-
-namespace ManufacturerManagerUI.Models;
+﻿namespace Shared.DTOs;
 
 public class ManufacturerDTO
 {

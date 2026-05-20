@@ -2,9 +2,9 @@
 global using Microsoft.EntityFrameworkCore;
 global using Microsoft.EntityFrameworkCore.Metadata.Builders;
 global using Scalar.AspNetCore;
+global using Shared.DTOs;
 global using System.Transactions;
 global using WebAPI.Data;
-global using WebAPI.DTOs;
 global using WebAPI.Enums;
 global using WebAPI.Extensions;
 global using WebAPI.Handlers;

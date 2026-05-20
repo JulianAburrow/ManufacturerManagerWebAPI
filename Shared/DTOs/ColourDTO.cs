@@ -1,4 +1,4 @@
-﻿namespace ManufacturerManagerUI.Models;
+﻿namespace Shared.DTOs;
 
 public class ColourDTO
 {
@@ -6,7 +6,7 @@ public class ColourDTO
 
     [Required(ErrorMessage = "{0} is required")]
     [StringLength(20, ErrorMessage = "{0} cannot be more that {1} characters")]
-    public string Name { get; set; } = default!;
+    public string Name { get; set; } = string.Empty;
 
     public int WidgetCount { get; set; }
 }
