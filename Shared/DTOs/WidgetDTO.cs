@@ -37,6 +37,4 @@ public class WidgetDTO
     public decimal RetailPrice { get; set; }
 
     public int StockLevel { get; set; }
-
-    public byte[]? WidgetImage { get; set; }
 }
