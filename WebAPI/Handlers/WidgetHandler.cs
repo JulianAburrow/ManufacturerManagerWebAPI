@@ -23,7 +23,6 @@ public class WidgetHandler(ManufacturerManagerDbContext context) : IWidgetHandle
             CostPrice = widgetDTO.CostPrice,
             RetailPrice = widgetDTO.RetailPrice,
             StockLevel = widgetDTO.StockLevel,
-            WidgetImage = widgetDTO.WidgetImage,
         };
 
         try
@@ -67,7 +66,6 @@ public class WidgetHandler(ManufacturerManagerDbContext context) : IWidgetHandle
             CostPrice = widget.CostPrice,
             RetailPrice = widget.RetailPrice,
             StockLevel = widget.StockLevel,
-            WidgetImage = widget.WidgetImage,
         };
         return widgetDTO;
     }
@@ -177,7 +175,6 @@ public class WidgetHandler(ManufacturerManagerDbContext context) : IWidgetHandle
         widgetToUpdate.CostPrice = widgetDTO.CostPrice;
         widgetToUpdate.RetailPrice = widgetDTO.RetailPrice;
         widgetToUpdate.StockLevel = widgetDTO.StockLevel;
-        widgetToUpdate.WidgetImage = widgetDTO.WidgetImage;
 
         if (_context.Widgets.Any(w => w.Name == widgetToUpdate.Name && w.WidgetId != id))
         {
